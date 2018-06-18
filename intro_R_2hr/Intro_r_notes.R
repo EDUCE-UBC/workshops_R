@@ -72,3 +72,25 @@ quickplot(data=dat,
           x=O2_uM, y=Depth_m,
           color=Season,
           main="Saanich Inlet oxygen")
+
+# Packages for Phylogenetics workshop
+
+# tidyverse 
+# ape
+# seqinR
+# vegan
+# betapart
+# abind
+# Matrix
+# cowplot
+
+# phyloseq
+source('http://bioconductor.org/biocLite.R')
+biocLite("phyloseq")
+
+# PhyloFactor
+source("https://bioconductor.org/biocLite.R")
+biocLite("ggtree")
+biocLite("Biostrings")
+install.packages('devtools')
+devtools::install_github('reptalex/phylofactor')
