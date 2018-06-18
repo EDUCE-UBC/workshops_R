@@ -24,19 +24,18 @@ The seasonal cycle of stratification and deep water renewal enables spatial and 
 
 For a brief introduction to the data, see Hallam SJ *et al*. 2017. Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone. Sci Data 4: 170158 [doi:10.1038/sdata.2017.158](https://www.nature.com/articles/sdata2017158) More detailed information on the geochmeical data can be found in Torres-Beltrán M *et al*. 2017. A compendium of geochemical information from the Saanich Inlet water column. Sci Data 4: 170159. [doi:10.1038/sdata.2017.159](https://www.nature.com/articles/sdata2017159) More detailed information on the mutli-omic microbial data can be found in Hawley AK *et al*. 2017. A compendium of multi-omic sequence information from the Saanich Inlet water column. Sci Data 4: 170160. [doi:10.1038/sdata.2017.160](https://www.nature.com/articles/sdata2017160)
 
-## Introduction to R and RStudio
-Coming soon!
+## Introduction to R
 
-This is a truly introductory workshop for beginners with no experience in R. In this workshop, we use RStudio, a powerful but user-friendly R environment, and show you how to use it effectively with R projects. We teach the basic data types, how to create objects, and how to get help on topics in R including several built-in functions with a focus on math and descriptive statistics.
+This is a truly introductory workshop for beginners with no experience in R. In this workshop, we introduce you to R and RStudio at the beginner level. This condensed 2-hour workshop is meant to get you started in R and acts as a pre-requisite for our more advanced workshops. In it, we cover:
 
-You will learn how to :
-
-* organize your work through R projects in RStudio
-* define a vector and use vectorized functions
-* organize your data vectors into data frames
-* perform basic math and statistics in R
-* import data from a file or on the web into an R data frame
-* get help with functions within RStudio
+* R and RStudio
+* RStudio projects
+* R scripts
+* Installing packages
+* Reading in data as a data frame
+* Vectors, single values, and data types
+* Basic data visualization
+* The help function
 
 We recommend this workshop be given across a single 2 hour session.
 
@@ -53,7 +52,7 @@ You will learn how to :
 * modify the various features of a graphic, and
 * save your graphic in various formats
 
-We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R and RStudio" workshop prior to this tidyverse series.
+We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this tidyverse series.
 
 ## Reproducible research in R and Git
 Coming soon!
@@ -67,7 +66,7 @@ You will learn how to :
 * use Git version control
 * integrate version control with GitHub for both personal and group projects
 
-We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R and RStudio" workshop prior to this series.
+We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
 
 ## Statistical models in R
 Coming soon!
