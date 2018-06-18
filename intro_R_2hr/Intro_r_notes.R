@@ -77,7 +77,7 @@ quickplot(data=dat,
 
 # tidyverse 
 # ape
-# seqinR
+# seqinr
 # vegan
 # betapart
 # abind
