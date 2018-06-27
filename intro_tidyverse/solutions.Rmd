@@ -1,0 +1,271 @@
+---
+title: "tidyverse exercise solutions"
+author: "Kris Hong & Kim Dill-McFarland"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: no
+  pdf_document:
+    toc: yes
+mainfont: Arial
+fontsize: 11 pt
+editor_options:
+  chunk_output_type: console
+urlcolor: blue
+---
+# Setup
+We will be working with the same data and packages as in the notes and main.R files.
+
+```{r message=FALSE}
+library(tidyverse)
+```
+
+```{r message=FALSE}
+raw_data <- read_csv(file="data/Saanich_Data.csv",
+                     col_names=TRUE,
+                     na=c("", "NA", "NAN", "ND"))
+
+dat <- raw_data
+```
+
+Because we will be manipulating the data further, first copy the data “dat” to practice data “pdat” so that what you do in the exercises does not impact the rest of the workshop.
+
+```{r}
+pdat <- raw_data
+```
+
+# dplyr
+## select and filter
+Exercise. Using your pdat data:
+
+1. select the Cruise, Date, Depth, PO4, and NO3 variables
+2. filter the data to retain data on Cruise 72 where Depth is >= to 0.1
+
+Your resulting pdat object should be a 8x5 data frame.
+
+```{r}
+# 1
+pdat <- select(pdat, Cruise, Date, Depth, PO4, WS_NO3)
+
+# 2
+pdat <- filter(pdat, Cruise == 72 & Depth >= 0.1)
+
+# Check dimensions
+dim(pdat)
+```
+
+
+## rename and mutate 
+To start fresh, remake the pdat object.
+
+```{r}
+pdat <- raw_data
+```
+
+Exercise. Using the practice data (pdat):
+
+1. Select the Date, Depth and O2 variables from pdat using select
+2. Rename the O2 variable to Oxygen using rename
+3. Keep August observations where Oxygen is nonmissing using filter, months, and !is.na
+4. Transform Oxygen from micromoles/L to micrograms/L using mutate (multiply Oxygen by 32)
+5. Run the provided ggplot() code to create a scatterplot of Oxygen vs Depth
+
+```{r}
+# 1
+pdat <- select(pdat, Date, Depth, WS_O2)
+
+# 2
+pdat <- rename(pdat, Oxygen=WS_O2)
+
+# 3
+pdat <- filter(pdat, months(Date) == "August")
+
+# 4
+pdat <- mutate(pdat, Oxygen=Oxygen*32)
+```
+
+Plug this modified pdat data into a ggplot function.
+```{r warning=FALSE}
+# 5
+ggplot(pdat, aes(x=Oxygen, y=Depth*1000)) +
+  geom_point() +
+  geom_smooth(method="loess", se=FALSE) + 
+  scale_y_reverse(limits=c(200, 0)) +
+  labs(x=expression(O[2]*" "*(mu*g/mL)),
+       y="Depth (m)",
+       title="Oxygen decreases with depth and is less variable at lower depths")
+```
+
+## Pipes
+Again start fresh.
+
+```{r}
+pdat <- raw_data
+```
+
+Exercise. Using your pdat data:
+
+1. Rewrite your code from the previous exercise using pipes
+2. Pipe your data into the ggplot function
+
+```{r warning=FALSE}
+#  1
+pdat %>%
+  select(Date, Depth, WS_O2) %>%
+  rename(Oxygen=WS_O2) %>%
+  filter(months(Date) == "August" & !is.na(Oxygen)) %>%
+  mutate(Oxygen=Oxygen*32) %>%
+
+# 2
+  ggplot(aes(x=Oxygen, y=Depth*1000)) +
+  geom_point() +
+  geom_smooth(method="loess", se=FALSE) + 
+  scale_y_reverse(limits=c(200, 0)) +
+  labs(x=expression(O[2]*" "*(mu*g/L)),
+       y="Depth (m)",
+       title="Oxygen decreases with depth and is less variable at lower depths")
+```
+
+# Setup 2.0
+We will want to use cleaned-up data in the remaining exercises. So use the following to modify the raw_data and create a new pdat object.
+
+```{r}
+pdat <- 
+  raw_data %>%
+  select(Cruise, Date, Depth, 
+         Temperature, Salinity, Density, 
+         WS_O2, WS_NO3, WS_H2S) %>%
+  filter(Date >= "2008-02-01") %>%
+  rename(O2=WS_O2, NO3=WS_NO3, H2S=WS_H2S) %>%
+  mutate(Depth=Depth*1000)
+```
+
+## summarise
+Exercise. Using your new, cleaned-up pdat data:
+
+1. Calculate median, interquartile range, and sample size of Temperature by depth
+
+```{r}
+pdat %>%
+  group_by(Depth) %>%
+  summarise(Median_Temperature=median(Temperature, na.rm=TRUE), 
+            IQR_Temperature=IQR(Temperature, na.rm=TRUE),
+            n=n())
+```
+
+# ggplot
+## geom_point
+
+Exercise. Using your pdat data:
+
+1. Investigate the relationship between O2 and H2S
+2. Investigate the relationship between NO3 and H2S
+
+```{r warning=FALSE}
+# 1
+pdat %>%
+  ggplot(aes(x=O2, y=H2S)) +
+  geom_point(size=1)
+
+# 2
+pdat %>%
+  ggplot(aes(x=NO3, y=H2S)) +
+  geom_point(size=1)
+```
+
+## color and shape aesthetics
+
+Exercise. Using your pdat data:
+
+1. It may be difficult to differentiate between the different shapes in the previous plot so modify the following code to add colours to the shapes as well:
+
+```{r}
+pdat %>%
+  select(Cruise, Depth, O2, H2S) %>%
+  filter(Cruise==72) %>%
+  gather(key="Chemical", value="Concentration", -Cruise, -Depth) %>%
+  
+  ggplot(aes(x=Concentration, y=Depth, shape=Chemical, colour=Chemical)) +
+  geom_point() + 
+  scale_y_reverse(limits=c(200, 0))
+```
+
+## geom_histogram
+
+Exercise. Using your pdat data:
+
+1. Investigate the distribution of nitrate across all depths
+2. Test out different values for the bins argument ("bins=")
+
+```{r warning=FALSE}
+# 1
+pdat %>%
+  ggplot(aes(x=NO3))+
+  geom_histogram()
+
+# 2
+pdat %>%
+  ggplot(aes(x=NO3)) +
+  geom_histogram(bins=50)
+```
+
+## Facets
+Exercise. Using your pdat data:
+
+1. Filter to data at depths of 10, 60, 100 or 200
+2. Plot Oxygen vs Nitrate faceted by Depth without providing arguments for dir or scales
+
+```{r warning=FALSE}
+pdat %>% 
+  filter(Depth %in% c(10, 60, 100, 200)) %>% 
+  
+  ggplot(aes(x=O2, y=NO3)) +
+  geom_point(size=1) +
+  facet_wrap(~Depth, ncol=2)
+```
+
+## Final plot
+Setup a theme.
+```{r}
+my_theme <- 
+  theme_bw() +
+  theme(panel.grid.major=element_blank(),
+        panel.grid.minor=element_blank())
+```
+
+Save the two plots as objects: p1 and p2.
+```{r}
+p1 <- 
+  pdat %>% 
+  gather(key="Key", value="Value", -Cruise, -Date, -Depth, factor_key=TRUE) %>%
+  
+  ggplot(aes(x=Value, y=Depth)) +
+  geom_point(size=1) +
+  scale_y_reverse(limits=c(200, 0)) +
+  facet_wrap(~Key, ncol=2, dir="v", scales="free_x") + 
+  my_theme +
+  labs(x="",
+       y="Depth (m)")
+
+p2 <- 
+  pdat %>%
+  filter(!is.na(H2S)) %>%
+  arrange(H2S) %>% 
+  
+  ggplot(aes(x=O2, y=NO3, colour=H2S)) +
+  geom_point(size=2) +
+  my_theme +
+  labs(x="O2 in uM",
+       y="NO3 in uM") +
+  scale_colour_continuous(name="H2S in uM")
+```
+
+Use cowplot to create a multi-panel figure.
+```{r warning=FALSE}
+p <- cowplot::plot_grid(p1, p2, labels=c("A", "B"), rel_widths=c(2/5, 3/5))
+
+p
+```

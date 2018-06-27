@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Setup instructions</title>
+
+<script src="setup_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="setup_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="setup_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="setup_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="setup_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="setup_files/navigation-1.1/tabsets.js"></script>
+<link href="setup_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="setup_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Setup instructions</h1>
+
+</div>
+
+
+<p>You need to install and test R and RStudio before the workshop. The installation process is simple on all major platforms, and mostly consists of downloading and running the installers appropriate to your platform. Please contact the instructors if you run into difficulties so we can help you show up with a computer properly set up for the workshop.</p>
+<div id="r-and-rstudio" class="section level2">
+<h2>R and RStudio</h2>
+<ul>
+<li><a href="http://www.r-project.org">Install R</a>, a free software environment for statistical computing and graphics.
+<ul>
+<li>It is <em>highly recommended</em> to install a precompiled binary distribution for your operating system – use the links up at the top of the page linked to above!</li>
+<li>If you currently have R installed on your laptop, please make sure it is version 3.2.0 or later. <em>Please update if it is not!</em></li>
+</ul></li>
+<li><a href="https://www.rstudio.com/products/rstudio/download/">Install RStudio</a>, a powerful user interface for R.</li>
+</ul>
+</div>
+<div id="testing-testing" class="section level2">
+<h2>Testing testing</h2>
+<ol style="list-style-type: decimal">
+<li>Do whatever is appropriate for your OS to launch RStudio. You should get a window similar to the screenshot below.
+<ul>
+<li>If you don’t see a window that is divided into distinct areas labelled “Console”, “Environment”, etc., you are probably running the user interface that comes bundled with R. Check that RStudio is present in your applications and start it instead.</li>
+</ul></li>
+</ol>
+<div class="figure">
+<img src="images/RStudio_screenshot.png" />
+
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Put your cursor in the left pane labelled “Console”, which is where you interact with the live R process. Create a simple object with code like <code>x &lt;- 2 * 4</code> (followed by enter or return). In the “Environment” pane, to the right of the Console, you should see an entry for “x” with appropriate value (in this case, 8).</p></li>
+<li><p>Then inspect the <code>x</code> object by typing <code>x</code> in the Console followed by enter or return. You should see the value 8 printed to the screen.</p></li>
+<li><p>Finally, check that plotting works. In the console, type <code>plot(cars)</code>. If you see a scatterplot appear in the “Plots” pane to the lower right, you are good to go.</p></li>
+</ol>
+</div>
+<div id="add-on-packages" class="section level2">
+<h2>Add-on packages</h2>
+<p>R is an extensible system and many people share useful code they have developed as a <em>package</em> via the Comprehensive R Archive Network <a href="https://cran.r-project.org/">CRAN</a>, <a href="https://www.bioconductor.org/">Bioconductor</a>, or personal GitHub repositories.</p>
+<p>To install a package in RStudio:</p>
+<ol style="list-style-type: decimal">
+<li>Go to the “Tools” menu and choose “Install Packages” or click “Install” in the Packages area in the lower right pane of RStudio.</li>
+<li>The following window appears: <img src="images/packages_screenshot.png" /></li>
+<li>Enter the name of the desired package
+<ul>
+<li>The checkmark by “Install dependencies” should be <strong>on</strong>.</li>
+</ul></li>
+<li>Click on the “Install” button</li>
+</ol>
+<p>Please install the following packages and their dependencies for use in this workshop:</p>
+<ul>
+<li>tidyverse</li>
+<li>lubridate</li>
+<li>cowplot</li>
+</ul>
+</div>
+<div id="further-resources" class="section level2">
+<h2>Further resources</h2>
+<p>The above is sufficient preparation for this workship but here are some links if you are interested in reading a bit further.</p>
+<ul>
+<li>How to Use RStudio:
+<ul>
+<li><a href="https://support.rstudio.com/hc/en-us/sections/200107586-Using-RStudio" class="uri">https://support.rstudio.com/hc/en-us/sections/200107586-Using-RStudio</a></li>
+</ul></li>
+<li>RStudio Public Discussion &amp; Troubleshooting Guide:
+<ul>
+<li><a href="https://support.rstudio.com/hc/en-us/sections/203994097-RStudio-IDE" class="uri">https://support.rstudio.com/hc/en-us/sections/203994097-RStudio-IDE</a></li>
+</ul></li>
+<li>How to Install R:
+<ul>
+<li><a href="http://cran.r-project.org/doc/manuals/R-admin.html" class="uri">http://cran.r-project.org/doc/manuals/R-admin.html</a></li>
+<li><a href="http://cran.stat.sfu.ca/doc/FAQ/R-FAQ.html#How-can-R-be-installed_003f" class="uri">http://cran.stat.sfu.ca/doc/FAQ/R-FAQ.html#How-can-R-be-installed_003f</a></li>
+</ul></li>
+<li>R FAQ:
+<ul>
+<li><a href="http://cran.r-project.org/doc/FAQ/R-FAQ.html" class="uri">http://cran.r-project.org/doc/FAQ/R-FAQ.html</a></li>
+</ul></li>
+<li>More about add-on packages in the R Installation and Administration Manual
+<ul>
+<li><a href="http://cran.r-project.org/doc/manuals/R-admin.html#Add_002don-packages" class="uri">http://cran.r-project.org/doc/manuals/R-admin.html#Add_002don-packages</a></li>
+</ul></li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
