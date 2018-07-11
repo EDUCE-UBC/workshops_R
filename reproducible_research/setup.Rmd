@@ -1,0 +1,70 @@
+---
+title: "Setup Instructions"
+output:
+  html_document:
+    df_print: paged
+---
+Please contact the instructors or ECOSCOPE at <info.ecoscope@ubc.ca> if you run into difficulties so we can help you setup your computer properly. There will not be time to troubleshoot issues during the workshop.
+ 
+## R and RStudio
+
+1. Download and [install R](http://www.r-project.org), a free software environment for statistical computing and graphics from [CRAN](http://cran.rstudio.com), the Comprehensive R Archive Network.
+    - It is *highly recommended* to install a precompiled binary distribution for your operating system -- use the links up at the top of the CRAN page linked above!
+    - If you currently have R installed on your laptop, please make sure it is version 3.4.0 or later (current release is 3.5.0). **Please update if it is not!**
+2. [Install RStudio](https://www.rstudio.com/products/rstudio/download/), a powerful user interface for R.
+3. Do whatever is appropriate for your OS to launch RStudio. You should get a window similar to the screenshot below.
+  
+  ![](images/rstudio.png)
+
+If you don't see a window that is divided into distinct areas labelled "Console", "Environment", etc., you are probably running the user interface that comes bundled with R. Check that RStudio is present in your applications and start it instead.
+
+## R packages
+Please install the following packages in RStudio
+
+* tidyverse
+* packrat
+
+## Terminal for Windows machines
+
+1. The native terminal on Windows is not Linux based so these users need to install [GitBash](https://gitforwindows.org/). All command line aspects of the workshop (like git) should be completed in GitBash and not the native "Command Prompt" program.
+
+## Git
+
+1. If you do not already have one, signup for an account on [GitHub](https://github.com/).
+2. Download and [install git](https://git-scm.com/downloads).
+3. Download and install the [Git desktop GUI](https://desktop.github.com/). 
+4. To test that Git is properly installed, open your terminal (GitBash for Windows machines) and type `git`. This should populate the terminal with a help page of Git commands like so.
+
+```
+usage: git [--version] [--help] [-C <path>] [-c name=value]
+           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
+           [-p | --paginate | --no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           <command> [<args>]
+
+These are common Git commands used in various situations:
+
+start a working area (see also: git help tutorial)
+   clone      Clone a repository into a new directory
+   init       Create an empty Git repository or reinitialize an existing one
+
+...
+```
+
+## Further resources
+
+The above is enough preparation but here are some links if you are interested in reading a bit further.
+
+* How to Use RStudio:
+    - <https://support.rstudio.com/hc/en-us/sections/200107586-Using-RStudio>
+* RStudio Public Discussion & Troubleshooting Guide:
+    - <https://support.rstudio.com/hc/en-us/sections/203994097-RStudio-IDE>
+* How to Install R:
+    - <http://cran.r-project.org/doc/manuals/R-admin.html>
+    - <http://cran.stat.sfu.ca/doc/FAQ/R-FAQ.html#How-can-R-be-installed_003f>
+* R FAQ:
+    - <http://cran.r-project.org/doc/FAQ/R-FAQ.html>
+* How to git
+    - <https://githowto.com/>
+* GitHub FAQ
+    - <https://help.github.com/>

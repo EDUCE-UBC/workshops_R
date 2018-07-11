@@ -1,0 +1,49 @@
+---
+title: "Timeline"
+subtitle: "Reproducible research"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output: html_document
+---
+Planned (Actual)
+
+## Day 1
+* 5 () min: Gather and overview
+* 5 () min: Intro to reproducible research
+* 5 () min: R projects
+* 20 () min: R scripts and Make
+* 15 () min: Exercise
+* 10 () min: packrat
+
+* 10 () min: Intro to Rmd
+* 10 () min: YAML
+* 20 () min: Exercise
+* 10 () min: Markdown body
+* Homework
+
+## Day 2
+* 5 () min: Gather
+* 10 () min: Dynamic documents
+* 20 () min: Exercise
+* 5 () min: Slides
+* Homework
+* 10 () min: Rmd workflow and Rpubs
+* 10 () min: Intro to version control and Git
+
+* 20 () min: Git on your computer
+* 15 () min: Exercise
+* 10 () min: Versions
+* 5 () min: log and HEAD
+
+## Day 3
+* 5 () min: Gather
+* 10 () min: Branches and merge
+* 20 () min: Exercise
+* 5 () min: Git recap
+* 5 () min: Intro to GitHub
+* 15 () min: Make and populate a repo
+
+* 10 () min: GitHub with multiple users
+* 10 () min: Exercise
+* 10 () min: GitHub GUI
+* 10 () min: Git in RStudio
+* 10 () min: GitHub online
