@@ -389,7 +389,7 @@ There are a few things here that you may find useful in your future reports.
 ### Exercise: YAML 
 In your new `.Rmd`, replace the automatically populated header and contents with the following. Don't worry about the contents of the body yet; we'll go over that next.
 
-```
+```{header2 eval=FALSE}
 ---
 title: "Learning Rmarkdown"
 author: "Your Name"
@@ -419,6 +419,11 @@ output:
 2. Change `toc_float: collapsed: no` to `toc_float: yes`. What happens to the table of contents?
 3. Remove `toc_float: collapsed: no`. What happens to the table of contents?
 4. Change `toc: yes` to `toc: no`. What happens to the table of contents?
+
+### Knitting
+To render your `.Rmd`, that is to take all the appearance and content information in the *source* file (`.Rmd`) and make the *viewable* document (`html`, `PDF`, etc.), you use `knitr` in R. This is most commonly done by clicking the "Knit" button with the blue ball of yarn in the menu above your file window (upper right quadrant). 
+
+Note: The first time you knit a document, RStudio will prompt you to install several packages.
 
 ### Markdown body
 #### (sub)Headings
@@ -525,6 +530,16 @@ dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_scie
 ```
 
 Chunks have lots of [customizable options](https://yihui.name/knitr/options/) that impact how their output looks in the rendered document like whether or not to show the underlying R code or warnings or messages, figure size, etc.
+
+You can also use other languages in code chunks. For example, python scripts can be inserted and run directly in an Rmarkdown by creating the corresponding chunk.
+
+    `r ''````{python}
+    Your
+    code
+    here
+    ```
+
+As of 2018, R supports chunks in Bash, python, Rcpp, SQL, and Stan.
 
 ### Inline code
 Small bits of code can also be placed inline with
@@ -726,7 +741,7 @@ nothing to commit, working tree clean
   - Note the messages Git outputs in the terminal as you complete each step. They are very informative and helpful!
 
 ## Compare versions (`git status` and `diff`)
-Since we are working with a single, small file in a small repo, it is easy to remember what versions in where. However, as you make larger files and repos, sometimes you will not know this. So, Git has functions for comparing versions.
+Since we are working with a single, small file in a small repo, it is easy to remember what versions are where. However, as you make larger files and repos, sometimes you will not know this. So, Git has functions for comparing versions.
 
 ![](images/Git_compare.png)
 
@@ -891,7 +906,7 @@ Thus far, we have covered the main Git terms and functions that you will need to
     - Not shown here but `checkout HEAD` can be used to move to a past commit and re-instate file versions from that commit
 * `merge`: combine changes from a branch into the master repo (may result in conflicts)
 
-To checkout more Functionalities in Git, see a [list of all Git commands](https://git-scm.com/docs).
+To checkout more functionalities in Git, see a [list of all Git commands](https://git-scm.com/docs).
 
 # Collaborate with GitHub
 [GitHub](https://github.com/) is a web service for hosting Git repositories - content and version history. It has web and GUI interfaces as well as many tools for facilitating collaboration within repos.
@@ -972,10 +987,12 @@ git pull
 ```
 
 ### Exercise: multiple repo users
+Now we will similate what is would be like to collaborate on the same repo with another person.
+
 In pairs:
 
-1. UserA: Use `git clone` to copy the `TestRepo` UserB.
-2. UserB: Make a change to `README.md` in your repo and `push` that change to GitHub.
+1. UserA: Use `git clone` to copy the `TestRepo` from UserB.
+2. UserB: Make a change to `README.md` in your repo on your own computer and `push` that change to your GitHub.
 3. UserA: Update your copy of UserB's repo.
 4. Switch roles!
 

@@ -7,43 +7,48 @@ output: html_document
 Planned (Actual)
 
 ## Day 1
-* 5 () min: Gather and overview
-* 5 () min: Intro to reproducible research
-* 5 () min: R projects
-* 20 () min: R scripts and Make
-* 15 () min: Exercise
-* 10 () min: packrat
+* 5 (2) min: Gather and overview
+* 5 (11) min: Intro to reproducible research
+* 5 (12) min: R projects
+* 20 (38) min: R scripts
+    - Novice Unix issues
+    
+* 0 (16) min: Modularize
+* 0 (20) min: Make
+* 15 (20) min: Exercise
 
-* 10 () min: Intro to Rmd
-* 10 () min: YAML
-* 20 () min: Exercise
-* 10 () min: Markdown body
-* Homework
+* 10 (9) min: packrat
+* 10 (5) min: Intro to Rmd
 
 ## Day 2
-* 5 () min: Gather
-* 10 () min: Dynamic documents
-* 20 () min: Exercise
-* 5 () min: Slides
+* 5 (5) min: Gather
+* 10 (13) min: YAML
+* 20 (14) min: Exercise
+* 10 (10) min: Markdown body
 * Homework
-* 10 () min: Rmd workflow and Rpubs
-* 10 () min: Intro to version control and Git
+* 10 (8) min: Dynamic documents
 
-* 20 () min: Git on your computer
-* 15 () min: Exercise
-* 10 () min: Versions
-* 5 () min: log and HEAD
+* 20 (22) min: Exercise
+* 5 (4) min: Slides
+* Homework
+* 10 (3) min: Rmd workflow and Rpubs
+* 10 (5) min: Intro to version control and Git
+* 20 (15) min: Git on your computer
+* 15 (19) min: Exercise
 
 ## Day 3
-* 5 () min: Gather
-* 10 () min: Branches and merge
-* 20 () min: Exercise
-* 5 () min: Git recap
-* 5 () min: Intro to GitHub
-* 15 () min: Make and populate a repo
+* 5 (6) min: Gather
+* 10 (35) min: Versions
+    - GitBash looks different from Mac, showing - and + lines not summarized
+* 5 (6) min: log and HEAD
+* 10 (13) min: Branches and merge
 
-* 10 () min: GitHub with multiple users
-* 10 () min: Exercise
-* 10 () min: GitHub GUI
-* 10 () min: Git in RStudio
-* 10 () min: GitHub online
+* 20 (22) min: Exercise
+* 5 (6) min: Git recap
+* 5 (5) min: Intro to GitHub
+* 15 (18) min: Make and populate a repo
+* 10 (4) min: GitHub with multiple users
+* 10 (12) min: Exercise
+* 10 (0) min: GitHub GUI
+* 10 (0) min: Git in RStudio
+* 10 (0) min: GitHub online
