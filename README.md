@@ -71,3 +71,8 @@ We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Parti
 Coming soon!
 
 We recommend this workshop be given across 6 hours as 3 x 2 hour sessions.
+
+## Intermediate R programming
+Coming soon!
+
+We recommend this workshop be given across 6 hours as 3 x 2 hour sessions.
