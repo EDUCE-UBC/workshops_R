@@ -542,6 +542,8 @@ nitrospina_percent
 
 Then, we can plot a heatmap against a variable from our metadata to look for trends. Given *Nitrospina*'s role in the nitrogen cycle, we will explore nitrate (NO~3~).
 
+**ERROR: Currently the ordering is incorrect on this figure.**
+
 ```{r}
 plot_heatmap(nitrospina_percent, method=NULL, sample.label="NO3_uM", sample.order="NO3_uM")
 ```
