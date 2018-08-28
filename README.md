@@ -76,14 +76,15 @@ In this workshop, we introduce various types of regression models and how they a
 
 You will learn:
 
-the assumptions behind the different models
-how to interpret the main effects and interaction terms in a model
-various experimental design concepts that help maximize the power
+* the assumptions behind the different models
+* how to interpret the main effects and interaction terms in a model
+* various experimental design concepts that help maximize the power
+
 In R, you will learn how to:
 
-build a statistical model
-define and manipulate model terms
-use the lsmeans package to answer specific research questions
+* build a statistical model
+* define and manipulate model terms
+* use the lsmeans package to answer specific research questions
 
 We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
 
