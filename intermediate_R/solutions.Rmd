@@ -1,0 +1,300 @@
+---
+title: "Intermediate R programming exercise solutions"
+author: "Kim Dill-McFarland"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: no
+  pdf_document:
+    toc: yes
+mainfont: Arial
+fontsize: 11 pt
+editor_options:
+  chunk_output_type: console
+urlcolor: blue
+---
+# Setup
+We will be working with the same data and packages as in the notes and main.R files.
+
+```{r message=FALSE}
+library(tidyverse)
+library(lmerTest)
+library(devtools)
+library(roxygen2)
+```
+
+```{r message=FALSE}
+raw_data <- read_csv(file="data/Saanich_Data.csv",
+                     col_names=TRUE,
+                     na=c("", "NA", "NAN", "ND"))
+
+dat <- 
+  raw_data %>%
+  select(Cruise, Date, Depth, 
+         Temperature, Salinity, Density, 
+         WS_O2, WS_NO3, WS_H2S) %>%
+  filter(Date >= "2008-02-01") %>%
+  rename(O2=WS_O2, NO3=WS_NO3, H2S=WS_H2S) %>%
+  mutate(Depth=Depth*1000)
+```
+
+# S3 objects
+## Vectors
+1. Assign x the value `"a"`. What are its class and mode?
+
+```{r}
+x <- "a"
+class(x)
+mode(x)
+```
+
+2. Give it dimensions `c(1,1)`. What are its class and mode?
+```{r}
+dim(x) <- c(1,1)
+class(x)
+mode(x)
+```
+
+## Data objects
+1. Calculate a summary table of `dat`. What are its class and attributes?
+```{r}
+sum <- summary(dat)
+class(sum)
+attributes(sum)
+```
+
+2. Read in the raw data table `Saanich_Data.csv` using the base R function `read.table`. What are this object's class and attributes? Are they any different from the object create when we used `read_csv` to read in the same data?
+```{r}
+dat2 <- read.table("data/Saanich_Data.csv", sep=",")
+class(dat2)
+attributes(dat2)
+```
+
+## R list object
+1. Calculate the `summary()` of `m1` and save it as `m2`.
+```{r}
+m1 <- lm(O2 ~ Depth, data=dat)
+m2 <- summary(m1)
+m2
+```
+
+2. What is the class and mode of `m2`?
+```{r}
+class(m2)
+mode(m2)
+```
+
+3. Using a single line of code, pull out just the p-values from `m2`.
+    - *Hint*: You will need to use both `$` and `[ ]`.
+```{r}
+m2$coefficients[,"Pr(>|t|)"]
+```
+
+# S4 objects
+1. Compute and store the variance-covariance matrix of `m3` using `vcov()`.
+```{r}
+m3 <- lmer(O2 ~ Cruise + (0 + Cruise | Depth), dat)
+vcov.m3 <- vcov(m3)
+```
+
+2. What class and mode is it?
+```{r}
+class(vcov.m3)
+mode(vcov.m3)
+```
+
+3. What elements does it contain?
+```{r}
+attributes(vcov.m3)
+```
+
+4. What are the dimensions of `factors` within this object?
+```{r}
+dim(vcov.m3@factors$correlation)
+```
+
+# Functions
+## Basics
+1. Put the following math into a function $$ f(x) = 1 + 2x - 5x^2 + x^3 $$
+```{r}
+f <- function(x) {
+  1 + 2*x - 5*x^2 + x^3
+}
+```
+
+2. Set x to `1:1000/1000*6-1`
+```{r}
+x <- 1:1000/1000*6-1
+```
+
+3. Plot the results with 
+```{r}
+plot(x, f(x) , main="The answer looks like this")
+```
+
+
+## Scoping
+1. Remove all instances of x, z, and f( ) from your environment so that you are starting fresh for this exercise.
+
+```{r error=T}
+rm(x)
+rm(z)
+rm(f)
+```
+
+2. What happens when we run `f()`? Why?
+    - x is not defined anywhere
+    
+```{r eval=F} 
+f <- function()
+{
+  return(2*x) 
+}
+
+f() 
+``` 
+
+3. What will `f()` return? Why?
+    - The definition of x within the function (2) overrides the global definition of x (1)
+    
+```{r eval=F}
+x <- 1 
+
+f <- function()
+{
+  x = 2 
+  return(2*x) 
+}
+
+f() 
+```
+
+4. What does the final `y` call return?
+    - The defintion of y within the function does not alter the global definition of y outside of the function
+    
+```{r eval=F}
+y <- 1
+
+f <- function(x)
+{
+  y = x+2 
+  return(x*y)
+}
+
+f(1)
+
+y
+```
+
+# Building a function
+## Steps 1-5
+```{r}
+lm.function <- function(data, cruise, x, y){
+  # Load necessary packages
+  require(tidyverse)
+  
+  # Subset the data to the cruise of interest
+  dat.subset <- data %>% filter(Cruise == cruise)
+  
+  for(y.variable in y){ # Loop through all variables provided in y 
+    # Fit a linear model 
+    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]]) 
+    # Summarize the model
+    sum <- summary(model)
+    # Extract p-values from the summary
+    pval <- sum$coefficients[,"Pr(>|t|)"]
+
+    # Print p-values to the console
+    print(pval)
+  }
+}
+```
+
+1. Apply the current `lm.function` to all the available geochemical variables in the Saanich data set. Which ones appear to be significantly correlated with depth?
+```{r}
+lm.function(data=dat, cruise=72, x="Depth", y=c("Temperature","Salinity","Density","O2","NO3","H2S"))
+```
+
+2. Copy the `lm.function` and alter it to print out the models' adjusted R-squared values instead of p-values. Be sure to run the function with inputs to make sure it works!
+```{r}
+lm.function.r <- function(data, cruise, x, y){
+  # Load necessary packages
+  require(tidyverse)
+  
+  # Subset the data to the cruise of interest
+  dat.subset <- data %>% filter(Cruise == cruise)
+  
+  for(y.variable in y){ # Loop through all variables provided in y 
+    # Fit a linear model 
+    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]]) 
+    # Summarize the model
+    sum <- summary(model)
+    # Extract p-values from the summary
+    r <- sum$adj.r.squared
+
+    # Print p-values to the console
+    print(r)
+  }
+}
+
+lm.function.r(data=dat, cruise=72, x="Depth", y=c("O2","NO3"))
+```
+
+## Steps 6-7
+1. Using our final `lm.function`, determine the linear fits for all geochemical variables for Cruise 12.
+```{r}
+lm.function <- function(data, cruise, x, y){
+  # Load necessary packages
+  require(tidyverse)
+    # Remove old results file, if exists
+  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")}
+  
+  # Subset the data to the cruise of interest
+  dat.subset <- data %>% filter(Cruise == cruise)
+  
+  for(y.variable in y){ # Loop through all variables provided in y
+    # Fit a linear model 
+    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
+    # Summarize the model
+    sum <- summary(model)
+    # Extract p-values from the summary
+    # Reformat to a 1x2 data frame
+    pval <- as.data.frame(t(sum$coefficients[,"Pr(>|t|)"]))
+    # Add y variable name label
+    pval$variable <- y.variable
+
+    # Print p-values to a table
+    write_csv(pval, path="pval_results.csv", append=TRUE)
+  }
+  # Create dynamic names for columns
+  col1 <- paste(colnames(pval)[1], "p", sep=".")
+  col2 <- paste(x, "p", sep=".") 
+  
+  # Create dynamic name fo results table
+  table.name <- paste(x, "lm_pvals.csv", sep="_")
+  
+  # Read in p-value results and add column names
+  read_csv("pval_results.csv", col_names=FALSE) %>% 
+    rename(!!as.name(col1) := X1,
+           !!as.name(col2) := X2,
+                   variable = X3) %>%
+  # Re-write the results, now with column names
+  write_csv(path=table.name)
+}
+```
+
+```{r}
+lm.function(data=dat, cruise=72, x="Depth", y=c("Temperature","Salinity","Density","O2","NO3","H2S"))
+
+read_csv("Depth_lm_pvals.csv")
+```
+
+2. Choose a different x variable and determine if any of the Saanich geochemical variables correlate with it.
+```{r}
+lm.function(data=dat, cruise=72, x="Temperature", y=c("Depth","Salinity","Density","O2","NO3","H2S"))
+
+read_csv("Temperature_lm_pvals.csv")
+```
