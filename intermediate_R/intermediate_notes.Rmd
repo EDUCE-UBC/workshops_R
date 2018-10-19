@@ -797,28 +797,13 @@ is.vector(pval)
 length(pval)
 ```
 
-It looks like our output is a vector of length 2 with names. If we try to simply write the `pval` object to the hard drive, we receive an error because it is a vector, not a data frame.
-```{r error=TRUE}
-write_csv(pval, path="pval_results.csv")
-```
-
-We can get around this by forcing the output into a data frame.
-```{r}
-write_csv(as.data.frame(pval), path="pval_results.csv")
-```
-
-Let's take a look at what was saved.
-```{r message=FALSE}
-read_csv("pval_results.csv")
-```
-
-But oh no! We've successfully saved our p-values but without any labeling! Fortunately, the loop in our function can save us! But first, let's add `write_csv` to our function to see how it works with the loop. Remember to update your comments!
+It looks like our output is a vector of length 2 with names. If we simply try to save the output of our function to the global environment with `<<-`, we will only see the last iteration of the loop.
 
 ```{r message=FALSE}
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
@@ -828,24 +813,26 @@ lm.function <- function(data, cruise, x, y){
     # Summarize the model
     sum <- summary(model)
     # Extract p-values from the summary
-    pval <- sum$coefficients[,"Pr(>|t|)"]
+    pval <- sum$coefficients[,"Pr(>|t|)"] ###
 
-    # Print p-values to a table
-    write_csv(as.data.frame(pval), path="pval_results.csv") ###
   }
+  # Save results to the global environment
+  pval <<- pval ###
 }
  
 lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-read_csv("pval_results.csv")
+pval
 ```
 
-Since `read_csv` overwrites any previous versions of the table, we end up with just the p-values from the last variable listed in `y`. You can, instead, save every iteration of the loop with `append=TRUE`.
-
+So, we need to create a list object to hold each iteration's result and then `rbind` (row bind) them into a single results object
 ```{r message=FALSE}
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
   
+  # Create an empty list to hold results
+  pval = list() ###
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
@@ -854,78 +841,29 @@ lm.function <- function(data, cruise, x, y){
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
-    # Extract p-values from the summary
-    pval <- sum$coefficients[,"Pr(>|t|)"]
+    # Extract p-values from the summary. Save into the pval list based on the y.variable name
+    pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"] ###
 
-    # Print p-values to a table
-    write_csv(as.data.frame(pval), path="pval_results.csv", append=TRUE) ###
   }
+  # Bind all results into 1 single object
+  pval <<- do.call(rbind,pval) ###
 }
  
 lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-read_csv("pval_results.csv")
-```
-
-But now we see that we've double-saved values for the last variable in `y` (first 2 and last 2). This occurred because `append` added to the file that was already there from when we ran `lm.function` without the `append` parameter. This becomes even more clear if you repeatedly run the function.
-
-```{r message=FALSE}
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-
-read_csv("pval_results.csv")
-```
-
-We remedy this by removing any previous results files before we run our loop again.
-```{r message=FALSE}
-lm.function <- function(data, cruise, x, y){
-  # Load necessary packages
-  require(tidyverse)
-  # Remove old results file, if exists
-  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")} ###
-  
-  # Subset the data to the cruise of interest
-  dat.subset <- data %>% filter(Cruise == cruise)
-  
-  for(y.variable in y){ # Loop through all variables provided in y
-    # Fit a linear model 
-    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
-    # Summarize the model
-    sum <- summary(model)
-    # Extract p-values from the summary
-    pval <- sum$coefficients[,"Pr(>|t|)"]
-
-    # Print p-values to a table
-    write_csv(as.data.frame(pval), path="pval_results.csv", append=TRUE)
-  }
-}
- 
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-read_csv("pval_results.csv", col_names=FALSE)
+pval
 ```
 
 ### Step 6.2: Beautify the output
-Now we have all the results in table, but a list of p-values on its own isn't very useful. So, let's reformat these data. The first thing to consider is what you want the output to look like. Our goal will be:
-
-Intercept.p | Depth.p | variable
------------ | ------- | --------
-. | . | O2
-. | . | NO3
-
-which means we need to 
-
-1. Transpose the `pval` output so it's 1x2 instead of 2x1
-2. Add names for each iteration of the loop
-3. Add column names
-
-#### Step 6.2.1: Transpose
-Transposing the output is simply done with `t()`.
-```{r message=FALSE}
+#### Step 6.2.1: Column names
+Now we have all the results in table, but the column names aren't very informative. So, we can rename the columns with `rename_at`.
+```{r error=T}
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  # Remove old results file, if exists
-  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")}
   
+  # Create an empty list to hold results
+  pval = list()
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
@@ -934,27 +872,30 @@ lm.function <- function(data, cruise, x, y){
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
-    # Extract p-values from the summary
-    pval <- t(sum$coefficients[,"Pr(>|t|)"]) ###
+    # Extract p-values from the summary. Save into the pval list based on the y.variable name
+    pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"]
 
-    # Print p-values to a table
-    write_csv(as.data.frame(pval), path="pval_results.csv", append=TRUE)
   }
+  # Bind all results into 1 single object
+  pval <- do.call(rbind,pval) ### No longer saved to global environment
+  
+  # Rename columns
+  pval <<- pval %>% ###
+    rename_at(vars(colnames(pval)), ~c("Intercept.p", "Depth.p")) ###
 }
  
 lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-read_csv("pval_results.csv", col_names=FALSE)
 ```
 
-#### Step 6.2.2: Loop names
-Since we want the loops to be named based on their corresponding `y.variable`, we can add a column for this value. This means that we'll need to make `pval` into a data.frame a little earlier as well.
-```{r message=FALSE}
+However, our data output is current a matrix and the tidyverse only works on data frames. Thus, we need to reformat `pval`.
+```{r}
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  # Remove old results file, if exists
-  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")}
   
+  # Create an empty list to hold results
+  pval = list()
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
@@ -963,32 +904,34 @@ lm.function <- function(data, cruise, x, y){
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
-    # Extract p-values from the summary
-    # Reformat to a 1x2 data frame
-    pval <- as.data.frame(t(sum$coefficients[,"Pr(>|t|)"])) ###
-    # Add y variable name label
-    pval$variable <- y.variable ###
+    # Extract p-values from the summary. Save into the pval list based on the y.variable name
+    pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"]
 
-    # Print p-values to a table
-    write_csv(pval, path="pval_results.csv", append=TRUE) ###
   }
+  # Bind all results into 1 single object
+  pval <- as.data.frame(do.call(rbind,pval)) ###
+  
+  # Rename columns
+  pval <<- pval %>%
+    rename_at(vars(colnames(pval)), ~c("Intercept.p", "Depth.p"))
 }
  
 lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-read_csv("pval_results.csv", col_names=FALSE)
+pval
 ```
 
-#### Step 6.2.3: Column names
-If we try to add column names in our `write_csv` function, the names are added for every iteration of the loop, so we actually need to add these data outside of the loop function (*i.e.* after the loop's ending `}`).
+#### Step 6.2.2: Dynamic naming
+Let's go one step further and make all of the names dynamic, *i.e.* based on the function's inputs, so that we don't need to change the function if we input a different x-variable.
 
-There are a number of ways to do this. My preferred method is to let the loop write the results to a table as is and then outside the loop, read in that table, add column names, and re-save it, thus overwriting the previous, unlabeled version.
-```{r message=FALSE}
+Note how we can create a dynamic name using data from the `pval` output (example, col1) or from the `function` inputs (examples, col2 and table.name).
+```{r}
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  # Remove old results file, if exists
-  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")}
   
+  # Create an empty list to hold results
+  pval = list()
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
@@ -997,78 +940,33 @@ lm.function <- function(data, cruise, x, y){
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
-    # Extract p-values from the summary
-    # Reformat to a 1x2 data frame
-    pval <- as.data.frame(t(sum$coefficients[,"Pr(>|t|)"]))
-    # Add y variable name label
-    pval$variable <- y.variable
+    # Extract p-values from the summary. Save into the pval list based on the y.variable name
+    pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"]
 
-    # Print p-values to a table
-    write_csv(pval, path="pval_results.csv", append=TRUE)
   }
-  # Read in p-value results and add column names
-  results <- read_csv("pval_results.csv", col_names=FALSE) %>%  ###
-    rename(Intercept.p=X1, Depth.p=X2, variable=X3) %>%  ###
-  # Re-write the results, now with column names
-  write_csv(path="pval_results.csv") ###
-}
- 
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-read_csv("pval_results.csv")
-```
-
-#### Step 6.2.4: Fully dynamic naming
-Let's go one step further and make all of the names dynamic, *i.e.* based on the function's inputs.
-
-Note how we can create a dynamic name using data from the `pval` output (example, col1) or from the `function` inputs (examples, col2 and table.name). Since these names are created within the local function environment, we call them in `rename` using the syntax `!!as.name(col1) := X1`.
-```{r message=FALSE}
-lm.function <- function(data, cruise, x, y){
-  # Load necessary packages
-  require(tidyverse)
-    # Remove old results file, if exists
-  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")}
+  # Bind all results into 1 single object
+  pval <- as.data.frame(do.call(rbind,pval))
   
-  # Subset the data to the cruise of interest
-  dat.subset <- data %>% filter(Cruise == cruise)
-  
-  for(y.variable in y){ # Loop through all variables provided in y
-    # Fit a linear model 
-    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
-    # Summarize the model
-    sum <- summary(model)
-    # Extract p-values from the summary
-    # Reformat to a 1x2 data frame
-    pval <- as.data.frame(t(sum$coefficients[,"Pr(>|t|)"]))
-    # Add y variable name label
-    pval$variable <- y.variable
-
-    # Print p-values to a table
-    write_csv(pval, path="pval_results.csv", append=TRUE)
-  }
-  # Create dynamic names for columns
+  # Create dynamic column names
   col1 <- paste(colnames(pval)[1], "p", sep=".") ###
   col2 <- paste(x, "p", sep=".") ###
+  table.name <- paste(x, "lm_pvals", sep="_") ###
   
-  # Create dynamic name fo results table
-  table.name <- paste(x, "lm_pvals.csv", sep="_") ###
-  
-  # Read in p-value results and add column names
-  read_csv("pval_results.csv", col_names=FALSE) %>% 
-    rename(!!as.name(col1) := X1, ###
-           !!as.name(col2) := X2, ###
-                   variable = X3) %>%  ###
-  # Re-write the results, now with column names
-  write_csv(path=table.name) ###
+  # Rename columns
+  pval <- pval %>% ###
+    rename_at(vars(colnames(pval)), ~c(col1, col2)) ###
+  # Rename output table and save to environment
+  assign(table.name, pval, envir = .GlobalEnv) ###
 }
  
 lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-read_csv("Depth_lm_pvals.csv")
+Depth_lm_pvals
 ```
 
 Now we have a very robust function that we can use to fit linear models across any variables in our data set!
 
 ### Step 7: Complete documentation (and move to R script and share?)
-The final step in any analysis, but especially in functions, is to go over your documentation and commenting to make sure everything is clear. Best practices are to include an introduction to the function that includes the purpose, license, and input parameters.
+The final step in any analysis, but especially in functions, is to go over your documentation and commenting to make sure everything is clear. Best practices are to include an introduction to the function that includes the purpose, license, inputs, and outputs.
 
 Since functions can get quite long, it is also best practices to save them in separate R scripts. So our `lm.function` would be in a file `lm.function.R` that contains
 ```{r eval=FALSE}
@@ -1093,14 +991,18 @@ data: a data.frame or tibble containing variables of interest
 cruise: Cruise # for subsetting data, 18-100 available in current data
 x: x-variable in lm, for example 'Depth'
 y: y-variables in lm, for example c('O2', 'NO3')
+
+OUTPUTS
+data frame of p-values named [x]_lm_pvals
 "
 
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  # Remove old results file, if exists
-  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")}
   
+  # Create an empty list to hold results
+  pval = list()
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
@@ -1109,29 +1011,23 @@ lm.function <- function(data, cruise, x, y){
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
-    # Extract p-values from the summary
-    # Reformat to a 1x2 data frame
-    pval <- as.data.frame(t(sum$coefficients[,"Pr(>|t|)"]))
-    # Add y variable name label
-    pval$variable <- y.variable
+    # Extract p-values from the summary. Save into the pval list based on the y.variable name
+    pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"]
 
-    # Print p-values to a table
-    write_csv(pval, path="pval_results.csv", append=TRUE)
   }
-  # Create dynamic names for columns
+  # Bind all results into 1 single object
+  pval <- as.data.frame(do.call(rbind,pval))
+  
+  # Create dynamic column names
   col1 <- paste(colnames(pval)[1], "p", sep=".")
   col2 <- paste(x, "p", sep=".")
+  table.name <- paste(x, "lm_pvals", sep="_")
   
-  # Create dynamic name fo results table
-  table.name <- paste(x, "lm_pvals.csv", sep="_")
-  
-  # Read in p-value results and add column names
-  read_csv("pval_results.csv", col_names=FALSE) %>% 
-    rename(!!as.name(col1) := X1,
-           !!as.name(col2) := X2,
-                   variable = X3) %>% 
-  # Re-write the results, now with column names
-  write_csv(path=table.name)
+  # Rename columns
+  pval <- pval %>% ###
+    rename_at(vars(colnames(pval)), ~c(col1, col2))
+  # Rename output table and save to environment
+  assign(table.name, pval, envir = .GlobalEnv)
 }
 ```
 
@@ -1140,7 +1036,7 @@ And you could load this function into any project with
 source("lm.function.R")
 ```
 
-Finally, you should share your function with the world! Consider posting on GitHub or another open source site. You'd be surprised how many people might find your function useful as-is or as a starting off point to customize for their own needs.
+Also, you should share your function with the world! Consider posting on GitHub or another open source site. You'd be surprised how many people might find your function useful as-is or as a starting off point to customize for their own needs.
 
 ![](images/RStudio.png){width=0.4in} Exercise.
 

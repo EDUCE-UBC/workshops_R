@@ -19,13 +19,17 @@ data: a data.frame or tibble containing variables of interest
 cruise: Cruise # for subsetting data, 18-100 available in current data
 x: x-variable in lm, for example 'Depth'
 y: y-variables in lm, for example c('O2', 'NO3')
+
+OUTPUTS
+data frame of p-values named [x]_lm_pvals
 "
 
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  # Remove old results file, if exists
-  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")}
+  
+  # Create an empty list to hold results
+  pval = list()
   
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
@@ -35,27 +39,21 @@ lm.function <- function(data, cruise, x, y){
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
-    # Extract p-values from the summary
-    # Reformat to a 1x2 data frame
-    pval <- as.data.frame(t(sum$coefficients[,"Pr(>|t|)"]))
-    # Add y variable name label
-    pval$variable <- y.variable
+    # Extract p-values from the summary. Save into the pval list based on the y.variable name
+    pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"]
     
-    # Print p-values to a table
-    write_csv(pval, path="pval_results.csv", append=TRUE)
   }
-  # Create dynamic names for columns
+  # Bind all results into 1 single object
+  pval <- as.data.frame(do.call(rbind,pval))
+  
+  # Create dynamic column names
   col1 <- paste(colnames(pval)[1], "p", sep=".")
   col2 <- paste(x, "p", sep=".")
+  table.name <- paste(x, "lm_pvals", sep="_")
   
-  # Create dynamic name fo results table
-  table.name <- paste(x, "lm_pvals.csv", sep="_")
-  
-  # Read in p-value results and add column names
-  read_csv("pval_results.csv", col_names=FALSE) %>% 
-    rename(!!as.name(col1) := X1,
-           !!as.name(col2) := X2,
-           variable = X3) %>% 
-    # Re-write the results, now with column names
-    write_csv(path=table.name)
+  # Rename columns
+  pval <- pval %>% ###
+    rename_at(vars(colnames(pval)), ~c(col1, col2))
+  # Rename output table and save to environment
+  assign(table.name, pval, envir = .GlobalEnv)
 }

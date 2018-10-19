@@ -1,0 +1,49 @@
+---
+title: "Timeline"
+output: html_document
+---
+Planned (Actual)
+
+## Day 1
+* 5 () min: Gather
+* 10 () min: Setup
+* 10 () min: Vectors
+* 10 () min: Exercise
+* 5 () min: Complex objects
+* 15 () min: Data objects
+
+* 10 () min: Exercise
+* 10 () min: List object
+* 10 () min: Exercise
+* 5 () min: S4
+* 10 () min: Exercise
+
+## Day 2
+* 5 () min: Gather
+* 10 () min: Function basics
+* 10 () min: Exercise
+* 15 () min: Arguments
+* 10 () min: Scoping
+* 10 () min: Exercise
+
+* 5 () min: Step 1
+* 12 () min: Step 2
+* 5 () min: Step 3 & 4
+* 12 () min: Step 5
+* 15 () min: Exercise
+
+
+## Day 3
+* 5 () min: Gather
+* 5 () min: Recap function steps 1-5
+* 20 () min: Step 6.1
+* 15 () min: Step 6.2
+* 5 () min: Step 7
+
+* 15 () min: Exercise
+    - Will not be time to complete all. Challenges are for homework
+* 5 () min: Packages
+* 10 () min: Description, R, man
+* 10 () min: Namespace
+* 10 () min: Imports & Exports
+* 10 () min: Testing
