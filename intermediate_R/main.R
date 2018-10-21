@@ -120,7 +120,7 @@ attributes(dat.mat)
 methods(class="data.frame")
 
 ### Exercise.
-# 1. Calculate a summary table of `dat`. What are its class and attributes?
+# 1. Obtain a summary table of `dat`. What are its class and attributes?
 # 2. Read in the raw data table `Saanich_Data.csv` using the base R function `read.table`. What are this object's class and attributes? Are they any different from the object create when we used `read_csv` to read in the same data?
 
 # 1. 
@@ -150,7 +150,7 @@ m1$coefficients
 
 ### Exercise.
 
-# 1. Calculate the `summary()` of `m1` and save it as `m2`.
+# 1. Obtain the `summary()` of `m1` and save it as `m2`.
 # 2. What is the class and mode of `m2`?
 # 3. Using a single line of code, pull out just the p-values from `m2`.
 #     - *Hint*: You will need to use both `$` and `[ ]`.
@@ -369,7 +369,7 @@ y
 ################################################################################
 # Subset the data
 dat.subset <- dat %>% filter(Cruise == 72)
-# Calculate a linear model
+# Fit a linear model
 model <- lm(dat.subset$O2 ~ dat.subset$Depth)
 # Sumamrize the model
 sum <- summary(model)
@@ -716,7 +716,7 @@ Depth_lm_pvals
 # Place the content between >>> <<< in a separate R script `lm.function.R`
 # >>>
 "
-lm.function: Calculates p-values from linear models of geochemical data from a single Saanich Inlet cruise
+lm.function: Estimates p-values from linear models of geochemical data from a single Saanich Inlet cruise
 
 Kim Dill-Mcfarland
 kadm@mail.ubc.ca
