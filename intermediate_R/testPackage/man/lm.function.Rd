@@ -19,5 +19,5 @@ lm.function(data, cruise, x, y)
 a p-value table
 }
 \description{
-Calculates p-values from linear models of geochemical data from a single Saanich Inlet cruise
+Estimates p-values from linear models of geochemical data from a single Saanich Inlet cruise
 }
