@@ -279,7 +279,7 @@ methods(class="data.frame")
 
 ![](images/RStudio.png){width=0.4in} Exercise.
 
-1. Calculate a summary table of `dat`. What are its class and attributes?
+1. Obtain the summary table of `dat`. What are its class and attributes?
 2. Read in the raw data table `Saanich_Data.csv` using the base R function `read.table`. What are this object's class and attributes? Are they any different from the object create when we used `read_csv` to read in the same data?
 
 ### The R list object
@@ -305,7 +305,7 @@ x$random
 
 *Due to the random nature of `sample`, your letters and numbers in `random` may be different.*
 
-Similarly, we can pull out pieces of statistical model calculated in R since the output is a list object. For example, we previously calculated a linear model of oxygen by depth with `m1 <- lm(O2 ~ Depth, data=dat)`. If we wanted to see only the coefficients of this model, we would use
+Similarly, we can pull out pieces of statistical model fitted in R since the output is a list object. For example, we previously fit a linear model of oxygen by depth with `m1 <- lm(O2 ~ Depth, data=dat)`. If we wanted to see only the coefficients of this model, we would use
 
 ```{r}
 m1$coefficients
@@ -313,7 +313,7 @@ m1$coefficients
 
 ![](images/RStudio.png){width=0.4in} Exercise.
 
-1. Calculate the `summary()` of `m1` and save it as `m2`.
+1. Obtain the `summary()` of `m1` and save it as `m2`.
 2. What is the class and mode of `m2`?
 3. Using a single line of code, pull out just the p-values from `m2`.
     - *Hint*: You will need to use both `$` and `[ ]`.
@@ -599,7 +599,7 @@ The first thing we need to do is determine what code we need to perform our give
 In this case, we need to 
 
 1. Subset the data `dat` to a single cruise (Let's use Cruise 72)
-2. Calculate a linear model for 1 variable by depth (Let's do oxygen)
+2. Fit a linear model for 1 variable by depth (Let's do oxygen)
 3. Summarize the linear model
 4. Extract p-values from the summary
     - Remember from earlier in this workshop, a "summary.lm" object is an R list object so we need to use `$` to obtain the p-values
@@ -971,7 +971,7 @@ The final step in any analysis, but especially in functions, is to go over your 
 Since functions can get quite long, it is also best practices to save them in separate R scripts. So our `lm.function` would be in a file `lm.function.R` that contains
 ```{r eval=FALSE}
 "
-lm.function: Calculates p-values from linear models of geochemical data from a single Saanich Inlet cruise
+lm.function: Estimates p-values from linear models of geochemical data from a single Saanich Inlet cruise
 
 Kim Dill-Mcfarland
 kadm@mail.ubc.ca
@@ -1151,7 +1151,7 @@ Instead, we can use `document` (aka `roxygen2`) from `devtools` to fill out the 
 ```{r eval=FALSE}
 #' Linear models across multiple variables
 #'
-#' Calculates p-values from linear models of geochemical data from a single Saanich Inlet cruise
+#' Estimates p-values from linear models of geochemical data from a single Saanich Inlet cruise
 #'
 #' @param data data frame
 #' @param cruise subsetting variable (numeric)

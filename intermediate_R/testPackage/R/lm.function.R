@@ -1,5 +1,5 @@
 "
-lm.function: Calculates p-values from linear models of geochemical data from a single Saanich Inlet cruise
+lm.function: Estimates p-values from linear models of geochemical data from a single Saanich Inlet cruise
 
 Kim Dill-Mcfarland
 kadm@mail.ubc.ca

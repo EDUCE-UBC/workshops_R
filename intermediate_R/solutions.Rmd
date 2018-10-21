@@ -59,7 +59,7 @@ mode(x)
 ```
 
 ## Data objects
-1. Calculate a summary table of `dat`. What are its class and attributes?
+1. Obtain a summary table of `dat`. What are its class and attributes?
 ```{r}
 sum <- summary(dat)
 class(sum)
@@ -74,7 +74,7 @@ attributes(dat2)
 ```
 
 ## R list object
-1. Calculate the `summary()` of `m1` and save it as `m2`.
+1. Obtain the `summary()` of `m1` and save it as `m2`.
 ```{r}
 m1 <- lm(O2 ~ Depth, data=dat)
 m2 <- summary(m1)
@@ -199,9 +199,9 @@ lm.function <- function(data, cruise, x, y){
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
-  for(y.variable in y){ # Loop through all variables provided in y 
+  for(y.variable in y){ # Loop through all variables provided in y ###
     # Fit a linear model 
-    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]]) 
+    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]]) ###
     # Summarize the model
     sum <- summary(model)
     # Extract p-values from the summary
@@ -227,18 +227,19 @@ lm.function.r <- function(data, cruise, x, y){
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
-  for(y.variable in y){ # Loop through all variables provided in y 
+  for(y.variable in y){ # Loop through all variables provided in y ###
     # Fit a linear model 
-    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]]) 
+    model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]]) ###
     # Summarize the model
     sum <- summary(model)
     # Extract p-values from the summary
-    r <- sum$adj.r.squared
+    rsq <- sum$r.squared
 
     # Print p-values to the console
-    print(r)
+    print(rsq)
   }
 }
+
 
 lm.function.r(data=dat, cruise=72, x="Depth", y=c("O2","NO3"))
 ```
@@ -249,9 +250,10 @@ lm.function.r(data=dat, cruise=72, x="Depth", y=c("O2","NO3"))
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-    # Remove old results file, if exists
-  if(file.exists("pval_results.csv")){file.remove("pval_results.csv")}
   
+  # Create an empty list to hold results
+  pval = list()
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
   
@@ -260,41 +262,35 @@ lm.function <- function(data, cruise, x, y){
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
-    # Extract p-values from the summary
-    # Reformat to a 1x2 data frame
-    pval <- as.data.frame(t(sum$coefficients[,"Pr(>|t|)"]))
-    # Add y variable name label
-    pval$variable <- y.variable
+    # Extract p-values from the summary. Save into the pval list based on the y.variable name
+    pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"]
 
-    # Print p-values to a table
-    write_csv(pval, path="pval_results.csv", append=TRUE)
   }
-  # Create dynamic names for columns
-  col1 <- paste(colnames(pval)[1], "p", sep=".")
-  col2 <- paste(x, "p", sep=".") 
+  # Bind all results into 1 single object
+  pval <- as.data.frame(do.call(rbind,pval))
   
-  # Create dynamic name fo results table
-  table.name <- paste(x, "lm_pvals.csv", sep="_")
+  # Create dynamic column names
+  col1 <- paste(colnames(pval)[1], "p", sep=".") ###
+  col2 <- paste(x, "p", sep=".") ###
+  table.name <- paste(x, "lm_pvals", sep="_") ###
   
-  # Read in p-value results and add column names
-  read_csv("pval_results.csv", col_names=FALSE) %>% 
-    rename(!!as.name(col1) := X1,
-           !!as.name(col2) := X2,
-                   variable = X3) %>%
-  # Re-write the results, now with column names
-  write_csv(path=table.name)
+  # Rename columns
+  pval <- pval %>% ###
+    rename_at(vars(colnames(pval)), ~c(col1, col2)) ###
+  # Rename output table and save to environment
+  assign(table.name, pval, envir = .GlobalEnv) ###
 }
 ```
 
 ```{r}
 lm.function(data=dat, cruise=72, x="Depth", y=c("Temperature","Salinity","Density","O2","NO3","H2S"))
 
-read_csv("Depth_lm_pvals.csv")
+Depth_lm_pvals
 ```
 
 2. Choose a different x variable and determine if any of the Saanich geochemical variables correlate with it.
 ```{r}
 lm.function(data=dat, cruise=72, x="Temperature", y=c("Depth","Salinity","Density","O2","NO3","H2S"))
 
-read_csv("Temperature_lm_pvals.csv")
+Temperature_lm_pvals
 ```
