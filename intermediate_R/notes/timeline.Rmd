@@ -5,16 +5,16 @@ output: html_document
 Planned (Actual)
 
 ## Day 1
-* 5 () min: Gather
-* 10 () min: Setup
-* 10 () min: Vectors
-* 10 () min: Exercise
-* 5 () min: Complex objects
-* 15 () min: Data objects
+* 5 (2) min: Gather
+* 10 (34) min: Setup
+* 10 (19) min: Vectors
+* 10 (5) min: Exercise
 
-* 10 () min: Exercise
-* 10 () min: List object
-* 10 () min: Exercise
+* 5 (19) min: Complex objects
+* 15 (16) min: Data objects
+* 10 (10) min: Exercise
+* 10 (15) min: List object
+* 10 (10) min: Exercise
 * 5 () min: S4
 * 10 () min: Exercise
 
@@ -32,7 +32,6 @@ Planned (Actual)
 * 12 () min: Step 5
 * 15 () min: Exercise
 
-
 ## Day 3
 * 5 () min: Gather
 * 5 () min: Recap function steps 1-5
@@ -47,3 +46,7 @@ Planned (Actual)
 * 10 () min: Namespace
 * 10 () min: Imports & Exports
 * 10 () min: Testing
+
+## Edits
+rlang 0.1.6 (tidyverse needed 0.2.0)
+lmerTest needed rlang 0.3.0
