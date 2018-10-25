@@ -15,22 +15,23 @@ Planned (Actual)
 * 10 (10) min: Exercise
 * 10 (15) min: List object
 * 10 (10) min: Exercise
-* 5 () min: S4
-* 10 () min: Exercise
-
+    
 ## Day 2
-* 5 () min: Gather
-* 10 () min: Function basics
-* 10 () min: Exercise
-* 15 () min: Arguments
-* 10 () min: Scoping
-* 10 () min: Exercise
+* 5 (2) min: Gather
+* 5 (1) min: S4
+* 10 (0) min: Exercise
+    - skipped
+* 10 (11) min: Function basics
+* 10 (5) min: Exercise
+* 15 (11) min: Arguments
+* 10 (17) min: Scoping
+* 10 (18) min: Exercise
 
-* 5 () min: Step 1
-* 12 () min: Step 2
-* 5 () min: Step 3 & 4
-* 12 () min: Step 5
-* 15 () min: Exercise
+* 5 (13) min: Step 1
+* 12 (9) min: Step 2
+* 5 (5) min: Step 3 & 4
+* 12 (11) min: Step 5
+* 15 (18) min: Exercise
 
 ## Day 3
 * 5 () min: Gather
