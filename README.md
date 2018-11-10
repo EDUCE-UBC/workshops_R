@@ -1,5 +1,5 @@
-# Workshops
-Notes, scripts, and exercises for data science workshops through ECOSCOPE (http://ecoscope.ubc.ca/)
+# Workshops in R/RStudio
+Notes, scripts, and exercises for R/RStudio workshops through ECOSCOPE (http://ecoscope.ubc.ca/)
 
 ## Introduction to R (2hr)
 
