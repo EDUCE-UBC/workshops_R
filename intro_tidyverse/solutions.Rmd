@@ -37,18 +37,39 @@ Because we will be manipulating the data further, first copy the data “dat” 
 pdat <- raw_data
 ```
 
+# Statements and operators
+Exercise. Using the **first 16 depth observations** in the depth data in the R script:
+
+1. Find the indices where depth is greater or equal to 0.055
+2. Check if the value 0.111 is in the depth data
+3. Find where depth is less than 0.060 OR depth is greater than 0.140
+
+```{r}
+# Subset data to first 16 depth observations
+depth <- raw_data$Depth[1:16]
+
+# 1
+depth >= 0.055
+
+# 2
+0.111 %in% depth
+
+# 3
+depth < 0.060 | depth > 0.140
+```
+
 # dplyr
 ## select and filter
 Exercise. Using your pdat data:
 
-1. select the Cruise, Date, Depth, PO4, and NO3 variables
+1. select the Cruise, Date, Depth, and NO3 variables
 2. filter the data to retain data on Cruise 72 where Depth is >= to 0.1
 
-Your resulting pdat object should be a 8x5 data frame.
+Your resulting pdat object should be a 8x4 data frame.
 
 ```{r}
 # 1
-pdat <- select(pdat, Cruise, Date, Depth, PO4, WS_NO3)
+pdat <- select(pdat, Cruise, Date, Depth, WS_NO3)
 
 # 2
 pdat <- filter(pdat, Cruise == 72 & Depth >= 0.1)

@@ -230,7 +230,7 @@ oxygen <= 50 | oxygen >= 150
 ```
 
 #### Exercise: statements and operators
-![](images/RStudio_logo.png){width=0.4in} Exercise. Given the depth data in the R script:
+![](images/RStudio_logo.png){width=0.4in} Exercise. Using the **first 16 depth observations** in the depth data in the R script:
 
 1. Find the indices where depth is greater or equal to 0.055
 2. Check if the value 0.111 is in the depth data
@@ -333,8 +333,9 @@ because a different instrument was used prior to this date. *Notice* that we sav
 dat <- filter(dat, Date >= "2008-02-01")
 ```
 
+As we saw earlier, conditional statements and logical expressions in R are extremely powerful and allow us to filter the data in almost any way imaginable. For example, we can filter the data to consist of observations taken in June (using `months` in the lubridate package), at depths of either 0.1 or 0.2, and where nitrate data is not missing.
 
-As we saw earlier, conditional statements and logical expressions in R are  extremely powerful and allow us to filter the data in almost any way imaginable. For example, we can filter the data to consist of observations taken in June (using `months` in the lubridate package), at depths of either 0.1 or 0.2, and where nitrate data is not missing. 
+Importantly, lubridate operates under the assumption that you are using English. If your computer is running in another language, set R to English with `Sys.setlocale(“LC_TIME”, “eng_GB.UTF-8”)`
 ```{r}
 filter(dat, months(Date) == "June" & Depth %in% c(0.1, 0.2) & !is.na(WS_NO3))
 ```
@@ -348,10 +349,10 @@ This also brings up another best practice in data science. Dates are usually rec
 
 Using your pdat data:
 
-1. select the Cruise, Date, Depth, PO4, and NO3 variables
+1. select the Cruise, Date, Depth, and NO3 variables
 2. filter the data to retain data on Cruise 72 where Depth is >= to 0.1 
 
-Your resulting pdat object should be a 8x5 data frame.
+Your resulting pdat object should be a 8x4 data frame.
 
 
 ### Rename
