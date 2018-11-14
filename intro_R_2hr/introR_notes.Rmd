@@ -211,10 +211,15 @@ quickplot(data=dat,
 # Exercises
 To practice skills covered in this workshop and prepare for your future R endeavors, please complete the following exercises. Happy coding!
 
-1. To prepare for future workshops, install the following packages on your machine.
-    - `tidyverse`
-    - `lubridate`
-    - `cowplot`
+1. Install the packages used in the next workshop you plan to attend.
+    - The R tidyverse: `tidyverse`, `lubridate`, `cowplot`
+    - Intermediate R programming: `tidyverse`, `lmerTest`, `devtools`, `roxygen2`
+    - Statistical models: `tidyverse`, `broom`, `plyr`, `Lahman`, `MASS`, `car`, `HSAUR3`
+    - Reproducible Research: `tidyverse`, `packrat`
+    - None (but to practice package install anyway): `tidyverse`
+    
+*Please note that if you have __R v3.3 or older__, you may not be able to install `tidyverse`. In this case, you need to separately install each package within the tidyverse. This includes:* `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `ggplot2`, `purr`, `forcats`
+
 2. Using help to identify the necessary arguments for the log function compute the natural logarithm of 4, base 2 logarithm of 4, and base 4 logarithm of 4.
 3. Using an R function, determine what data type the Depth_m variable is.
 4. Using indexing and the square bracket operator `[]`:
