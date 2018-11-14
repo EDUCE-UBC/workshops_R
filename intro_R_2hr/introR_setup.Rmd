@@ -3,6 +3,7 @@ title: "Setup Instructions"
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 You need to install and test R and RStudio before the workshop.
@@ -59,12 +60,7 @@ workshop.
 
 The above is enough preparation but here are some links if you are interested in reading a bit further.
 
-* How to Use RStudio:
-    - <https://support.rstudio.com/hc/en-us/sections/200107586-Using-RStudio>
-* RStudio Public Discussion & Troubleshooting Guide:
-    - <https://support.rstudio.com/hc/en-us/sections/203994097-RStudio-IDE>
-* How to Install R:
-    - <http://cran.r-project.org/doc/manuals/R-admin.html>
-    - <http://cran.stat.sfu.ca/doc/FAQ/R-FAQ.html#How-can-R-be-installed_003f>
-* R FAQ:
-    - <http://cran.r-project.org/doc/FAQ/R-FAQ.html>
+* [How to Use RStudio](https://support.rstudio.com/hc/en-us/sections/200107586-Using-RStudio)
+* [RStudio Public Discussion & Troubleshooting Guide](https://support.rstudio.com/hc/en-us/sections/203994097-RStudio-IDE)
+* [How to Install R](http://cran.stat.sfu.ca/doc/FAQ/R-FAQ.html#How-can-R-be-installed_003f)
+* [R FAQ](http://cran.r-project.org/doc/FAQ/R-FAQ.html)
