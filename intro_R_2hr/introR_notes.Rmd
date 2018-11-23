@@ -24,7 +24,6 @@ In this workshop, we introduce you to R and RStudio at the beginner level. This 
 
 We will do all of our work in [RStudio](https://www.rstudio.com/). RStudio is an integrated development and analysis environment for R that brings a number of conveniences over using R in a terminal or other editing environments. You should have both R and RStudio installed, as described in the [setup instructions](setup.html).
 
-
 # A Tour of RStudio
 
 When you start RStudio, you will see something like the following window appear:
@@ -47,13 +46,17 @@ Projects are a great feature of RStudio. When you create a project, RStudio crea
 
 RStudio has a simple interface to create and switch between projects, accessed from the button in the top-right corner of the RStudio window. (Labelled "Project: (None)", initially.)
 
+#### Create a Project
 Let's create a project to work in for this workshop. Start by click the "Project" button in the upper right or going to the "File" menu. Select "New Project" and the following will appear.
 
 ![](images/new.project1.png){width=50%} 
 
 You can either create a project in an existing directory or make a new directory on your computer - just be sure you know where it is.
 
-After your project is created, navigate to its directory using your Finder/File explorer. You will see the `.RProj` file has been created. Next, move or save the [`data.csv`](data.csv) file from the workshop materials into the project directory so that we can use it in this workshop.
+After your project is created, navigate to its directory using your Finder/File explorer. You will see the `.RProj` file has been created. 
+
+#### Place data in the project directory
+Next, move or save the [`data.csv`](data.csv) file from the workshop materials into the project directory so that we can use it in this workshop.
 
 To access this project in the future, simply double-click the `RProj` and RStudio will open the project or choose File > Open Project from within an already open RStudio window.
 
@@ -66,13 +69,13 @@ you should do it in the console (left pane of RStudio). If you are committing a 
 
 Additionally, you should annotate your R scripts with comments. In each line of code, any text preceeded by the `#` symbol will not execute. Comments can be useful to remind yourself and to tell other readers what a specific chunk of code does. 
 
-Let's create an R script (File > New File > R Script) and save it as `main.R` in your main project directory. If you again look to the project directory on your computer, you will see `main.R` is now saved there.
+Let's create an R script (File > New File > R Script) and save it as `live_notes.R` in your main project directory. If you again look to the project directory on your computer, you will see `live_notes.R` is now saved there.
 
-We will work together to create and populate the "main.R" script throughout this workshop. 
+We will work together to create and populate the `live_notes.R` script throughout this workshop. 
 
 ## R packages
 
-R packages are units of shareable code, containing functions that facilitate and enhance analyses. Let's install `ggplot2`, a very popular data visualization package in R that we will use later in the workshop. Packages are typically installed from [CRAN](https://www.r-project.org/) (The Comprehensive R Archive Network), which is a database containing R itself as well as many R packages. Any package can be installed from CRAN using the `install.packages` function. You can input this into your console (as opposed to `main.R`) since once a package is installed on your computer, you won't need to reinstall it again.
+R packages are units of shareable code, containing functions that facilitate and enhance analyses. Let's install `ggplot2`, a very popular data visualization package in R that we will use later in the workshop. Packages are typically installed from [CRAN](https://www.r-project.org/) (The Comprehensive R Archive Network), which is a database containing R itself as well as many R packages. Any package can be installed from CRAN using the `install.packages` function. You can input this into your console (as opposed to `live_notes.R`) since once a package is installed on your computer, you won't need to reinstall it again.
 
 ```{r eval=FALSE}
 install.packages("ggplot2")
@@ -80,7 +83,7 @@ install.packages("ggplot2")
 
 After installing a package, and *everytime* you open a new RStudio session, the packages you want to use need to be loaded into the R workspace with the `library` function. This tells R to access the package's functions and prevents RStudio from lags that would occur if it automatically loaded every downloaded package everytime you opened it.
 
-Since this is something you would need to repeat in future, it should go in your `main.R` script.
+Since this is something you would need to repeat in future, it should go in your `live_notes.R` script.
 
 ```{r}
 library(ggplot2)
@@ -110,7 +113,7 @@ We will store the data as an *object* named `dat` using the assignment operator 
 
 ```{r}
 # read the data and save it as an object
-dat <- read.table(file="data/data.csv", sep=",", header=TRUE, stringsAsFactors=FALSE)
+dat <- read.table(file="data.csv", sep=",", header=TRUE, stringsAsFactors=FALSE)
 ```
 
 Now we can refer to the data frame as `dat` like so.
@@ -214,10 +217,10 @@ To practice skills covered in this workshop and prepare for your future R endeav
 1. Install the packages used in the next workshop you plan to attend.
     - The R tidyverse: `tidyverse`, `lubridate`, `cowplot`
     - Intermediate R programming: `tidyverse`, `lmerTest`, `devtools`, `roxygen2`
-    - Statistical models: `tidyverse`, `broom`, `plyr`, `Lahman`, `MASS`, `car`, `HSAUR3`
+    - Statistical models: `tidyverse`, `nycflights13`, `plyr`,`readxl`, `broom`, `gapminder`, `lme4`, `lmerTest`, `lsmeans`, `car`, `MASS`, `HSAUR3`
     - Reproducible Research: `tidyverse`, `packrat`
     - None (but to practice package install anyway): `tidyverse`
-    
+
 *Please note that if you have __R v3.3 or older__, you may not be able to install `tidyverse`. In this case, you need to separately install each package within the tidyverse. This includes:* `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `ggplot2`, `purr`, `forcats`
 
 2. Using help to identify the necessary arguments for the log function compute the natural logarithm of 4, base 2 logarithm of 4, and base 4 logarithm of 4.

@@ -6,58 +6,46 @@ output:
   pdf_document: default
 ---
 
-You need to install and test R and RStudio before the workshop.
-Installation process is simple on all major platforms, and mostly
-consists of downloading and running the installers appropriate to your
-platform. Please contact the instructors if you run into difficulties
-so we can help you show up with a computer properly set up for the
-workshop.
+Prior to starting this workshop, you will need to download and install the following software and data. You must have administrator privileges on your machine to complete these installs. Please contact the instructors if you run into difficulties or come to the workshop early for assistance.
 
+## Data
+
+1. All data for our R workshops can be found on the [EDUCE GitHub](https://github.com/EDUCE-UBC/workshop_data). Click 'Clone or download' -> 'Download Zip' and save the file on your computer.
+
+OR
+
+1. If you have downloaded the [entire R workshop repo](https://github.com/EDUCE-UBC/workshops_R), each workshop's data can also be found within its respective directory.
 
 ## R and RStudio
 
-* Download and install [R, a free software environment for statistical
-  computing and graphics](http://www.r-project.org) from
-  [CRAN](http://cran.rstudio.com), the Comprehensive R Archive
-  Network. It is _highly recommended_ to install a precompiled binary
-  distribution for your operating system -- use the links up at the
-  top of the CRAN page linked to above!
-  
-  > If you currently have R installed on your laptop please make sure
-  > it is version 3.2.0 or later (current release is 3.5.0). **Please
-  > update if it is not!**
- 
-* [Install RStudio](https://www.rstudio.com/products/rstudio/download/), a powerful user interface for R.
+1. [Install R](http://www.r-project.org), a free software environment for statistical computing and graphics from CRAN, the Comprehensive R Archive Network.
+    - It is _highly recommended_ that you install a precompiled  distribution for your operating system -- use the links up at the top of the page linked to above!
+    - If you currently have R installed, please make sure it is version **3.4.0 or later** (current release is 3.5.1).
+2. [Install RStudio](https://www.rstudio.com/products/rstudio/download/), a powerful user interface for R.
+    - Select the FREE version and download the 'Installers' version for your operating system, *not* the 'Zip/Tarballs/'
 
 ## Testing testing
 
-* Do whatever is appropriate for your OS to launch RStudio. You should
-  get a window similar to the screenshot below.
+1. Do whatever is appropriate for your OS to launch RStudio. You should get a window similar to the screenshot below.
   
-  ![](images/rstudio.png)
+  ![](images/rstudio.png){width=70%}
 
-  If you don't see a window that is divided into distinct areas
-  labelled "Console", "Environment", etc., you are probably running
-  the user interface that comes bundled with R. Check that RStudio is
-  present in your applications and start it instead.
+2. Put your cursor in the pane labelled "Console", which is where you interact with the live R process. Create a simple object with code like `x <- 2 * 4` (followed by enter or return). In the "Environment" pane, to the right of the Console, you should see an entry for "x" with appropriate value (in this case, 8).
   
-* Put your cursor in the pane labelled "Console", which is where you
-  interact with the live R process. Create a simple object with code
-  like `x <- 2 * 4` (followed by enter or return). In the
-  "Environment" pane, to the right of the Console, you should see an
-  entry for "x" with appropriate value (in this case, 8).
-  
-* Then inspect the `x` object by typing `x` in the Console followed by
-  enter or return. Obviously you should see the value 8 print to
-  screen.
+3. Then inspect the `x` object by typing `x` in the Console followed by enter or return. Obviously you should see the value 8 print to screen.
 
-* Finally, check that plotting works. In the console, type
-  `plot(cars)`. If you see a scatterplot appear in the "Plots" pane,
-  you are good to go.
+4. Finally, check that plotting works. In the console, type `plot(cars)`. If you see a scatterplot appear in the "Plots" pane, you are good to go.
 
+## Troubleshooting
+### RStudio looks incorrect.
+If you only see a single panel instead of 3 like in the example image, you likely opened base R instead of RStudio. Look for the RStudio symbol ![](images/RStudio_logo.png){width=3%} to open the correct program.
+
+### My computer won't let me open the downloaded files to install them.
+Mac: right-click and choose ‘Open With’ --> ‘Installer.app (default)’ and choose ‘Open’ when prompted if you are sure you want to open the file
+
+Windows: right-click and choose ‘Run as administrator’
 
 ## Further resources
-
 The above is enough preparation but here are some links if you are interested in reading a bit further.
 
 * [How to Use RStudio](https://support.rstudio.com/hc/en-us/sections/200107586-Using-RStudio)
