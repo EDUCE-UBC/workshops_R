@@ -1,9 +1,11 @@
 ---
-title: "Introduction to the tidyverse"
+title: "The R tidyverse"
+author: |
+  | Kim Dill-McFarland and Kris Hong, U. of British Columbia
+  | in collaboration with the Applied Statistics and Data science group
 editor_options:
   chunk_output_type: console
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
-author: Kim Dill-McFarland and Kris Hong
 output:
   html_document:
     toc: yes
@@ -335,7 +337,7 @@ dat <- filter(dat, Date >= "2008-02-01")
 
 As we saw earlier, conditional statements and logical expressions in R are extremely powerful and allow us to filter the data in almost any way imaginable. For example, we can filter the data to consist of observations taken in June (using `months` in the lubridate package), at depths of either 0.1 or 0.2, and where nitrate data is not missing.
 
-Importantly, lubridate operates under the assumption that you are using English. If your computer is running in another language, set R to English with `Sys.setlocale(“LC_TIME”, “eng_GB.UTF-8”)`
+Importantly, lubridate operates under the assumption that you are using English. To check what language R is using, run `Sys.getlocale("LC_TIME")`. If your computer is running in another language, replace "June" with the equivalent in your language or set R to English with `Sys.setlocale("LC_TIME", "en_CA.UTF-8")`.
 ```{r}
 filter(dat, months(Date) == "June" & Depth %in% c(0.1, 0.2) & !is.na(WS_NO3))
 ```
@@ -913,7 +915,7 @@ End day 3
 
 ***
 
-## Additional resources
+# Additional resources
 In this workshop, we have gone over just some of the functions and graphics within the tidyverse. Below are some resources for further learning and practice!
 
 * [R cheatsheets](https://www.rstudio.com/resources/cheatsheets/) also available in RStudio under Help > Cheatsheets
@@ -926,3 +928,7 @@ In this workshop, we have gone over just some of the functions and graphics with
 * [ggplot tutorial 1](http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html)
 * [ggplot tutorial 2](https://rpubs.com/g_jw/ggplot2_tutorial)
 * [ggplot tutorial 3](http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html#the_1_faq)
+
+# Survey
+
+Please provide us with feedback through this [short survey](https://ubc.ca1.qualtrics.com/jfe/form/SV_2tOcP5OKnCNyauV).
