@@ -31,7 +31,7 @@ You will learn how to:
 * modify the various features of a graphic, and
 * save your graphic in various formats
 
-We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this tidyverse series.
+We recommend this workshop be given across 6 hours in 2-3 sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this tidyverse series.
 
 ## Reproducible research
 
@@ -44,7 +44,7 @@ You will learn how to:
 * Use Git version control
 * Integrate version control with GitHub for both personal and group projects
 
-We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
+We recommend this workshop be given across 6 hours in 2-3 sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
 
 ## Statistical models in R
 **Under development**
@@ -67,7 +67,6 @@ We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Parti
 
 
 ## Intermediate R programming
-**Under development**
 
 In this workshop, we teach you to use R as a programming environment, allowing you to write more complex, yet clearer data analysis code. We will teach you three fundamental concepts of R programming: functions, classes, and packages. 
 
@@ -78,4 +77,4 @@ You will learn how to:
 * Output large result tables to your hard drive
 * Write and publish an R package
 
-We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
+We recommend this workshop be given across 6 hours in 2-3 sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
