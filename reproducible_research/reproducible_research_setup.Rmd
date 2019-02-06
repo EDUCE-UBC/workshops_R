@@ -3,14 +3,16 @@ title: "Setup Instructions"
 output:
   html_document:
     df_print: paged
+    toc: yes
 ---
+# For all users
 Please contact the instructors or ECOSCOPE at <info.ecoscope@ubc.ca> if you run into difficulties so we can help you setup your computer properly. There will not be time to troubleshoot issues during the workshop.
- 
+
 ## R and RStudio
 
 1. Download and [install R](http://www.r-project.org), a free software environment for statistical computing and graphics from [CRAN](http://cran.rstudio.com), the Comprehensive R Archive Network.
     - It is *highly recommended* to install a precompiled binary distribution for your operating system -- use the links up at the top of the CRAN page linked above!
-    - If you currently have R installed on your laptop, please make sure it is version 3.4.0 or later (current release is 3.5.0). **Please update if it is not!**
+    - If you currently have R installed on your laptop, please make sure it is version 3.4.0 or later. **Please update if it is not!**
 2. [Install RStudio](https://www.rstudio.com/products/rstudio/download/), a powerful user interface for R.
 3. Do whatever is appropriate for your OS to launch RStudio. You should get a window similar to the screenshot below.
   
@@ -19,39 +21,83 @@ Please contact the instructors or ECOSCOPE at <info.ecoscope@ubc.ca> if you run 
 If you don't see a window that is divided into distinct areas labelled "Console", "Environment", etc., you are probably running the user interface that comes bundled with R. Check that RStudio is present in your applications and start it instead.
 
 ## R packages
-Please install the following packages in RStudio
+Please install the following packages in RStudio.
 
 * tidyverse
+    - *Please note that if you have __R v3.3 or older__, you may not be able to install `tidyverse`. In this case, you need to separately install each package within the tidyverse. This includes:* `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `ggplot2`, `purr`, `forcats`
 * packrat
 
-## Terminal for Windows machines
+# For Windows
+### Terminal
 
-1. The native terminal on Windows is not Linux based so these users need to install [GitBash](https://gitforwindows.org/). All command line aspects of the workshop (like git) should be completed in GitBash and not the native "Command Prompt" program.
+1. The native Terminal in Windows is not Linux-based so you need to install [GitBash](https://gitforwindows.org/) for use in this workshop.
+    - All command line aspects of the workshop (like Make and git) should be completed in GitBash and not the native "Command Prompt" program.
 
-## Git
+### Git
 
-1. If you do not already have one, signup for an account on [GitHub](https://github.com/).
-2. Download and [install git](https://git-scm.com/downloads).
+1. Basic git was installed automatically with your GitBash Terminal.
+    - Test that git is properly installed by opening GitBash and typing `git --version` [Enter]. This should populate the window with information on your version of git such as
+
+```
+git version 2.20.1.windows.1
+```
+
+2. If you do not already have one, signup for an account on [GitHub](https://github.com/).
+3. Download and install the [Git desktop GUI](https://desktop.github.com/).
+
+### Make
+
+1. Download the latest version of [Make](https://www.gnu.org/software/make/) *without guile* from [ezwinports](https://sourceforge.net/projects/ezwinports/files/)
+    - The file name is `make-4.1-2-without-guile-w32-bin.zip`, though the most recent version number may be different.
+2. Unzip the folder.
+3. Copy all of its contents to `c/Program Files/Git/mingw64/`
+    - Merge all of the contents of the folders but do NOT overwrite/replace any existing files.
+4. Check that Make is installed by typing `make --version` [Enter] in GitBash. This should populate the window with information on your version of Make such as
+
+```
+GNU Make 4.2.1
+Built for Windows32
+Copyright (C) 1988-2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL verison 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+```
+
+# For Mac
+### Terminal
+
+The native Terminal in the Mac OS is Linux-based and therefore, can be used in this workshop. You can access it under Applications > Utilities > Terminal.app
+
+### Git
+
+1. Download and [install git](https://git-scm.com/downloads).
+Test that git is properly installed by opening your Terminal and typing `git --version` [Enter]. This should populate the window with information on your version of git such as
+
+```
+git version 2.18.0
+```
+
+2. If you do not already have one, signup for an account on [GitHub](https://github.com/).
 3. Download and install the [Git desktop GUI](https://desktop.github.com/). 
-4. To test that Git is properly installed, open your terminal (GitBash for Windows machines) and type `git`. This should populate the terminal with a help page of Git commands like so.
+
+### Make
+
+1. Download and install the Mac command line developer tools (including [Make](https://www.gnu.org/software/make/))
+by opening your Terminal and typing `xcode-select --install` [Enter]
+    - Click 'Install' to allow the installation of the full developer's packet
+2. Check that Make is installed by typing `make --version` [Enter] in your Terminal. This should populate the window with information on your version of Make such as
 
 ```
-usage: git [--version] [--help] [-C <path>] [-c name=value]
-           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]
-           [-p | --paginate | --no-pager] [--no-replace-objects] [--bare]
-           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
-           <command> [<args>]
+GNU Make 3.81
+Copyright (C) 2006  Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
 
-These are common Git commands used in various situations:
-
-start a working area (see also: git help tutorial)
-   clone      Clone a repository into a new directory
-   init       Create an empty Git repository or reinitialize an existing one
-
-...
+This program built for i386-apple-darwin11.3.0
 ```
 
-## Further resources
+# Further resources
 
 The above is enough preparation but here are some links if you are interested in reading a bit further.
 
