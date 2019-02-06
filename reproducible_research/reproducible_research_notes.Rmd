@@ -3,13 +3,13 @@ title: "Reproducible research"
 author: "Kim Dill-McFarland"
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: yes
+    latex_engine: xelatex
   html_document:
     toc: yes
     toc_float:
       collapsed: no
-  pdf_document:
-    toc: yes
-    latex_engine: xelatex
 ---
 *adapted from the Applied Statistics and Data Science Group at the U. of British Columbia*  
 
@@ -191,10 +191,10 @@ We specify our workflow in a `Makefile` (note the capitalization). Please note t
 
 ```Makefile
 target1: dependency1 dependency2 dependencyN
-    command --option argument(s)
+  command --option argument(s)
     
 target2: dependency1 dependency2 dependencyN
-    command --option argument(s)
+  command --option argument(s)
 ```
 
 For our example workflow, the Makefile will look like this. You can make this file in any text editor, though working in the terminal with something like nano, Vmacs, etc. is best to avoid accidental formatting put in place by programs like Word.
@@ -203,29 +203,31 @@ For our example workflow, the Makefile will look like this. You can make this fi
 all: O2_plot.png
 
 data.csv: load.R
-    Rscript load.R
+  Rscript load.R
 
 O2_plot.png: data.csv plot.R
-    Rscript plot.R
+  Rscript plot.R
 ```
 
 Note that if you copy-paste the above, you will need to manually edit the Makefile such that the horizontal spaces before "Rscript" are produced by a tab rather than spaces.
 
 As with scripts, there are several way to execute your Makefile. You can:
 
-1. run it from the terminal
+1. run it directly in the terminal
     - open the terminal (GitBash for Windows users)
     - navigate to your project directory
-    - type `system("make")` and press Enter
-2. use a driver script containing the command `system("make")`
+    - type `make -f Makefile` and press Enter
+        - This runs the make program on your Makefile
+2. use a driver script containing the command `system("make -f Makefile")`
+    - In this case, you need to use the `system()` function to tell R to run the function in the terminal instead of in R
 
 For the sake of best practices, the later is better since you then have a record of how you executed the Makefile. So update `RootScript.R` with 
 
 ```{r eval=FALSE}
-system("make")
+system("make -f Makefile")
 ```
 
-And then execute your updated driver script in the terminal with `Rscript RootScript.R `. This should output the following as it runs through each R script in your Makefile. Voila! The plot appears in your directory.
+And then execute your updated driver script in the terminal with `Rscript RootScript.R`. This should output the following as it runs through each R script in your Makefile. Voila! The plot appears in your directory.
 
 ```
 Rscript load.R

@@ -3,4 +3,4 @@
 # Create plot
 #source("plot.R")
 
-system("make")
+system("make -f Makefile")
