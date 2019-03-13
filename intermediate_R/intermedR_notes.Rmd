@@ -4,16 +4,18 @@ author: |
   | Kim Dill-McFarland
   | in collaboration with the Applied Statistics and Data science group
   | U. of British Columbia
+editor_options:
+  chunk_output_type: console
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     toc: yes
     toc_float:
       collapsed: no
-editor_options:
-  chunk_output_type: console
+    toc_depth: 4
+  pdf_document:
+    toc: yes
+    toc_depth: 4
 ---
 # Overview
 In this workshop, you will learn to use R as a programming environment, allowing you to write more complex, yet clearer data analysis code. We will teach you three fundamental concepts of R programming: classes, functions, and packages.
@@ -26,18 +28,43 @@ You will learn how to:
 * structure a package and package libraries, and
 * create your own package and distribute it to other R users.
 
+This is an intermediate workshop series that assumes prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr)). 
+
+All code presented in this workshop is contained in the ["intermedR_main.R"](intermedR_main.R) R script file. R script files are the primary way in which R facilitates reproducible research. You can follow along with the workshop by selecting the relevant line(s) of code and pressing ctrl+enter on Windows, cmd+enter on MacOS, or using the "Run" button in the upper right of your script window to execute it. There are also dedicated spaces in the R script for you to work on the given exercises which are indicated in the markdown with the RStudio logo ![](images/RStudio_logo.png){width=0.4in}.
+
+Please call a TA if you have any problems with executing the code or if you need any help with the exercises. 
+
+# Prior to the workshop
+## Setup Instructions
+
+Please come to the workshop with your laptop setup with the required software and data files as described in our [setup instructions](setup/intermedR_setup.html).
+
+## Background
+
+Please read [Hallam SJ *et al*. 2017. Sci Data 4: 170158](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5663219/) "Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone" to learn more about the data used in this workshop. You can also check out this [short video](https://youtu.be/XYQSm2Me86I) showing how the sampling was done!
+
 # Data description
-The data in this workshop were collected as part of an on-going oceanographic time series program in Saanich Inlet, a seasonally anoxic fjord on the East coast of Vancouver Island, British Columbia (Figure 1A). The data we will use include various geochemical measurements at many depths in Saanich Inlet. Samples were taken approximately monthly from 2006 to 2014, though there is much missing data to contend with.
+The data in this workshop were collected as part of an on-going oceanographic time series program in Saanich Inlet, a seasonally anoxic fjord on the East coast of Vancouver Island, British Columbia (Figure 1). 
 
 <br>
 <br>
-(A) ![](images/Saanich.png){width=4in} (B) ![](images/Inlet_structure.png){width=3in}
+![](images/Saanich.png){width=4in}
 
-**Figure 1.** (A) Map of Saanich Inlet indicating conventional sample collection stations (S1-S9). Data used in this workshop is sourced from S3. (B) Structure of Saanich Inlet. The glacial sill restricts water circulation into and out of the lower depth of the inlet basin.
+**Figure 1.** Map of Saanich Inlet indicating conventional sample collection stations (S1-S9). Data used in this workshop is sourced from S3.
 <br>
 <br>
 
-Saanich Inlet is a steep sided fjord characterized by a shallow glacial sill located at the mouth of the inlet that restricts circulation in basin waters below 100 m (Figure 1B). During spring and summer months, elevated primary production (like photosynthesis) in surface waters combined with restricted circulation results in progressive water column stratification and complete oxygen starvation (anoxia) in deep basin waters. In late summer, pulses of oxygenated nutrient-rich ocean waters up-welling from the Haro Straight cascade over the sill, displacing oxygen starved bottom waters upward. The intensity of these renewal events varies from year to year with implications for microbial ecology and biogeochemical cycles (Figure 3). 
+Saanich Inlet is a steep sided fjord characterized by a shallow glacial sill located at the mouth of the inlet that restricts circulation in basin waters below 100 m (Figure 2).
+
+<br>
+<br>
+![](images/Inlet_structure.png)
+
+**Figure 2.** Structure of Saanich Inlet. The glacial sill restricts water circulation into and out of the lower depth of the inlet basin.
+<br>
+<br>
+
+During spring and summer months, elevated primary production (like photosynthesis) in surface waters combined with restricted circulation results in progressive water column stratification and complete oxygen starvation (anoxia) in deep basin waters. In late summer, pulses of oxygenated nutrient-rich ocean waters upwelling from the Haro Straight cascade over the sill, displacing oxygen starved bottom waters upward. The intensity of these renewal events varies from year to year with implications for microbial ecology and biogeochemical cycles (Figure 3). 
 
 <br>
 <br>
@@ -49,6 +76,8 @@ Saanich Inlet is a steep sided fjord characterized by a shallow glacial sill loc
 
 The seasonal cycle of stratification and deep water renewal enables spatial and temporal profiling across a wide range of water column energy states and nutrients, thus making Saanich Inlet a model ecosystem for studying microbial community responses to ocean deoxygenation. Ocean deoxygenation is a widespread phenomenon currently increasing due to climate change. 
 
+The data we will use in this workshop include various geochemical measurements at many depths in Saanich Inlet. Samples were taken approximately monthly from 2006 to 2014, though there is much missing data to contend with.
+
 For a brief introduction to the data used in this workshop series, see [Hallam SJ *et al*. 2017. Sci Data 4: 170158](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5663219/) "Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone". More detailed information on the environmental context and time series data can be found in [Torres-Beltrán M *et al*. 2017. Sci Data 4: 170159.](https://www.nature.com/articles/sdata2017159) "A compendium of geochemical information from the Saanich Inlet water column".
 
 # Getting started
@@ -56,48 +85,46 @@ For a brief introduction to the data used in this workshop series, see [Hallam S
 
 Projects allow you to divide your work into self-contained contexts. 
 
-Let's create a project to work in during this workshop.
+Let's create a project to work in.
 
-In the top-right corner of your RStudio window, click the "Project: (None)" button to show the projects drop-down menu. Select "New Project..." > "New Directory" > "New Project." Under directory name, input "Intermediate_R" and choose a parent directory to contain this project on your computer.
-
-Then copy or move the provided [data files](https://github.com/EDUCE-UBC/workshop_data) into your project directory.
+In the top-right corner of your RStudio window, click the "Project: (None)" button to show the projects dropdown menu. Select "New Project..." > "New Directory" > "New Project." Under directory name, input "intermediate_R" and choose a parent directory to contain this project on your computer.
 
 ## Installing and loading packages
-For your convenience, we have provided `main.R`, which contains all of the code you will need to run for this workshop as well as spaces for you to complete exercises. Please work from the `main.R` document and use these notes for reference.
 
 At the beginning of every R script, you should have a dedicated space for loading R packages. R packages allow any R user to code reproducible functions and share them with the R community. Packages exist for anything ranging from microbial ecology to complex graphics to multivariate modeling and beyond. 
 
-In this workshop, we will use the [tidyverse](https://www.tidyverse.org/) and lmerTest for data analysis and function building. We will also use devtools and roxygen2 for package building. Make sure you've downloaded these packages before attempting to load them.
+In this workshop, we will use several packages within the [tidyverse](https://www.tidyverse.org/) as well as several development tools listed below.
+
+Here, we load the necessary packages which *must already be installed* (see [setup instructions](setup/intermedR_setup.html) for details).
 ```{r, message=FALSE}
+# Suite of packages for data manipulation and visualization
 library(tidyverse)
+# Linear mixed effects models
 library(lmerTest)
+# Tools for package creation and development
 library(devtools)
 library(roxygen2)
 ```
 
-## Loading and cleaning data
-
-Let's start by reading in the data we will use for this workshop. Here, we specify that the data file is named "Saanich_Data.csv". Furthermore, we specify that the first row of the data contain variable names, and that empty, NA, NAN, or ND values should be treated by R as missing data (coded in R as NA). 
+## Downloading data
+The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshop_data) and since you're working in a Project, saves it in the Project directory under the `data` directory on your computer.
 
 ```{r}
-raw_data <- read_csv(file="data/Saanich_Data.csv",
+write.csv(
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_data_clean.csv"),
+  "data/Saanich_Data_clean.csv", row.names=FALSE)
+```
+
+## Load data
+Let's start by reading in the data we will use for this workshop. Here, we specify that the data file is named "Saanich_Data_clean.csv". Furthermore, we specify that the first row of the data contain variable names, and that empty, NA, NAN, or ND values should be treated by R as missing data (coded in R as NA). 
+
+```{r}
+raw_data <- read_csv(file="data/Saanich_Data_clean.csv",
                      col_names=TRUE,
                      na=c("", "NA", "NAN", "ND"))
 ```
 
-Then, we will clean the data using functions in the tidyverse.
-```{r}
-dat <- 
-  raw_data %>%
-  select(Cruise, Date, Depth, 
-         Temperature, Salinity, Density, 
-         WS_O2, WS_NO3, WS_H2S) %>%
-  filter(Date >= "2008-02-01") %>%
-  rename(O2=WS_O2, NO3=WS_NO3, H2S=WS_H2S) %>%
-  mutate(Depth=Depth*1000)
-```
-
-*If you would like to learn more about functions in the tidyverse, please see our R tidyverse workshop.*
+*If you would like to learn more about how these data were cleaned and manipulated, please see our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_tidyverse).*
 
 # Objects, classes, and attributes
 Practically speaking, everything you encounter in R is an object.
@@ -164,7 +191,8 @@ mode(x)
 attributes(x)
 ```
 
-![](images/RStudio.png){width=0.4in} Exercise. 
+#### Exercise: Working with vectors
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Assign x the value `"a"`. What are its class and mode?
 2. Give it dimensions `c(1,1)`. What are its class and mode?
@@ -279,7 +307,8 @@ Also, R can tell you the functions that work on a given class with `methods`, wh
 methods(class="data.frame")
 ```
 
-![](images/RStudio.png){width=0.4in} Exercise.
+#### Exercise: Class and attributes
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Obtain the summary table of `dat`. What are its class and attributes?
 2. Read in the raw data table `Saanich_Data.csv` using the base R function `read.table`. What are this object's class and attributes? Are they any different from the object create when we used `read_csv` to read in the same data?
@@ -313,7 +342,8 @@ Similarly, we can pull out pieces of statistical model fitted in R since the out
 m1$coefficients
 ```
 
-![](images/RStudio.png){width=0.4in} Exercise.
+#### Exercise: R lists
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Obtain the `summary()` of `m1` and save it as `m2`.
 2. What is the class and mode of `m2`?
@@ -349,7 +379,8 @@ class(VC)
 attributes(VC)
 ```
 
-![](images/RStudio.png){width=0.4in} Exercise.
+#### Exercise: S4 objects
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Compute and store the variance-covariance matrix of `m3` using `vcov()`.
 2. What class and mode is it?
@@ -358,7 +389,7 @@ attributes(VC)
 
 ***
 
-End day 1
+If you are attending a 3 x 2-hour workshop, this is the end of day 1
 
 ***
 
@@ -423,7 +454,8 @@ Remember that we are only calling a function that happens to be stored in an R f
 f
 ```
 
-![](images/RStudio.png){width=0.4in} Exercise
+#### Exercise: Writing a function
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Put the following math into a function $$ f(x) = 1 + 2x - 5x^2 + x^3 $$
 2. Set x to `1:1000/1000*6-1`
@@ -541,7 +573,8 @@ f = function(x)
 f(3) 
 ```
 
-![](images/RStudio.png){width=0.4in} Exercise. For the following, try to determine what the function will return *without running the code* then check yourself by running it.
+#### Exercise: Scoping
+![](images/RStudio_logo.png){width=0.4in} Exercise. For the following, try to determine what the function will return *without running the code* then check yourself by running it.
 
 1. Remove all instances of x, z, and f( ) from your environment so that you are starting fresh for this exercise.
 
@@ -589,6 +622,12 @@ f(1)
 
 y
 ```
+
+***
+
+If you are attending a 2 x 3-hour workshop, this is the end of day 1
+
+***
 
 # Building a function
 Now that we understand the basics of functions, let's get to work building our function to test the relationship between depth and geochemical variables in Saanich Inlet.
@@ -775,14 +814,15 @@ pval <- sum$coefficients[,"Pr(>|t|)"]
 print(pval)
 ```
 
-![](images/RStudio.png){width=0.4in} Exercise.
+#### Exercise: Using a custom function
+![](images/RStudio_logo.png){width=0.4in} Exercise.
 
 1. Apply the current `lm.function` to all the available geochemical variables in the Saanich data set. Which ones appear to be significantly correlated with depth?
 2. Copy the `lm.function` and alter it to print out the models' adjusted R-squared values instead of p-values. Be sure to run the function with inputs to make sure it works!
 
 ***
 
-End day 2
+If you are attending a 3 x 2-hour workshop, this is the end of day 2
 
 ***
 
@@ -1040,11 +1080,13 @@ source("lm.function.R")
 
 Also, you should share your function with the world! Consider posting on GitHub or another open source site. You'd be surprised how many people might find your function useful as-is or as a starting off point to customize for their own needs.
 
-![](images/RStudio.png){width=0.4in} Exercise.
+#### Exercise: Using a dynamic custom function
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Using our final `lm.function`, determine the linear fits for all geochemical variables for Cruise 12.
 2. Choose a different x variable and determine if any of the Saanich geochemical variables correlate with it.
 
+#### CHALLENGE Exercise: Altering dynamic functions
 ![](images/RStudio.png){width=0.4in} CHALLENGE. You may not have time in this workshop to complete these challenging exercises. However, we encourage you to complete them on your own to test your knowledge of functions and improve your coding skills!
 
 1. How would you alter `lm.function` to accept sub-setting to multiple cruise #s? Hint: Think about using `%in%` when filtering the data.

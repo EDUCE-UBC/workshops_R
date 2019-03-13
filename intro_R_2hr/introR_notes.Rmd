@@ -16,7 +16,7 @@ editor_options:
   chunk_output_type: console
 ---
 # Overview
-In this workshop, we introduce you to R and RStudio at the beginner level. This condensed 2-hour workshop is meant to get you started in R and acts as a pre-requisite for our more advanced workshops. In it, we cover:
+In this workshop, we introduce you to R and RStudio at the beginner level. This condensed 2-hour workshop is meant to get you started in R and acts as a pre-requisite for our other workshops. In it, we cover:
 
 * R and RStudio
 * RStudio projects
@@ -27,10 +27,14 @@ In this workshop, we introduce you to R and RStudio at the beginner level. This 
 * Basic data visualization
 * The help function
 
-We will do all of our work in [RStudio](https://www.rstudio.com/). RStudio is an integrated development and analysis environment for R that brings a number of conveniences over using R in a terminal or other editing environments. You should have both R and RStudio installed, as described in the [setup instructions](setup.html).
+We will do all of our work in [RStudio](https://www.rstudio.com/). RStudio is an integrated development and analysis environment for R that brings a number of conveniences over using R in a terminal or other editing environments.
+
+During the workshop, we will build an R script together, which will be posted as 'live_notes' after the workshop [here](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr).
+
+# Prior to the workshop
+Please [install R](http://www.r-project.org) and [RStudio](https://www.rstudio.com/products/rstudio/download/). See the [setup instructions](setup/introR_setup.html) for more details.
 
 # A Tour of RStudio
-
 When you start RStudio, you will see something like the following window appear:
 
 ![](images/rstudio.png)
@@ -60,9 +64,6 @@ You can either create a project in an existing directory or make a new directory
 
 After your project is created, navigate to its directory using your Finder/File explorer. You will see the `.RProj` file has been created. 
 
-#### Place data in the project directory
-Next, move or save the [`data.csv`](data.csv) file from the workshop materials into the project directory so that we can use it in this workshop.
-
 To access this project in the future, simply double-click the `RProj` and RStudio will open the project or choose File > Open Project from within an already open RStudio window.
 
 ## R Scripts
@@ -91,10 +92,20 @@ After installing a package, and *everytime* you open a new RStudio session, the 
 Since this is something you would need to repeat in future, it should go in your `live_notes.R` script.
 
 ```{r}
+# Data visualization
 library(ggplot2)
 ```
 
 # Getting started
+## Downloading data
+The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshop_data) and since you're working in a Project, saves it in the Project directory on your computer.
+
+```{r}
+write.csv(
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv"),
+  "data.csv", row.names=FALSE)
+```
+
 ## Loading data into an R data frame
 
 One of R's most essential data structures is the data frame, which is simply a table of `m` columns by `n` rows of data. We will read the data shown in Figure 1 into R using the `read.table` function. 
@@ -222,7 +233,7 @@ To practice skills covered in this workshop and prepare for your future R endeav
 1. Install the packages used in the next workshop you plan to attend.
     - The R tidyverse: `tidyverse`, `lubridate`, `cowplot`
     - Intermediate R programming: `tidyverse`, `lmerTest`, `devtools`, `roxygen2`
-    - Statistical models: `tidyverse`, `nycflights13`, `plyr`,`readxl`, `broom`, `gapminder`, `lme4`, `lmerTest`, `lsmeans`, `car`, `MASS`, `HSAUR3`
+    - Statistical models: `tidyverse`, `broom`, `plyr`, `lme4`, `car`, `lsmeans`, ``, `gapminder`, `MASS`, `HSAUR3`
     - Reproducible Research: `tidyverse`, `packrat`
     - None (but to practice package install anyway): `tidyverse`
 

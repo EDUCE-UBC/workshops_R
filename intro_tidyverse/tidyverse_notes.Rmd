@@ -7,38 +7,43 @@ editor_options:
   chunk_output_type: console
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: 4
   html_document:
     toc: yes
     toc_float:
       collapsed: no
     toc_depth: 4
+  pdf_document:
+    toc: yes
+    toc_depth: 4
 ---
 # Overview
-In this workshop series, we will learn to manipulate and visualize real world data using packages in the [tidyverse](https://www.tidyverse.org/). This comprehensive introduction to the tidyverse workshop series is ideal for beginners and assumes introductory prior experience with R (such as that in our [Introduction to R workshop]() link pending). We recommend it be run in three two-hour sessions and have provided a [timeline](HTML/timeline.html) for potential instructors.
+In this workshop series, we will learn to manipulate and visualize real world data using packages in the [tidyverse](https://www.tidyverse.org/).
 
-All code presented in this workshop is contained in the ["main.R"](main.R) R script file. 
-R script files are the primary way in which R facilitates reproducible research.
-You can follow along with the workshop by selecting the relevant line(s) of 
-code and pressing ctrl+enter on Windows, cmd+enter on MacOS, or using the "Run" button in the upper right of your script window to execute it. 
-There are also dedicated spaces in the R script for you to work on the given 
-exercises which are indicated in the markdown with the RStudio logo ![](images/RStudio_logo.png){width=0.4in}.
+You will learn how to:
 
-Please call a TA if you have any problems with executing the 
-code or if you need any help with the exercises. 
+* create an R project and import data from a file into R,
+* create subsets of rows or columns from data frames using dplyr,
+* select pieces of an object by indexing using element names or position,
+* change your data frames between wide and narrow formats,
+* create various types of graphics,
+* modify the various features of a graphic, and
+* save your graphic in various formats
+
+This comprehensive introduction to the tidyverse workshop series is ideal for beginners but assumes some prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr)).
+
+All code presented in this workshop is contained in the ["tidyverse_main.R"](tidyverse_main.R) R script file. R script files are the primary way in which R facilitates reproducible research. You can follow along with the workshop by selecting the relevant line(s) of code and pressing ctrl+enter on Windows, cmd+enter on MacOS, or using the "Run" button in the upper right of your script window to execute it. There are also dedicated spaces in the R script for you to work on the given exercises which are indicated in the markdown with the RStudio logo ![](images/RStudio_logo.png){width=0.4in}.
+
+Please call a TA if you have any problems with executing the code or if you need any help with the exercises. 
 
 # Prior to the workshop
 ## Setup Instructions
 
-Please come to the workshop with your laptop set up with the required
-software and data files as described in our [setup instructions](HTML/setup.html).
+Please come to the workshop with your laptop setup with the required
+software and data files as described in our [setup instructions](setup/tidyverse_setup.html).
 
 ## Background
 
-Please read [Hallam SJ *et al*. 2017. Sci Data 4: 170158](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5663219/) "Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone" to learn more about the data used in this workshop. You can also check out this [short video](https://drive.google.com/file/d/1s6V263-Vj2KQ6rExOBaYn-UDOERyQVGZ/view?usp=sharing) showing how the sampling was done!
-
+Please read [Hallam SJ *et al*. 2017. Sci Data 4: 170158](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5663219/) "Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone" to learn more about the data used in this workshop. You can also check out this [short video](https://youtu.be/XYQSm2Me86I) showing how the sampling was done!
 
 # Data description
 The data in this workshop were collected as part of an on-going oceanographic time series program in Saanich Inlet, a seasonally anoxic fjord on the East coast of Vancouver Island, British Columbia (Figure 1). 
@@ -84,24 +89,32 @@ Projects allow you to divide your work into self-contained contexts.
 
 Let's create a project to work in.
 
-In the top-right corner of your RStudio window, click the "Project: (None)" button to show the projects dropdown menu. Select "New Project..." > "New Directory" > "New Project." Under directory name, input "Advanced_Intro_R" and choose a parent directory to contain this project on your computer.
-
-Then copy or move the provided data files into your project folder.
+In the top-right corner of your RStudio window, click the "Project: (None)" button to show the projects dropdown menu. Select "New Project..." > "New Directory" > "New Project." Under directory name, input "intro_tidyverse" and choose a parent directory to contain this project on your computer.
 
 ## Installing and loading packages
 
 At the beginning of every R script, you should have a dedicated space for loading R packages. R packages allow any R user to code reproducible functions and share them with the R community. Packages exist for anything ranging from microbial ecology to complex graphics to multivariate modeling and beyond. 
 
-In this workshop, we will use several packages within the [tidyverse](https://www.tidyverse.org/), in particular `dplyr` and `ggplot2`. Since these packages are used together so frequently, they can be downloaded and loaded into R all together as the "tidyverse".
+In this workshop, we will use several packages within the [tidyverse](https://www.tidyverse.org/), in particular `dplyr`, `tidyr`, and `ggplot2`. Since these packages are used together so frequently, they can be downloaded and loaded into R all together as the "tidyverse". We will also use the packages `lubridate` and `cowplot`.
 
-The following code checks if the tidyverse and lubridate packages are installed on your system and if not, it will attempt to install them. We will also install cowplot to help us make multi-plot figures. However, we will only be calling a single function from cowplot so we won't load the entire package as it interferes with the tidyverse.
+Here, we load the necessary packages which *must already be installed* (see [setup instructions](setup/tidyverse_setup.html) for details).
 ```{r, message=FALSE}
-if (!require("tidyverse")) install.packages("tidyverse")
-if (!require("lubridate")) install.packages("lubridate")
-
-if (!("cowplot" %in% installed.packages()[, 1])) install.packages("cowplot")
+# Suite of packages for data manipulation and visualization
+library(tidyverse)
+# Special formatting for dates within data
+library(lubridate)
+# Multi-panel figures
+library(cowplot)
 ```
 
+## Downloading data
+The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshop_data) and since you're working in a Project, saves it in the Project directory under the `data` directory on your computer.
+
+```{r}
+write.csv(
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_data.csv"),
+  "data/Saanich_Data.csv", row.names=FALSE)
+```
 
 ## Loading data with readr
 
@@ -419,7 +432,7 @@ dat %>%
 
 ***
 
-End day 1
+If you are attending a 3 x 2-hour workshop, this is the end of day 1
 
 ***
 
@@ -483,6 +496,11 @@ dat %>%
             n=n())
 ```
 
+***
+
+If you are attending a 2 x 3-hour workshop, this is the end of day 1
+
+***
 
 ### Wide and long data - Gather and Spread
 
@@ -626,7 +644,7 @@ dat %>%
 
 ***
 
-End day 2
+If you are attending a 3 x 2-hour workshop, this is the end of day 2
 
 ***
 

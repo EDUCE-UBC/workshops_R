@@ -24,7 +24,18 @@ You will learn how to:
 * Use Git version control
 * Integrate version control with GitHub for both personal and group projects
 
-This workshop series assumes a working knowledge of R similar to the material found in [Introduction to R]().
+This is an intermediate workshop series that assumes prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr)). 
+
+Please call a TA if you have any problems with executing the code or if you need any help with the exercises. 
+
+# Prior to the workshop
+## Setup Instructions
+
+Please come to the workshop with your laptop setup with the required software and data files as described in our [setup instructions](setup/reproducible_research_setup.html).
+
+## Background
+
+Please read [Hallam SJ *et al*. 2017. Sci Data 4: 170158](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5663219/) "Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone" to learn more about the data used in this workshop. You can also check out this [short video](https://youtu.be/XYQSm2Me86I) showing how the sampling was done!
 
 # Terminology
 Reproducibility is purported to be at the heart of science. But what do we mean when we say "reproducible research"? In general, researchers think of replicating an experiment and obtaining the same result (*direct replicability*). However, what we should actually strive for is *true reproduciblity*, reaching the same conclusions through different methods. Moreover, we usually think of the reproducibility of wet lab experiments. It is a somewhat newer movement for researchers to try to make analysis and computational methods reproducible.
@@ -71,7 +82,7 @@ Let's create a project to work in for this workshop. Start by click the "Project
 
 You can either create a project in an existing directory or make a new directory on your computer - just be sure *you* know where it is.
 
-After your project is created, navigate to its directory using your Finder/File explorer. You will see the `.RProj` file has been created. Next, move or save all of the [workshop files from GitHub](https://github.com/EDUCE-UBC/workshops/tree/master/reproducible_research) into the project directory so that we can use it in this workshop.
+After your project is created, navigate to its directory using your Finder/File explorer. You will see the `.RProj` file has been created.
 
 To access this project in the future, simply double-click the `.RProj` file and RStudio will open the project or choose File > Open Project from within an already open RStudio window.
 
@@ -86,9 +97,10 @@ Create a new R script under File > New File > R script and input the following c
 
 ```{r eval=FALSE}
 # load packages
+## Suite of packages for data manipulation and visualization
 library(tidyverse)
 
-# load data
+# load data from our GitHub
 dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_science/master/reproducible_research/data/data.csv")
 
 # create plot of oxygen by depth
@@ -153,6 +165,7 @@ write.csv(dat, "data.csv")
 2. `plot.R`
     ```{r eval=FALSE}
 # load packages
+# Suite of packages for data manipulation and visualization
 library(tidyverse)
 
 # read in data
@@ -244,7 +257,8 @@ Rscript plot.R
 Saving 7 x 7 in image
 ```
 
-### Exercise: *Make*
+#### Exercise: *Make*
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Alter a script and rerun `make`.
     - Change the plotting script slightly by adding `xlab` and `ylab` to rename the axes. Then, rerun `make` from the terminal.
@@ -277,6 +291,7 @@ In general, it is not necessary to initiate `packrat` while you are actively wor
 Otherwise, you an initiate `packrat` in an existing project like so.
 
 ```{r eval=FALSE}
+# Package version control
 library(packrat)
 
 packrat::init()
@@ -315,6 +330,10 @@ packrat::unbundle()
 Of note, most of these functions can also be done from the `packrat` menu that appears in the Packages tab in the lower right quadrant of RStudio.
 
 While we're on the topic of versions, you also need to record the version of R as well as your current computing platform (operating system and hardware architecture) to ensure reproducibility. You can easily print all this information in R with `sessionInfo()`.
+
+***
+
+If you are attending a 3 x 2-hour workshop, this is the end of day 1
 
 ***
 
@@ -389,7 +408,9 @@ There are a few things here that you may find useful in your future reports.
 3. Under the html format, we have specified that we want a table of contents (`toc`) that floats as you scroll through the rendered html document and does not collapse into only high level headings.
 4. Under the pdf format, we have also specified to use a table of contents, though floating and collapsing are not options in this format. In addition, we've changed the rendering language to be `xelatex` as opposed to the default `pdflatex`. In this case, we did this to make `packrat` work with Rmd.
 
-### Exercise: YAML 
+#### Exercise: YAML
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
+
 In your new `.Rmd`, replace the automatically populated header and contents with the following. Don't worry about the contents of the body yet; we'll go over that next.
 
 ```{header2 eval=FALSE}
@@ -492,7 +513,9 @@ All that we've gone over thus far contributes to Rmd static documents, or those 
 
 It may seem silly to write static documents in markdown if you're already familiar with programs like MS Word. However, as you will see when we get to Git, there are some distinct advantages to markdown when it comes to version control. More on this later!
 
-### At home exercise: Rmarkdown
+#### At home exercise: Rmarkdown
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
+
 1. Convert your notes from this workshop into an `.Rmd`.
     - Try use use headings, bold/italic, links, etc.
     
@@ -517,6 +540,7 @@ For example, we can read in the data and packages for this workshop in our Rmark
 
     `r ''````{r}
     # load packages
+    ## Suite of packages for data manipulation and visualization
     library(tidyverse)
 
     # load data
@@ -526,6 +550,7 @@ For example, we can read in the data and packages for this workshop in our Rmark
 ```{r echo=FALSE, message=FALSE}
 #Actually read in the data for Rmd
 # load packages
+## Suite of packages for data manipulation and visualization
 library(tidyverse)
 
 # load data
@@ -565,7 +590,8 @@ which renders to
 
 Now if you change the number of samples in the data frame with all your samples (`dat`), your abstract will fix itself with a simple re-render.
 
-### Exercise: dynamic Rmd
+#### Exercise: dynamic Rmd
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Create a new `.Rmd` and replicate part of our Introduction to R workshop found in the `dynamic_R_challenge.html` document provided.
 
@@ -589,8 +615,16 @@ output: ioslides_presentation
 
 As the syntax of slides is the same as documents, we will not go into detail during this workshop but checkout the slides `.Rmd` in the workshop material to see how slides were made for this workshop!
 
-### At home exercise: slides
+#### At home exercise: Slides
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
+
 1. The next time you have to give lab meeting, present in a class, lead a discussion, etc., try making your slides in Rmd. Once you get some practice, it take no more time than PowerPoint!
+
+***
+
+If you are attending a 2 x 3-hour workshop, this is the end of day 1
+
+***
 
 # Rmd in your workflow
 
@@ -599,6 +633,10 @@ To incorporate Rmd into your reproducible workflow, you can render an `.Rmd` doc
 # Publish with Rpubs.com
 
 [Rpubs.com](http://rpubs.com/) is a free online service from RStudio that let's you put your Rmarkdown documents online with a push of the button. After you register online, you can simply click the "Publish" button (blue dot with 2 blue curves around it) in the upper right corner of the toolbar for your markdown document in RStudio. This sends the rendered html to the site. For some examples, see [here](http://rpubs.com/dillmcfarlan).
+
+***
+
+If you are attending a 3 x 2-hour workshop, this is the end of day 2
 
 ***
 
@@ -734,7 +772,9 @@ On branch master
 nothing to commit, working tree clean
 ```
 
-### Exercise: Git add and commit
+#### Exercise: Git add and commit
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
+
 1. Change a file and commit the new version.
   - Add the following to your `README.md` file, where you fill in your name.
     ```
@@ -874,7 +914,9 @@ Merging works simply if only 1 of the branches being merged has be altered since
 
 You resolve a conflicts by merging, opening the file(s) with conflict(s), editing until you have the version you want, and saving the new, correct merged version with `add and commit`.
 
-### Exercise: branches and conflicts.
+#### Exercise: branches and conflicts
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
+
 1. Create a new_branch2 (since new_branch was already merged into master).
 2. Edit `README.md` in new_branch2 by adding your middle name. Add and commit to this branch.
 3. Edit `README.md` in master by removing your last name. Add and commit to this branch.
@@ -989,7 +1031,9 @@ And use `git status` to compare your local and GitHub versions. Then, if you dec
 git pull
 ```
 
-### Exercise: multiple repo users
+#### Exercise: multiple repo users
+![](images/RStudio_logo.png){width=0.4in} Exercise. 
+
 Now we will similate what is would be like to collaborate on the same repo with another person.
 
 In pairs:
