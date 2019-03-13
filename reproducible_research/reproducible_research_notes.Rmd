@@ -1,6 +1,9 @@
 ---
 title: "Reproducible research"
-author: "Kim Dill-McFarland"
+author: |
+  | Kim Dill-McFarland and Kris Hong
+  | in collaboration with the Applied Statistics and Data science group
+  | U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
   pdf_document:
@@ -11,8 +14,6 @@ output:
     toc_float:
       collapsed: no
 ---
-*adapted from the Applied Statistics and Data Science Group at the U. of British Columbia*  
-
 # Overview
 In this series, we introduce computational reproducibility and its importance to modern research. We will teach the general principles for reproducible computer-based analyses, along with specific methods and tools for reproducibility with [RStudio](https://www.rstudio.com/). We will also introduce version control with [GitHub](https://github.com/), which is an essential tool in a team environment.
 

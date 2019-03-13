@@ -1,8 +1,13 @@
 ---
 title: "Introduction to R"
-author: "Kim Dill-McFarland & Kris Hong"
+author: |
+  | Kim Dill-McFarland, Kris Hong, and Yue Liu
+  | in collaboration with the Applied Statistics and Data science group
+  | U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     toc: yes
     toc_float:

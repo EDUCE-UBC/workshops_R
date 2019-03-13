@@ -7,13 +7,13 @@ editor_options:
   chunk_output_type: console
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: 4
   html_document:
     toc: yes
     toc_float:
       collapsed: no
-    toc_depth: 4
-  pdf_document:
-    toc: yes
     toc_depth: 4
 ---
 # Overview

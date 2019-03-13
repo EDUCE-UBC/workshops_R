@@ -1,11 +1,13 @@
 ---
 title: "Intermediate R programming"
 author: |
-  | Kim Dill-McFarland and
-  | Applied Statistics and Data Science Group
+  | Kim Dill-McFarland
+  | in collaboration with the Applied Statistics and Data science group
   | U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     toc: yes
     toc_float:

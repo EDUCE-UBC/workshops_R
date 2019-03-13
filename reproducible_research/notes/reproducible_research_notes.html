@@ -9,7 +9,6 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Kim Dill-McFarland" />
 
 
 <title>Reproducible research</title>
@@ -289,13 +288,14 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Reproducible research</h1>
-<h4 class="author"><em>Kim Dill-McFarland</em></h4>
-<h4 class="date"><em>version February 05, 2019</em></h4>
+<h4 class="author"><em><div style="white-space: pre-line;">Kim Dill-McFarland and Kris Hong
+in collaboration with the Applied Statistics and Data science group
+U. of British Columbia</div></em></h4>
+<h4 class="date"><em>version March 12, 2019</em></h4>
 
 </div>
 
 
-<p><em>adapted from the Applied Statistics and Data Science Group at the U. of British Columbia</em></p>
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <p>In this series, we introduce computational reproducibility and its importance to modern research. We will teach the general principles for reproducible computer-based analyses, along with specific methods and tools for reproducibility with <a href="https://www.rstudio.com/">RStudio</a>. We will also introduce version control with <a href="https://github.com/">GitHub</a>, which is an essential tool in a team environment.</p>
@@ -725,7 +725,11 @@ library(tidyverse)
 dat &lt;- read.csv(&quot;https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_science/master/reproducible_research/data/data.csv&quot;)
 ```</code></pre>
 <pre><code>## Warning: package 'tibble' was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package 'tidyr' was built under R version 3.5.2</code></pre>
 <pre><code>## Warning: package 'purrr' was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package 'dplyr' was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package 'stringr' was built under R version 3.5.2</code></pre>
+<pre><code>## Warning: package 'forcats' was built under R version 3.5.2</code></pre>
 <p>Chunks have lots of <a href="https://yihui.name/knitr/options/">customizable options</a> that impact how their output looks in the rendered document like whether or not to show the underlying R code or warnings or messages, figure size, etc.</p>
 <p>You can also use other languages in code chunks. For example, python scripts can be inserted and run directly in an Rmarkdown by creating the corresponding chunk.</p>
 <pre><code>```{python}
