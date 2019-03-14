@@ -1,27 +1,51 @@
 ---
-title: "Setup Instructions"
+title: "Setup instructions"
 output:
   html_document:
-    df_print: paged
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 # For all users
-Please contact the instructors or ECOSCOPE at <info.ecoscope@ubc.ca> if you run into difficulties so we can help you setup your computer properly. There will not be time to troubleshoot issues during the workshop.
+You need to install and test R and RStudio before the workshop. The installation process is simple on all major platforms, and mostly consists of downloading and running the installers appropriate to your platform. Please contact the instructors if you run into difficulties so we can help you show up with a computer properly set up for the workshop.
 
 ## R and RStudio
 
-1. Download and [install R](http://www.r-project.org), a free software environment for statistical computing and graphics from [CRAN](http://cran.rstudio.com), the Comprehensive R Archive Network.
-    - It is *highly recommended* to install a precompiled binary distribution for your operating system -- use the links up at the top of the CRAN page linked above!
-    - If you currently have R installed on your laptop, please make sure it is version 3.4.0 or later. **Please update if it is not!**
-2. [Install RStudio](https://www.rstudio.com/products/rstudio/download/), a powerful user interface for R.
-3. Do whatever is appropriate for your OS to launch RStudio. You should get a window similar to the screenshot below.
+* [Install R](http://www.r-project.org), a free software environment for statistical computing and graphics.
+      + It is _highly recommended_ to install a precompiled binary distribution for your operating system -- use the links up at the top of the page linked to above!
+    + If you currently have R installed on your laptop, please make sure it is version 3.4.0 or later. *Please update if it is not!*
+* [Install RStudio](https://www.rstudio.com/products/rstudio/download/), a powerful user interface for R.
+
+## Testing testing
+
+1. Do whatever is appropriate for your OS to launch RStudio. You should get a window similar to the screenshot below.
+    +  If you don't see a window that is divided into distinct areas labelled "Console", "Environment", etc., you are probably running the user interface that comes bundled with R. Check that RStudio ![](images/RStudio_logo.png){width=0.4in} is present in your applications and start it instead.
   
-  ![](images/rstudio.png)
+  ![](images/rstudio.png){width=70%}
+  \ 
+  
+2. Put your cursor in the left pane labelled "Console", which is where you interact with the live R process. Create a simple object with code like `x <- 2 * 4` (followed by enter or return). In the "Environment" pane, to the right of the Console, you should see an entry for "x" with appropriate value (in this case, 8).
+  
+3. Then inspect the `x` object by typing `x` in the Console followed by enter or return. You should see the value 8 printed to the screen.
 
-If you don't see a window that is divided into distinct areas labelled "Console", "Environment", etc., you are probably running the user interface that comes bundled with R. Check that RStudio is present in your applications and start it instead.
+4. Finally, check that plotting works. In the console, type `plot(cars)`. If you see a scatterplot appear in the "Plots" pane to the lower right,  you are good to go.
 
-## R packages
-Please install the following packages in RStudio.
+## Add-on packages
+R is an extensible system and many people share useful code they have developed as a _package_ via the Comprehensive R Archive Network [CRAN](https://cran.r-project.org/), [Bioconductor](https://www.bioconductor.org/), or personal GitHub repositories. 
+
+To install a package in RStudio:
+
+1. Go to the "Tools" menu and choose "Install Packages" or click "Install" in the Packages area in the lower right pane of RStudio.
+2. The following window appears
+
+  ![](images/packages.png){width=40%}
+  \ 
+  
+3. Enter the name of the desired package
+    + The checkmark by "Install dependencies" should be **on**.
+4. Click on the "Install" button
+
+Please install the following packages and their dependencies for use in this workshop:
 
 * tidyverse
     - *Please note that if you have __R v3.3 or older__, you may not be able to install `tidyverse`. In this case, you need to separately install each package within the tidyverse. This includes:* `readr`, `tibble`, `dplyr`, `tidyr`, `stringr`, `ggplot2`, `purr`, `forcats`
