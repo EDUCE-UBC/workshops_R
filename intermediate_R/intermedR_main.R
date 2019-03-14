@@ -7,20 +7,16 @@ library(devtools)
 library(roxygen2)
 
 ################################################################################
-# loading and cleaning data
+# download and load data
 # See The R tidyverse workshop for details
 ################################################################################
-raw_data <- read_csv(file="Saanich_Data.csv",
-                     col_names=TRUE,
-                     na=c("", "NA", "NAN", "ND"))
+write.csv(
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data_clean.csv"),
+  "data/Saanich_Data_clean.csv", row.names=FALSE)
 
-dat <- raw_data %>%
-  select(Cruise, Date, Depth, 
-         Temperature, Salinity, Density, 
-         WS_O2, WS_NO3, WS_H2S) %>%
-  filter(Date >= "2008-02-01") %>%
-  rename(O2=WS_O2, NO3=WS_NO3, H2S=WS_H2S) %>%
-  mutate(Depth=Depth*1000)
+dat <- read_csv(file="data/Saanich_Data_clean.csv",
+                col_names=TRUE,
+                na=c("", "NA", "NAN", "ND"))
 
 ################################################################################
 # Classes and attributes of objects
@@ -74,7 +70,7 @@ attributes(class)
 # Graphics
 ## Save a graphic to an object
 p1 <- dat %>% 
-  ggplot(aes(x=O2, y=Depth)) +
+  ggplot(aes(x=O2_uM, y=Depth_m)) +
   geom_point() +
   geom_smooth(method="lm") + 
   scale_y_reverse(limits=c(200, 0)) +
@@ -87,7 +83,7 @@ class(p1)
 attributes(p1)
 
 # Statistical models
-m1 <- lm(O2 ~ Depth, data=dat)
+m1 <- lm(O2_uM ~ Depth_m, data=dat)
 m1
 class(m1)
 attributes(m1)
@@ -167,7 +163,7 @@ m1$coefficients
 # S4 objects
 ################################################################################
 # linear mixed effects model (lmer)
-m3 <- lmer(O2 ~ Cruise + (0 + Cruise | Depth), dat)
+m3 <- lmer(O2_uM ~ Cruise + (0 + Cruise | Depth_m), dat)
 
 class(m3)
 mode(m3)
@@ -370,7 +366,7 @@ y
 # Subset the data
 dat.subset <- dat %>% filter(Cruise == 72)
 # Fit a linear model
-model <- lm(dat.subset$O2 ~ dat.subset$Depth)
+model <- lm(dat.subset$O2_uM ~ dat.subset$Depth_m)
 # Sumamrize the model
 sum <- summary(model)
 sum
@@ -387,7 +383,7 @@ print(pval)
 lm.function <- function(data, y){ ###
   dat.subset <- data %>% filter(Cruise == 72)
   
-  model <- lm(dat.subset[[y]] ~ dat.subset$Depth) ###
+  model <- lm(dat.subset[[y]] ~ dat.subset$Depth_m) ###
   
   sum <- summary(model)
   
@@ -397,7 +393,7 @@ lm.function <- function(data, y){ ###
 } ###
 
 # Test the function
-lm.function(data=dat, y="O2")
+lm.function(data=dat, y="O2_uM")
 
 # All possible inputs of data, cruise #, x and Y variables
 lm.function <- function(data, cruise, x, y){ ###
@@ -413,7 +409,7 @@ lm.function <- function(data, cruise, x, y){ ###
 }
 
 # Test the function
-lm.function(data=dat, cruise=72, x="Depth", y="O2")
+lm.function(data=dat, cruise=72, x="Depth_m", y="O2_uM")
 
 ################################################################################
 # Building a function
@@ -434,7 +430,7 @@ lm.function <- function(data, cruise, x, y){
 }
 
 # Test the function
-lm.function(data=dat, cruise=72, x="Depth", y="O2")
+lm.function(data=dat, cruise=72, x="Depth_m", y="O2_uM")
 
 ################################################################################
 # Building a function
@@ -503,17 +499,17 @@ lm.function <- function(data, cruise, x, y){
 }
 
 # Test the function
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2","NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM","NO3_uM"))
 
 # Compare results to calculations "by-hand"
 dat.subset <- dat %>% filter(Cruise == 72)
 # Oxygen
-model <- lm(dat.subset$O2 ~ dat.subset$Depth)
+model <- lm(dat.subset$O2_uM ~ dat.subset$Depth_m)
 sum <- summary(model)
 pval <- sum$coefficients[,"Pr(>|t|)"]
 print(pval)
 # Nitrate
-model <- lm(dat.subset$NO3 ~ dat.subset$Depth)
+model <- lm(dat.subset$NO3_uM ~ dat.subset$Depth_m)
 sum <- summary(model)
 pval <- sum$coefficients[,"Pr(>|t|)"]
 print(pval)
@@ -560,7 +556,7 @@ lm.function <- function(data, cruise, x, y){
 }
 
 # Test the function
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 # View the saved results
 pval
 
@@ -590,7 +586,7 @@ pval <<- do.call(rbind,pval) ###
 }
 
 # Test the function
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 # View the output
 pval
 
@@ -627,7 +623,7 @@ lm.function <- function(data, cruise, x, y){
     rename_at(vars(colnames(pval)), ~c("Intercept.p", "Depth.p")) ###
 }
 
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 
 ## ERROR
 
@@ -660,7 +656,7 @@ lm.function <- function(data, cruise, x, y){
 }
 
 # Test the function
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 # View the output
 pval
 
@@ -705,9 +701,9 @@ assign(table.name, pval, envir = .GlobalEnv) ###
 }
 
 # Test the function
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 # View the result. Note the new object name!
-Depth_lm_pvals
+Depth_m_lm_pvals
 
 ################################################################################
 # Building a function
@@ -734,8 +730,8 @@ You should have received a copy of the GNU General Public License along with thi
 INPUTS
 data: a data.frame or tibble containing variables of interest
 cruise: Cruise # for subsetting data, 18-100 available in current data
-x: x-variable in lm, for example 'Depth'
-y: y-variables in lm, for example c('O2', 'NO3')
+x: x-variable in lm, for example 'Depth_m'
+y: y-variables in lm, for example c('O2_uM', 'NO3_uM')
 
 OUTPUTS
 data frame of p-values named [x]_lm_pvals
@@ -828,17 +824,11 @@ devtools::load_all()
 # Test that it works on the previous data
 library(tidyverse)
 
-dat <- read_csv(file="../Saanich_Data.csv",
+dat <- read_csv(file="../Saanich_Data_clean.csv",
                 col_names=TRUE,
-                na=c("", "NA", "NAN", "ND")) %>% 
-  select(Cruise, Date, Depth, 
-         Temperature, Salinity, Density, 
-         WS_O2, WS_NO3, WS_H2S) %>%
-  filter(Date >= "2008-02-01") %>%
-  rename(O2=WS_O2, NO3=WS_NO3, H2S=WS_H2S) %>%
-  mutate(Depth=Depth*1000)
+                na=c("", "NA", "NAN", "ND"))
 
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 read_csv("Depth_lm_pvals.csv")
 
 # Run a full check of you package including file paths, dependencies, etc.

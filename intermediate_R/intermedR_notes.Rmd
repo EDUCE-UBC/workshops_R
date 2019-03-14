@@ -16,6 +16,8 @@ output:
   pdf_document:
     toc: yes
     toc_depth: 4
+    latex_engine: xelatex
+urlcolor: blue
 ---
 # Overview
 In this workshop, you will learn to use R as a programming environment, allowing you to write more complex, yet clearer data analysis code. We will teach you three fundamental concepts of R programming: classes, functions, and packages.
@@ -49,6 +51,7 @@ The data in this workshop were collected as part of an on-going oceanographic ti
 <br>
 <br>
 ![](images/Saanich.png){width=4in}
+/ 
 
 **Figure 1.** Map of Saanich Inlet indicating conventional sample collection stations (S1-S9). Data used in this workshop is sourced from S3.
 <br>
@@ -59,6 +62,7 @@ Saanich Inlet is a steep sided fjord characterized by a shallow glacial sill loc
 <br>
 <br>
 ![](images/Inlet_structure.png)
+/ 
 
 **Figure 2.** Structure of Saanich Inlet. The glacial sill restricts water circulation into and out of the lower depth of the inlet basin.
 <br>
@@ -69,6 +73,7 @@ During spring and summer months, elevated primary production (like photosynthesi
 <br>
 <br>
 ![](images/oxygen_timeseries.png)
+/ 
 
 **Figure 3.** Contour plot of water column oxygen concentrations over multiple years in the time series. Warmer colors indicate high oxygen concentrations while cooler colors are low. Note the recurring pattern of oxygen decline below 100 m depth intervals followed by seasonal renewal events in late Summer into early Fall carrying more oxygenated waters into the Inlet. 
 <br>
@@ -96,7 +101,7 @@ At the beginning of every R script, you should have a dedicated space for loadin
 In this workshop, we will use several packages within the [tidyverse](https://www.tidyverse.org/) as well as several development tools listed below.
 
 Here, we load the necessary packages which *must already be installed* (see [setup instructions](setup/intermedR_setup.html) for details).
-```{r, message=FALSE}
+```{r, message=FALSE, warning=FALSE}
 # Suite of packages for data manipulation and visualization
 library(tidyverse)
 # Linear mixed effects models
@@ -111,7 +116,7 @@ The following command downloads the data from our [GitHub](https://github.com/ED
 
 ```{r}
 write.csv(
-  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_data_clean.csv"),
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data_clean.csv"),
   "data/Saanich_Data_clean.csv", row.names=FALSE)
 ```
 
@@ -119,7 +124,7 @@ write.csv(
 Let's start by reading in the data we will use for this workshop. Here, we specify that the data file is named "Saanich_Data_clean.csv". Furthermore, we specify that the first row of the data contain variable names, and that empty, NA, NAN, or ND values should be treated by R as missing data (coded in R as NA). 
 
 ```{r}
-raw_data <- read_csv(file="data/Saanich_Data_clean.csv",
+dat <- read_csv(file="data/Saanich_Data_clean.csv",
                      col_names=TRUE,
                      na=c("", "NA", "NAN", "ND"))
 ```
@@ -210,7 +215,7 @@ attributes(class)
 #### Graphics
 ```{r warning=FALSE}
 p1 <- dat %>% 
-  ggplot(aes(x=O2, y=Depth)) +
+  ggplot(aes(x=O2_uM, y=Depth_m)) +
   geom_point() +
   geom_smooth(method="lm") + 
   scale_y_reverse(limits=c(200, 0)) +
@@ -225,7 +230,7 @@ attributes(p1)
 
 #### Statistical models
 ```{r}
-m1 <- lm(O2 ~ Depth, data=dat)
+m1 <- lm(O2_uM ~ Depth_m, data=dat)
 
 m1
 class(m1)
@@ -311,7 +316,7 @@ methods(class="data.frame")
 ![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. Obtain the summary table of `dat`. What are its class and attributes?
-2. Read in the raw data table `Saanich_Data.csv` using the base R function `read.table`. What are this object's class and attributes? Are they any different from the object create when we used `read_csv` to read in the same data?
+2. Read in the data table `Saanich_Data.csv` using the base R function `read.table`. What are this object's class and attributes? Are they any different from the object create when we used `read_csv` to read in the same data?
 
 ### The R list object
 You have already worked with an R list object - the data frame. When you call a specific variable in a data frame with `dataframe$variable`, you are actually calling the vector of the `variable` contained within the **list of vectors** that make up the  `dataframe.` This can apply more generally to any list object with `listName$elementName`.
@@ -356,7 +361,7 @@ So far, everything we've talked about has been S3 objects. However, there is ano
 S4 objects operate differently than S3, so let's see an example with `lmer` (linear mixed effects model) from the `lmerTest` package. Here, we will determine if oxygen concentration in Saanich Inlet differs by year (represented by Cruise #) knowing that we repeatedly measured the same depths over time.
 
 ```{r}
-m3 <- lmer(O2 ~ Cruise + (0 + Cruise | Depth), dat)
+m3 <- lmer(O2_uM ~ Cruise + (0 + Cruise | Depth_m), dat)
 
 class(m3)
 mode(m3)
@@ -648,7 +653,7 @@ In this case, we need to
 ```{r}
 dat.subset <- dat %>% filter(Cruise == 72)
 
-model <- lm(dat.subset$O2 ~ dat.subset$Depth)
+model <- lm(dat.subset$O2_uM ~ dat.subset$Depth_m)
 
 sum <- summary(model)
 sum
@@ -665,7 +670,7 @@ Now, the simplest function to complete this task only needs `y` (the geochemical
 lm.function <- function(data, y){ ###
   dat.subset <- data %>% filter(Cruise == 72)
 
-  model <- lm(dat.subset[[y]] ~ dat.subset$Depth) ###
+  model <- lm(dat.subset[[y]] ~ dat.subset$Depth_m) ###
 
   sum <- summary(model)
   
@@ -674,7 +679,7 @@ lm.function <- function(data, y){ ###
   print(pval)
 } ###
 
-lm.function(data=dat, y="O2")
+lm.function(data=dat, y="O2_uM")
 ```
 
 However, to make this function more robust (and thus, useful in other situations), let's allow the user to change multiple inputs including the Cruise as well as x and y in the linear model.
@@ -692,7 +697,7 @@ lm.function <- function(data, cruise, x, y){ ###
   print(pval)
 }
 
-lm.function(data=dat, cruise=72, x="Depth", y="O2")
+lm.function(data=dat, cruise=72, x="Depth_m", y="O2_uM")
 ```
 
 Importantly, we can compare the outputs of Steps 1 and 2 to verify that our function is completing the correct task.
@@ -717,7 +722,7 @@ lm.function <- function(data, cruise, x, y){
   print(pval)
 }
 
-lm.function(data=dat, cruise=72, x="Depth", y="O2")
+lm.function(data=dat, cruise=72, x="Depth_m", y="O2_uM")
 ```
 
 ## Step 4: Start your documentation
@@ -795,7 +800,7 @@ lm.function <- function(data, cruise, x, y){
   }
 }
 
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2","NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM","NO3_uM"))
 ```
 
 And with this added complexity, we want to check that our function is still completing its tasks correctly. So, we should compare the function's output to the same tasks by-hand.
@@ -803,12 +808,12 @@ And with this added complexity, we want to check that our function is still comp
 ```{r}
 dat.subset <- dat %>% filter(Cruise == 72)
 
-model <- lm(dat.subset$O2 ~ dat.subset$Depth)
+model <- lm(dat.subset$O2_uM ~ dat.subset$Depth_m)
 sum <- summary(model)
 pval <- sum$coefficients[,"Pr(>|t|)"]
 print(pval)
 
-model <- lm(dat.subset$NO3 ~ dat.subset$Depth)
+model <- lm(dat.subset$NO3_uM ~ dat.subset$Depth_m)
 sum <- summary(model)
 pval <- sum$coefficients[,"Pr(>|t|)"]
 print(pval)
@@ -862,7 +867,7 @@ lm.function <- function(data, cruise, x, y){
   pval <<- pval ###
 }
  
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 pval
 ```
 
@@ -891,7 +896,7 @@ lm.function <- function(data, cruise, x, y){
   pval <<- do.call(rbind,pval) ###
 }
  
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 pval
 ```
 
@@ -926,7 +931,7 @@ lm.function <- function(data, cruise, x, y){
     rename_at(vars(colnames(pval)), ~c("Intercept.p", "Depth.p")) ###
 }
  
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 ```
 
 However, our data output is current a matrix and the tidyverse only works on data frames. Thus, we need to reformat `pval`.
@@ -958,7 +963,7 @@ lm.function <- function(data, cruise, x, y){
     rename_at(vars(colnames(pval)), ~c("Intercept.p", "Depth.p"))
 }
  
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 pval
 ```
 
@@ -1001,8 +1006,8 @@ lm.function <- function(data, cruise, x, y){
   assign(table.name, pval, envir = .GlobalEnv) ###
 }
  
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
-Depth_lm_pvals
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
+Depth_m_lm_pvals
 ```
 
 Now we have a very robust function that we can use to fit linear models across any variables in our data set!
@@ -1031,8 +1036,8 @@ You should have received a copy of the GNU General Public License along with thi
 INPUTS
 data: a data.frame or tibble containing variables of interest
 cruise: Cruise # for subsetting data, 18-100 available in current data
-x: x-variable in lm, for example 'Depth'
-y: y-variables in lm, for example c('O2', 'NO3')
+x: x-variable in lm, for example 'Depth_m'
+y: y-variables in lm, for example c('O2_uM', 'NO3_uM')
 
 OUTPUTS
 data frame of p-values named [x]_lm_pvals
@@ -1278,17 +1283,11 @@ And then test out new function! Since we are now working in the package project,
 ```{r eval=FALSE}
 library(tidyverse)
 
-dat <- read_csv(file="../data/Saanich_Data.csv",
+dat <- read_csv(file="../data/Saanich_Data_clean.csv",
                      col_names=TRUE,
-                     na=c("", "NA", "NAN", "ND")) %>% 
-  select(Cruise, Date, Depth, 
-         Temperature, Salinity, Density, 
-         WS_O2, WS_NO3, WS_H2S) %>%
-  filter(Date >= "2008-02-01") %>%
-  rename(O2=WS_O2, NO3=WS_NO3, H2S=WS_H2S) %>%
-  mutate(Depth=Depth*1000)
+                     na=c("", "NA", "NAN", "ND"))
 
-lm.function(data=dat, cruise=72, x="Depth", y=c("O2", "NO3"))
+lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 Depth_lm_pvals
 ```
 
@@ -1334,3 +1333,7 @@ If you then wanted to [upload to CRAN](https://cran.r-project.org/submit.html) o
 End day 3
 
 ***
+
+# Survey
+
+Please provide us with feedback through this [short survey](https://ubc.ca1.qualtrics.com/jfe/form/SV_2tOcP5OKnCNyauV).
