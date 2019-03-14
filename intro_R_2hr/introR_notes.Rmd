@@ -6,12 +6,12 @@ author: |
   | U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     toc: yes
     toc_float:
       collapsed: no
+  pdf_document:
+    toc: yes
 editor_options:
   chunk_output_type: console
 ---
@@ -38,6 +38,7 @@ Please [install R](http://www.r-project.org) and [RStudio](https://www.rstudio.c
 When you start RStudio, you will see something like the following window appear:
 
 ![](images/rstudio.png)
+/ 
 
 Notice that the window is divided into three "panes":
 
@@ -58,7 +59,8 @@ RStudio has a simple interface to create and switch between projects, accessed f
 #### Create a Project
 Let's create a project to work in for this workshop. Start by click the "Project" button in the upper right or going to the "File" menu. Select "New Project" and the following will appear.
 
-![](images/new.project1.png){width=50%} 
+![](images/new.project1.png){width=50%}
+/ 
 
 You can either create a project in an existing directory or make a new directory on your computer - just be sure you know where it is.
 
@@ -111,6 +113,7 @@ write.csv(
 One of R's most essential data structures is the data frame, which is simply a table of `m` columns by `n` rows of data. We will read the data shown in Figure 1 into R using the `read.table` function. 
 
 ![Figure 1. Introduction to R data frame](images/DataFrame.png)
+/ 
 
 Each R function follows the following basic syntax, where `Function` is the name of the function.
 
@@ -233,7 +236,7 @@ To practice skills covered in this workshop and prepare for your future R endeav
 1. Install the packages used in the next workshop you plan to attend.
     - The R tidyverse: `tidyverse`, `lubridate`, `cowplot`
     - Intermediate R programming: `tidyverse`, `lmerTest`, `devtools`, `roxygen2`
-    - Statistical models: `tidyverse`, `broom`, `plyr`, `lme4`, `car`, `lsmeans`, ``, `gapminder`, `MASS`, `HSAUR3`
+    - Statistical models: `tidyverse`, `broom`, `plyr`, `lme4`, `car`, `lsmeans`, `MASS`, `faraway`, `gapminder`, `HSAUR3`
     - Reproducible Research: `tidyverse`, `packrat`
     - None (but to practice package install anyway): `tidyverse`
 
