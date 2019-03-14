@@ -15,6 +15,7 @@ output:
   pdf_document:
     toc: yes
     toc_depth: 4
+urlcolor: blue
 ---
 # Overview
 In this workshop series, we will learn to manipulate and visualize real world data using packages in the [tidyverse](https://www.tidyverse.org/).
@@ -51,6 +52,7 @@ The data in this workshop were collected as part of an on-going oceanographic ti
 <br>
 <br>
 ![](images/Saanich.png){width=4in}
+/ 
 
 **Figure 1.** Map of Saanich Inlet indicating conventional sample collection stations (S1-S9). Data used in this workshop is sourced from S3.
 <br>
@@ -61,6 +63,7 @@ Saanich Inlet is a steep sided fjord characterized by a shallow glacial sill loc
 <br>
 <br>
 ![](images/Inlet_structure.png)
+/ 
 
 **Figure 2.** Structure of Saanich Inlet. The glacial sill restricts water circulation into and out of the lower depth of the inlet basin.
 <br>
@@ -71,6 +74,7 @@ During spring and summer months, elevated primary production (like photosynthesi
 <br>
 <br>
 ![](images/oxygen_timeseries.png)
+/ 
 
 **Figure 3.** Contour plot of water column oxygen concentrations over multiple years in the time series. Warmer colors indicate high oxygen concentrations while cooler colors are low. Note the recurring pattern of oxygen decline below 100 m depth intervals followed by seasonal renewal events in late Summer into early Fall carrying more oxygenated waters into the Inlet. 
 <br>
@@ -112,7 +116,7 @@ The following command downloads the data from our [GitHub](https://github.com/ED
 
 ```{r}
 write.csv(
-  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_data.csv"),
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data.csv"),
   "data/Saanich_Data.csv", row.names=FALSE)
 ```
 

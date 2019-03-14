@@ -1,12 +1,16 @@
 ################################################################################
-# load and install packages
+# load packages
 ################################################################################
-# if the named package is not installed then install it
-if (!require("tidyverse")) install.packages("tidyverse")
-if (!require("lubridate")) install.packages("lubridate")
+library(tidyverse)
+library(lubridate)
+library(cowplot)
 
-# install cowplot but DO NOT load it
-if (!("cowplot" %in% installed.packages()[, 1])) install.packages("cowplot")
+################################################################################
+# download data
+################################################################################
+write.csv(
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data.csv"),
+  "data/Saanich_Data.csv", row.names=FALSE)
 
 ################################################################################
 # loading data with readr
