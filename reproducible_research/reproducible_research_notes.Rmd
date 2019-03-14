@@ -6,13 +6,14 @@ author: |
   | U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
-  pdf_document:
-    toc: yes
-    latex_engine: xelatex
   html_document:
     toc: yes
     toc_float:
       collapsed: no
+  pdf_document:
+    toc: yes
+    latex_engine: xelatex
+urlcolor: blue
 ---
 # Overview
 In this series, we introduce computational reproducibility and its importance to modern research. We will teach the general principles for reproducible computer-based analyses, along with specific methods and tools for reproducibility with [RStudio](https://www.rstudio.com/). We will also introduce version control with [GitHub](https://github.com/), which is an essential tool in a team environment.
@@ -79,6 +80,7 @@ RStudio has a simple interface to create and switch between projects, accessed f
 Let's create a project to work in for this workshop. Start by click the "Project" button in the upper right or going to the "File" menu. Select "New Project" and the following will appear.
 
 ![](images/new.project1.png){width=50%} 
+\ 
 
 You can either create a project in an existing directory or make a new directory on your computer - just be sure *you* know where it is.
 
@@ -101,7 +103,7 @@ Create a new R script under File > New File > R script and input the following c
 library(tidyverse)
 
 # load data from our GitHub
-dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_science/master/reproducible_research/data/data.csv")
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
 
 # create plot of oxygen by depth
 O2_plot <- quickplot(data=dat,
@@ -155,7 +157,7 @@ And the individual step scripts could be
 1. `load.R`
     ```{r eval=FALSE}
 # load data
-dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_science/master/reproducible_research/data/data.csv")
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
     
 write.csv(dat, "data.csv")
     ```
@@ -287,6 +289,7 @@ Fear not! R users realized this issue and developed the `packrat` package to dea
 In general, it is not necessary to initiate `packrat` while you are actively working on a project on your own (since you know whether or not your code works on your machine with your versions of everything). However, it can be useful to use it right from the start if you are actively collaborating with others. Once you've installed the `packrat` package, you have the option to initiate it when you make a New Project.
 
 ![](images/new.project2.png){width=50%}
+\ 
 
 Otherwise, you an initiate `packrat` in an existing project like so.
 
@@ -385,7 +388,7 @@ The header must be at the start of the document and be encased by `---`. As you 
 
 You can expand the header to customize your rendered document's appearance. For example, here is the header for this notes document.
 
-```{header1 eval=FALSE}
+```{}
 ---
 title: "Reproducible research"
 author: "Kim Dill-McFarland"
@@ -413,7 +416,7 @@ There are a few things here that you may find useful in your future reports.
 
 In your new `.Rmd`, replace the automatically populated header and contents with the following. Don't worry about the contents of the body yet; we'll go over that next.
 
-```{header2 eval=FALSE}
+```{}
 ---
 title: "Learning Rmarkdown"
 author: "Your Name"
@@ -544,17 +547,17 @@ For example, we can read in the data and packages for this workshop in our Rmark
     library(tidyverse)
 
     # load data
-    dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_science/master/reproducible_research/data/data.csv")
+    dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
     ```
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 #Actually read in the data for Rmd
 # load packages
 ## Suite of packages for data manipulation and visualization
 library(tidyverse)
 
 # load data
-dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_science/master/reproducible_research/data/data.csv")
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
 ```
 
 Chunks have lots of [customizable options](https://yihui.name/knitr/options/) that impact how their output looks in the rendered document like whether or not to show the underlying R code or warnings or messages, figure size, etc.
@@ -649,6 +652,7 @@ One method of version control you may have employed in the past is dated or vers
 And heaven forbid you stamp a file with `final`!
 
 ![http://www.phdcomics.com/comics/archive.php?comicid=1531](images/phdcomics-final.png)
+\ 
 
 ## Why Git?
 
@@ -672,6 +676,7 @@ Specifically, we are using Git, as opposed to another program, because it:
 All Git functions are accessed from the command line with `git` followed by the function name like `git init`. You do not need to open a specific program other than your terminal. The commands used in this section are summarized in the following infographic. Please refer to it as we progress through the examples.
 
 ![](images/Git_basic.png)
+\ 
 
 ### Initialize a repo (`git init`)
 Git will not implement version control on your files until you tell it to do so. This is accomplished by initializing a repository with `init`.
@@ -787,6 +792,7 @@ nothing to commit, working tree clean
 Since we are working with a single, small file in a small repo, it is easy to remember what versions are where. However, as you make larger files and repos, sometimes you will not know this. So, Git has functions for comparing versions.
 
 ![](images/Git_compare.png)
+\ 
 
 Your `git status` should be up-to-date after the previous exercise. Now let's create some differing versions in our local, index, and repo.
 
@@ -876,6 +882,7 @@ index 0000000..862c717
 
 ## Branches (`git checkout -b`)
 ![](images/Git_branch.png)
+\ 
 
 One of the best ways to avoid the need to undo anything in Git is to use branches. These are copies of your repo that you can work on independently of the "master" without impacting the master but still version control changes as you go. You can then choose to merge the branch with the master if you want to keep those changes or abandon the branch and go back the to the master if you do not want to keep those changes.
 
@@ -957,6 +964,7 @@ To checkout more functionalities in Git, see a [list of all Git commands](https:
 [GitHub](https://github.com/) is a web service for hosting Git repositories - content and version history. It has web and GUI interfaces as well as many tools for facilitating collaboration within repos.
 
 ![](images/GitHub.png)
+\ 
 
 Similar to our decision to use Git, GitHub finds much of its strength in that is is widely popular and easy to use. If you make the choice to use Git, then GitHub is the natural choice for hosting and collaboration.
 
@@ -974,10 +982,12 @@ git config --global user.email "youremail@email.com"
 Next we will make an online GitHub repo to link our local repo to. In a browser, navigate to your [GitHub](https://github.com/) account homepage and click "New repository".
 
 ![](images/new_repo.png){width=50%}
+\ 
 
 Name the repo `TestRepo` and create it. GitHub then gives you the URL for this repo. 
 
 ![](images/repoURL.png)
+\ 
 
 ### Link local and online repo (`git remote`)
 
@@ -1049,14 +1059,17 @@ After all this command line work, we now reveal to you that you can use Git in [
 You can explore all the repos on your computer,
 
 ![](images/GitHubGUI1.png){width=50%}
+\ 
 
 see specific changes to text based files,
 
 ![](images/GitHubGUI2.png)
+\ 
 
 and add, commit, push from the GUI.
 
 ![](images/GitHubGUI3.png){width=50%}
+\ 
 
 # Git in RStudio
 Working in an R project in a directory that is also a Git repo will reveal a Git tab in the upper right quadrant of RStudio.
@@ -1066,6 +1079,7 @@ To see this, close and then move your workshop project directory into your `Test
 You will see that similar to the GitHub GUI you can see `diff` and `commit` changes directly from RStudio as well as see a summary (M: modify, D: delete, ?: add) of changes in the project since your last commit.
 
 ![](images/RStudio_Git.png){width=75%}
+\ 
 
 # Additional resources
 #### Reproducible research
@@ -1086,3 +1100,7 @@ You will see that similar to the GitHub GUI you can see `diff` and `commit` chan
 - [Git help](https://help.github.com/)
 - [Build a web site from a repo!](https://pages.github.com/)
 - Explore [private repositories](https://github.com/pricing) and [organizations](https://help.github.com/articles/about-organizations/)
+
+# Survey
+
+Please provide us with feedback through this [short survey](https://ubc.ca1.qualtrics.com/jfe/form/SV_2tOcP5OKnCNyauV).

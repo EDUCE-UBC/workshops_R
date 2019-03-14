@@ -2,7 +2,7 @@
 library(tidyverse)
 
 # load data
-dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_data_science/master/reproducible_research/data/data.csv")
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
 
 # create plot of oxygen by depth
 O2_plot <- quickplot(data=dat,
