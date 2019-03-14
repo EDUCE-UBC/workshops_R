@@ -1,0 +1,330 @@
+---
+title: "Statistical models in R exercise solutions"
+author: |
+  | Applied Statistics and Data Science Group
+  | with contributions from Yue Liu and Kim Dill-McFarland
+  | U. of British Columbiadate: "version `r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: no
+  pdf_document:
+    toc: yes
+mainfont: Arial
+fontsize: 11 pt
+editor_options:
+  chunk_output_type: console
+urlcolor: blue
+---
+# Setup
+We will be working with the same data and packages as in the notes and main.R files.
+
+```{r message=FALSE, warning=FALSE}
+# Suite of packages for data manipulation and visualization
+library(tidyverse)
+# puts output of statistical models in a nice data frame
+library(broom) 
+# Split, process, and recombine data
+library(plyr)
+# Fit linear and generalized linear mixed-effects models
+library(lme4)
+# various functions, including Anova
+library(car) 
+# least-square means
+library(lsmeans)
+## generalized linear model fitter
+## Also has quine data  set
+library(MASS)
+
+# Data set libraries
+## Fruitfly longevity, size, and sexual activity
+library(faraway)
+## Life expectancy, GDP and population by country
+library(gapminder)  
+## A variety of data sets; we will use the plasma data
+library(HSAUR3) 
+```
+
+# Experimental design
+
+1. Discuss with following in pairs
+    - What are some advantages and disadvantages of using a balanced experimental design? 
+        * __Advantages__: the test will have larger statistical power; _t_-test statistic is less susceptible to small departures from the assumption of equal variances (homoscedasticity)
+        * __Disadvantages__: forced removal of relevant data to acheive balance 
+
+    - Give an example of when a balanced design might not be possible.
+        * Missing a sampling from 1 or more participants in a longitudinal study; missing data in general; natural populations are not equal sizes
+        
+    - There are 3 undergraduates assisting you with your experiment that assess the addiction potential of Saturday morning cartoons in rats. You need to run the experiments every Saturday, but one of your undergraduate assistants can only help out 2 Saturdays a month, while the other two undergraduate assistants can be there every Saturday. Rat behaviour is sensitive to handler. What should you do? ([source](http://stattrek.com/experiments/experimental-design.aspx?Tutorial=AP))
+        * Randomize handlers (2) across all time points
+        
+2. *True or false.* A completely randomized design offers no control for lurking variables (a variable that is not included as an explanatory or response variable in the analysis).
+    - FALSE. Although it does not control perfectly for lurking variables, a randomized design offers some control for lurking variables.
+
+# 1-way ANOVA
+
+1. Using ANOVA, test if fruit fly longevity is effected by size (as measured by thorax length). What are your null and alternate hypotheses? What can you conclude from these results?
+
+**Null Hypothesis, $H_{0}$**: Body size has no effect on the population mean longevity of male fruit flies.  
+**Alternative Hypothesis, $H_{A}$**: Body size has an effect on population mean longevity of male fruit flies.
+
+```{r echo=FALSE}
+# Set seed for reproducibility
+set.seed(567)
+
+# Read in data from faraway package
+data("fruitfly")
+
+# Create categorical groups and subset data
+fruitfly_2groups <- fruitfly %>%
+  # Convert factors to character variables
+  mutate_if(is.factor, as.character) %>% 
+  # Create 2-level activity variable
+  mutate(activity = ifelse(activity %in% c("isolated", "one", "many"), "no", "yes")) %>%
+  # Create 2-level size variable (for later ANOVA)
+  mutate(thorax = ifelse(thorax <= 0.8, "short", "long")) %>% 
+  # Subset to equal group sizes for activity and size
+  group_by(activity, thorax) %>% 
+  sample_n(20)
+```
+
+```{r}
+# create an ANOVA "model" object
+fruitfly_model <- aov(longevity ~ thorax,
+                              data = fruitfly_2groups)
+
+# view output of aov() as a nice dataframe using tidy() from the broom package
+tidy(fruitfly_model)
+```
+
+**Conclusion**: Given that p is much much smaller than the commonly used threshold for rejecting the null hypothesis, p < 0.05, we can reject our null hypothesis that body size has no effect on the population mean longevity of male fruit flies, and accept the alternative hypothesis that body size **does** has an effect on population mean longevity of male fruit flies.
+
+# ANOVA
+Determine whether the following statements are *true or false*?
+
+1. ANOVA tests the null hypothesis that the sample means are	all	equal?
+    - FALSE. ANOVA tests the	equality of	the	popula1on	means.
+2. We use ANOVA to compare the variances of the population?
+    - FALSE. We	use	ANOVA	to compare the popula1on means.
+3. A one-way ANOVA is equivalent to a *t*-test when there are 2 groups to be compared.	
+    - TRUE.	Two	groups can be represented as a factor with 2 levels.
+4. In rejecting the null hypothesis, one can conclude that all the population means are different from one another?
+    - FALSE. We can only conclude that there are at least 2 different	popula1on	means. We cannot conclude that they are not all equal.
+
+*Questions courtesy of Dr. Gabriela Cohen Freue's DSCI 562 course (UBC)*
+
+# Best fit lines
+```{r echo=FALSE}
+gapminder %>%
+  ggplot(aes(x = year, y = lifeExp)) +
+  geom_point() +
+  geom_abline(intercept = 0, slope = 0.033, colour = "green") +
+  geom_abline(intercept = -575, slope = 0.32, colour = "purple") +
+  geom_hline(aes(yintercept = mean(lifeExp)), colour = "red") +
+  geom_vline(aes(xintercept = mean(year)), colour = "blue") +
+  labs(y="Life expectancy (yrs)")
+```
+
+1. Which line best describes the data?
+    - It's difficult (if not impossible) to tell just by looking.
+2. The red one is a horizontal line at the overall mean life expectancy. It seems a reasonable model, but what is missing?
+    - Missing information on the changing yearly mean as it uses just the overall data mean.
+
+# Linear models
+```{r echo=FALSE}
+lifeExp_model1 <- lm(lifeExp ~ year, 
+                     data = gapminder)
+# Set plot frame to 2 by 2
+par(mfrow=c(2,2))
+# Create diagnostic plots
+plot(lifeExp_model1)
+```
+
+1. Looking at the summary plots above, do you feel that our model can be extrapolated to a much wider `year` range? Why or why not?
+    -  Extrapolation is unlikely to be accurate as the residuals increase at both extremes of the current data, *e.g.* the model is less and less of a good fit for very distant or very recent years.
+
+2. Fit a linear model of life expectancy as a function of per-capita gdp. Using the summary table and diagnostic plots, discuss whether or not you think this is a good fit for these data.
+
+```{r}
+lifeExp_model <- lm(lifeExp ~ gdpPercap, 
+                     data = gapminder)
+# Set plot frame to 2 by 2
+par(mfrow=c(2,2))
+# Create diagnostic plots
+plot(lifeExp_model)
+```
+
+# Tranforming predictors
+
+1. Find a function that makes the plot more "linear" and fit a model of life expectancy as a function of the transformed per-capita gdp. Is it a better model?
+    - Go back to your original `gdpPercap` vs. `lifeExp` plot and think about what function creates a similar trend.
+
+A log transformation is one option for improving the linear fit.
+```{r}
+gapminder %>%
+  ggplot(aes(x = log(gdpPercap), y = lifeExp)) +
+  geom_point()
+```
+
+When we model these data, we see that our model fit is much improved!
+
+```{r}
+#Fit model and view results
+lifeExp_model <- lm(lifeExp ~ log(gdpPercap),
+                     data = gapminder)
+summary(lifeExp_model)
+
+# Set plot frame to 2 by 2
+par(mfrow=c(2,2))
+# Create diagnostic plots
+plot(lifeExp_model)
+```
+
+# Multiple linear regression
+
+1. So far, we have worked with `lifeExp` as our independent variable. Now, in small groups, try to produce a model of population (`pop`) using one or more of the variables available in `gapminder`. 
+
+```{r}
+pop_model <- lm(pop ~ gdpPercap,
+                     data = gapminder)
+summary(pop_model)
+# Create diagnostic plots
+par(mfrow=c(2,2))
+plot(pop_model)
+```
+
+Clearly this is a poor model for these data (population vs. GDP) and serves as a gentle reminder to always plot your data first! If we do so now, we see that there is high variance as well as a number of potential outliers. In truth, these data would require a much more sophisticated model
+```{r}
+gapminder %>%
+  ggplot(aes(x = gdpPercap, y = pop)) +
+  geom_point()
+```
+
+# LME
+
+1. Using the `sleepstudy` dataset, fit an LME on Reaction against Days, grouped by Subject.
+
+```{r}
+sleep_model <- lmer(Reaction ~ Days + (Days | Subject),
+                data=sleepstudy)
+summary(sleep_model)
+```
+
+2. What is the intercept and slope of subject #310 in the model from question 1?
+
+```{r}
+coeffs <- coef(sleep_model)
+coeffs$Subject["310", ]
+```
+
+3. CHALLENGE. Using the Teams dataset from the Lahman package, fit a model on runs (`R`) from the variables 'walks' (`BB`) and 'Hits' (`H`), grouped by team (`teamID`).
+    - *Hint*: wrap the scale function around each predictor variable.
+    
+```{r}
+library(Lahman)
+Lahman_model <- lmer(R ~ scale(BB) + scale(H) +
+               (scale(BB) + scale(H) | teamID),
+           data=Teams)
+summary(Lahman_model)
+```
+
+# Logistic GLM
+
+1. In the plasma data (from the `HSAUR3` package), use logistic regression to estimate the probabilities of ESR > 20, given the level of fibrinogen in the blood.
+
+```{r}
+logit.model.esr <- glm(ESR ~ fibrinogen,
+                       data = plasma, 
+                       family = binomial)
+summary(logit.model.esr)
+```
+
+The parameter for _fibrinogen_ is significantly larger than 0. This suggests that the odds of having ESR greather than 20 mm/hour increases with the fibrinogen level in the blood. This is also visible in the fitted probabilities:
+
+```{r}
+lsmeans(logit.model.esr, ~ fibrinogen, type = "response",
+        at = list(
+            fibrinogen = seq(from = 2, to = 4, by = 0.2)
+        )
+)
+```
+
+2. Using the `womensrole` data set from the `HSAUR3` package, try to fit a logistic regression to the agreement with the statement, given the years of education and the respondent's sex (also attributed as `gender` in these data).
+
+With `tidyr`, it is easy to get that into the form we are more familiar with:
+
+```{r}
+wr.df <- gather(womensrole, key = response, value = freq, 
+                agree, disagree, factor_key = TRUE)
+```
+
+Note, however, that the factor `response` has agree as first level, which means that `glm` will model the probability for _disagree_, not _agree_!
+
+```{r}
+wr.mod <- glm(response ~ gender + education, 
+              data = wr.df, 
+              family = binomial, 
+              weights = freq)
+summary(wr.mod)
+```
+
+Or you can also fit logistic regression with a 2 dimensional response of the form (success, failure).
+
+```{r}
+wr.mod.2 <- glm(cbind(agree, disagree) ~ gender + education, 
+                data = womensrole, 
+                family = binomial)
+summary(wr.mod.2)
+```
+
+We can also look at the change in the probability as a function of the years of education:
+```{r}
+lsmeans(wr.mod.2, ~ education,
+        type = "response",
+        at = list(education = 0:20)
+)
+```
+
+#  Poisson GLM
+
+1. Check which _covariates_ have a significant effect on the response in the model fitted with the Poisson family and with the quasi-Poisson family and compare the results. What do you observe?
+
+Similar to logistic regression, we can also check the significance of the covariates using the `Anova` function:
+```{r}
+polyps_model1 <- glm(number ~ treat + age,
+                    data = polyps,
+                    family = poisson)
+summary(polyps_model1)
+
+polyps_model2 <- glm(number ~ treat + age, 
+                     data = polyps, 
+                     family = quasipoisson)
+summary(polyps_model2)
+
+Anova(polyps_model1)
+Anova(polyps_model2)
+```
+
+# Quasi-poisson vs. negative binomial GLM
+
+1. Fit the above model with a Quasi-Poisson family and check the over-dispersion in that fit. Is there a difference in the significance of any terms compared to the NB model? Would a Poisson model be appropriate as well?
+
+```{r}
+quine_model_q <- glm(Days ~ Sex * (Age + Eth * Lrn), 
+                   data = quine, 
+                   family = quasipoisson)
+summary(quine_model_q)
+Anova(quine_model_q)
+```
+
+Compared to
+```{r}
+quine_model <- glm.nb(Days ~ Sex * (Age + Eth * Lrn), 
+                       data = quine)
+summary(quine_model)
+Anova(quine_model)
+```
+
+The standard errors of the parameters are slightly larger in the Quasi-Poisson model compared to the NB model. This results in the interaction between sex and age "F1" to be not significant at the $\alpha = 0.05$ level anymore. A Poisson model would not be appropriate for this data, since the quasi-poisson model sestimated an overdispersion of 10.5.

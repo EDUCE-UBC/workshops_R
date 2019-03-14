@@ -1,0 +1,44 @@
+---
+title: "Timeline"
+output: html_document
+---
+Planned (Actual)
+
+## Day 1
+* 5 () min: Gather
+* 10 () min: Experimental design
+* 10 () min: Exercise
+* 10 () min: ANOVA
+* 15 () min: Fruit fly data and `aov`
+* 10 () min: Exercise
+
+* 10 () min: > 2 groups ANOVA
+* 10 () min: 2-way ANOVA
+* 10 () min: Exercise
+* 10 () min: Linear regression
+* 10 () min: Exercise (best fit)
+
+## Day 2
+* 5 () min: Gather
+* 10 () min: Simple LM
+* 10 () min: Exercise
+* 5 () min: Cautions!
+* 10 () min: Multiple LM
+* 10 () min: Exercise (transformation)
+
+* 15 () min: log and polynomial transformations
+* 10 () min: Exercise
+* 5 () min: Interactions and ANCOVA
+* 15 () min: LME
+* 10 () min: Exercise
+
+## Day 3
+* 5 () min: Gather
+* 10 () min: GLM
+* 10 () min: Binomial GLM
+* 10 () min: Exercise
+* 10 () min: Poisson GLM
+* 10 () min: Exercise
+
+* 10 () min: Negative binomial
+* 10 () min: Exercise
