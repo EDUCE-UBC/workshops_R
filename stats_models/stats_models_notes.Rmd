@@ -962,7 +962,7 @@ So, each group still gets its own regression line, but tying the parameters toge
 
 2. What is the intercept and slope of subject #310 in the model from question 1?
 
-3. CHALLENGE. Using the Teams dataset from the Lahman package, fit a model on runs (`R`) from the variables 'walks' (`BB`) and 'Hits' (`H`), grouped by team (`teamID`).
+3. CHALLENGE. Using the Teams dataset from the `Lahman` package, fit a model on runs (`R`) from the variables 'walks' (`BB`) and 'Hits' (`H`), grouped by team (`teamID`).
     - *Hint*: wrap the scale function around each predictor variable.
 
 ***

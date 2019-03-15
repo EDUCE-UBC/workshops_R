@@ -3,15 +3,16 @@ title: "Statistical models in R exercise solutions"
 author: |
   | Applied Statistics and Data Science Group
   | with contributions from Yue Liu and Kim Dill-McFarland
-  | U. of British Columbiadate: "version `r format(Sys.time(), '%B %d, %Y')`"
+  | U. of British Columbia
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     df_print: paged
     toc: yes
     toc_float:
       collapsed: no
-  pdf_document:
-    toc: yes
 mainfont: Arial
 fontsize: 11 pt
 editor_options:

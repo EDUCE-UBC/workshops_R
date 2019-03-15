@@ -452,6 +452,7 @@ ggplot(esoph, aes(ncontrols, ncases, group=agegp, colour=agegp)) +
 
 #3. CHALLENGE. Using the Teams dataset from the Lahman package, fit a model on runs (`R`) from the variables 'walks' (`BB`) and 'Hits' (`H`), grouped by team (`teamID`).
     #- *Hint*: wrap the scale function around each predictor variable.
+library(Lahman)
 
 ##############################################################
 # GLM
