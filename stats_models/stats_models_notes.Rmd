@@ -85,13 +85,13 @@ library(gapminder)
 library(HSAUR3) 
 ```
 
-```{r, echo = FALSE}
+```{r}
 # Set global plot theme
 theme_set(theme_classic())
 ```
 
-# Experiment design
-Key Aspects of experimental design include:
+# Experimental design
+Key aspects of experimental design include:
 
 - Balanced designs
 - Blocking factors and random effects
@@ -111,16 +111,6 @@ Key Aspects of experimental design include:
 - Subjects should be randomized to groups to help balance the unobserved factors in the
 experiment.
 - Randomization should be done in a way to keep the controlled and observational factors (blocking factors and random effects) balanced.
-
-#### Exercise: Experimental design
-![](images/RStudio_logo.png){width=0.4in} Exercise.
-
-1. Discuss with following in pairs
-    - What are some advantages and disadvantages  of using a balanced experimental design? 
-    - Give an example of when a balanced design might not be possible.
-    - There are 3 undergraduates assisting you with your experiment that assess the addiction potential of Saturday morning cartoons in rats. You need to run the experiments every Saturday, but one of your undergraduate assistants can only help out 2 Saturdays a month, while the other two undergraduate assistants can be there every Saturday. Rat behaviour is sensitive to handler. What should you do? ([source](http://stattrek.com/experiments/experimental-design.aspx?Tutorial=AP))
-
-2. *True or false.* A completely randomized design offers no control for lurking variables (a variable that is not included as an explanatory or response variable in the analysis).
 
 # Analysis of Variance (ANOVA)
 ANOVA is used when you have data with:
@@ -148,35 +138,6 @@ For example, you would use ANOVA to address questions like:
 - ANOVA is robust to the non-normality of sample data
 - Balanced ANOVA (equal sample size between groups) is robust to unequal variance
 - ANOVA is sensitive to sample independence
-
-## Example case
-Let's explore an example case when we would use ANOVA. Here, we want to investigate if diet has an effect on chick weight. The data we have (from `chickwts` in R), look like so.
-
-```{r chick weight plot, echo = FALSE, fig.height = 4}
-chick_plot <- ggplot(chickwts, aes(x = feed, y = weight, color = feed)) +
-  geom_jitter(position = position_jitter(0.15),
-              alpha = 0.7) +
-  stat_summary(fun.y = mean,
-               geom = "point",
-               shape = 5,
-               size = 5,
-               aes(group = feed)) +
-  theme(legend.position="none", text = element_text(size=18)) +
-  xlab("Type of diet") +
-  ylab("Weight gain over 6 wks (grams)") +
-  ylim(0, 450)
-chick_plot
-```
-
-Thus, our variables are:
-
-- response variable == chick weight (grams)
-- explanatory variable == type of diet (6 levels)
-
-And our hypotheses for an ANOVA are:
-
-**Null Hypothesis, $H_{0}$**: $\mu_{caesin} = \mu_{horsebean} = \mu_{linseed} = \mu_{meatmeal} = \mu_{soybean} = \mu_{sunflower}$  
-**Alternative Hypothesis, $H_{A}$**: at least one group's population mean differs from that of the other groups
 
 ## The gist of the math
 When we run an ANOVA on these data, we calculate a test statistic (F-statistic) that compares the **between** group variation with the **within** group variation.
@@ -228,9 +189,6 @@ dim(fruitfly_2groups)
 
 # view first 6 records of data
 head(fruitfly_2groups)
-
-# see summary of data
-summary(fruitfly_2groups)
 ```
 
 We see that there are 2 columns of interest, `longevity` and `activity`. `longevity` is a quantitative variable, and is our response/dependent variable for this experiment. `activity`, on the other hand, is a categorical variable, and is our single explanatory/independent variable for this experiment. There are 2 levels to the `activity` variable, `yes` and `no`.
@@ -292,7 +250,7 @@ So, what does this output mean? The most important result in regards to rejectin
 
 As mentioned at the start of this section, an ANOVA can be used when there are more than 2 levels in your categorical explanatory/independent variable (unlike a *t*-test). For example, we will consider the following case:
 
-We are still interested in whether sexual activity effects the longevity of male fruit flies but want to understand this at a finer level (**e.g.** does the amount of sexual activity matter?). Thus, in this experiment, there are 3 categories for sexual `activity`. Specifically, males were kept:
+We are still interested in whether sexual activity effects the longevity of male fruit flies but want to understand this at a finer level (*e.g.* does the amount of sexual activity matter?). Thus, in this experiment, there are 3 categories for sexual `activity`. Specifically, males were kept:
 
 1. `none` - alone
 2. `low` - with a new virgin fruit fly every day
@@ -326,9 +284,6 @@ dim(fruitfly_3groups)
 
 # view first 6 records of data
 head(fruitfly_3groups)
-
-# see summary of data
-summary(fruitfly_3groups)
 ```
 
 And, again as a good practice, let's visualize the data before we perform our statistical analysis.
@@ -411,9 +366,6 @@ dim(fruitfly_2groups)
 
 # view first 6 records of data
 head(fruitfly_2groups)
-
-# see summary of data
-summary(fruitfly_2groups)
 ```
 
 Next, let's plot these data.
@@ -546,7 +498,7 @@ If you are attending a 3 x 2-hour workshop, this is the end of day 1
 ***
 
 # Linear regression
-## oad and explore the data
+## Load and explore the data
 Now, we will work with a data frame that Jennifer Bryan (U. of British Columbia, RStudio) put together in the [`gapminder` package](http://www.gapminder.org/data/).
 
 Unlike the fruit fly data, no pre-manipulation is needed so let's view these data as is.
@@ -675,6 +627,12 @@ These ends are particularly important in a linear model. Because we've chosen to
 
 2. Fit a linear model of life expectancy as a function of per-capita gdp. Using the summary table and diagnostic plots, discuss whether or not you think this is a good fit for these data.
 
+***
+
+If you are attending a 2 x 3-hour workshop, this is the end of day 1
+
+***
+
 ## Cautions when using linear models
 R (and most other statistical software) will fit, plot, summarize, etc. a linear model regardless of whether that model is a good fit for the data.
 
@@ -702,12 +660,6 @@ absc %>%
 ```
 
 **This is why you should always, always, always plot your data before attempting regression!**
-
-***
-
-If you are attending a 2 x 3-hour workshop, this is the end of day 1
-
-***
 
 ## Multiple linear regression
 So far, we have dealt with simple regression models, where we had only one predictor variable. However, `lm()` handles much more complex models. Consider for example a model of life expectancy as a function of both the year and the per-capita gdp. 
@@ -806,6 +758,12 @@ summary(lifeExp_model5)
 ![](images/RStudio_logo.png){width=0.4in} Exercise.
 
 1. So far, we have worked with `lifeExp` as our independent variable. Now, in small groups, try to produce a model of population (`pop`) using one or more of the variables available in `gapminder`. 
+
+***
+
+If you are attending a 3 x 2-hour workshop, this is the end of day 2
+
+***
 
 ### Interactions and ANalysis of COVAriance (ANCOVA)
 So far, our models for life expectancy have built upon continuous (or discrete but incremental) variables. However, we may wonder if being in one continent rather than another has a differential effect on the correlation between `year` and `lifeExp`.
@@ -928,9 +886,9 @@ Alternatively, we can use the `coef` function:
 coef(esoph_model)
 ```
 
-Let's put these regression lines on the plot.
+Let's put these regression lines on the plot. First, we must extract the relevant slopes and intercepts.
 
-```{r, echo=FALSE, fig.width=4, fig.height=3, fig.align="center"}
+```{r}
 # Put the slopes and intercepts with orignal data
 ## Extact slopes and intercepts
 par_coll <- coef(esoph_model)$agegp %>% 
@@ -944,6 +902,7 @@ esoph <- ddply(esoph, ~ agegp, function(df){
 })
 ```
 
+Then we can add these lines to the plot.
 ```{r}
 ## Plot
 ggplot(esoph, aes(ncontrols, ncases, group=agegp, colour=agegp)) +
@@ -964,12 +923,6 @@ So, each group still gets its own regression line, but tying the parameters toge
 
 3. CHALLENGE. Using the Teams dataset from the `Lahman` package, fit a model on runs (`R`) from the variables 'walks' (`BB`) and 'Hits' (`H`), grouped by team (`teamID`).
     - *Hint*: wrap the scale function around each predictor variable.
-
-***
-
-If you are attending a 3 x 2-hour workshop, this is the end of day 2
-
-***
 
 # Generalized Linear Models
 In the linear models discussed so far, we always assumed that
@@ -1061,7 +1014,7 @@ contrast(ucb_model_sum, "pairwise", by = "Dept")
 This tells us that sex seems to make a significant difference in Department $A$ but not so in the other departments. This, in turn,
 causes the significant interaction effect we saw before.
 
-#### Exercise: Logistic GLM
+#### Homework exercise: Logistic GLM
 ![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
 1. In the plasma data (from the `HSAUR3` package), use logistic regression to estimate the probabilities of ESR > 20, given the level of fibrinogen in the blood.
@@ -1136,10 +1089,14 @@ summary(quine_model_sum2, by = "Sex")
 summary(quine_model_sum2, by = "Age")
 ```
 
-#### Exercise: Quasi-poisson vs. negative binomial GLM
+#### Exercise: Quasi-Poisson vs. negative binomial GLM
 ![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
-1. Fit the above model with a Quasi-Poisson family and check the over-dispersion in that fit. Is there a difference in the significance of any terms compared to the NB model? Would a Poisson model be appropriate as well?
+1. Fit the above model with a quasi-Poisson family and check the over-dispersion in that fit. Is there a difference in the significance of any terms compared to the NB model? Would a Poisson model be appropriate as well?
+
+***
+
+End of workshop
 
 ***
 

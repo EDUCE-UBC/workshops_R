@@ -1,44 +1,57 @@
 ---
-title: "Timeline"
-output: html_document
+title: "Suggested timeline"
+output:
+  html_document: default
+  pdf_document: default
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+subtitle: Statistical models in R
 ---
-Planned (Actual)
 
-## Day 1
-* 5 () min: Gather
-* 10 () min: Experimental design
-* 10 () min: Exercise
-* 10 () min: ANOVA
-* 15 () min: Fruit fly data and `aov`
-* 10 () min: Exercise
+* 5 min: Intro to workshop and data; Setup
+* 15 min: Experimental design
 
-* 10 () min: > 2 groups ANOVA
-* 10 () min: 2-way ANOVA
-* 10 () min: Exercise
-* 10 () min: Linear regression
-* 10 () min: Exercise (best fit)
+* 10 min: ANOVA
+* 10 min: Fruit fly data 
+* 15 min: 1-way ANOVA with 2 groups
+* 10 min: Exercise
 
-## Day 2
-* 5 () min: Gather
-* 10 () min: Simple LM
-* 10 () min: Exercise
-* 5 () min: Cautions!
-* 10 () min: Multiple LM
-* 10 () min: Exercise (transformation)
+* 15 min: > 2 groups ANOVA
+* 20 min: 2-way ANOVA +/- interaction
+* 10 min: Exercise
 
-* 15 () min: log and polynomial transformations
-* 10 () min: Exercise
-* 5 () min: Interactions and ANCOVA
-* 15 () min: LME
-* 10 () min: Exercise
+* __End day 1 for 3 x 2-hour workshop__
 
-## Day 3
-* 5 () min: Gather
-* 10 () min: GLM
-* 10 () min: Binomial GLM
-* 10 () min: Exercise
-* 10 () min: Poisson GLM
-* 10 () min: Exercise
+* 5 min: gapminder data
+* 10 min: Linear models
+* 10 min: Exercise (best fit)
 
-* 10 () min: Negative binomial
-* 10 () min: Exercise
+* 10 min: Simple linear regression
+* 10 min: Residuals
+* 10 min: Exercise
+
+* __End day 1 for 2 x 3-hour workshop__
+
+* 10 min: Cautions!
+
+* 15 min: Multiple linear regression
+* 10 min: Exercise (transformation)
+
+* 15 min: log and polynomial transformations
+* 10 min: Exercise (as homework if needed)
+
+* __End day 2 for 3 x 2-hour workshop__
+
+* 10 min: Interactions and ANCOVA
+* 20 min: Linear mixed effects model
+* 10 min: Exercise
+
+* 10 min: General linear model (GLM)
+* 15 min: Binomial GLM (homework exercise)
+
+* 10 min: Poisson GLM
+* 10 min: Exercise
+
+* 15 min: Negative binomial
+* 10 min: Exercise
+
+* __End of workshop__

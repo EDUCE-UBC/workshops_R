@@ -6,13 +6,13 @@ author: |
   | U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     df_print: paged
     toc: yes
     toc_float:
       collapsed: no
+  pdf_document:
+    toc: yes
 mainfont: Arial
 fontsize: 11 pt
 editor_options:
@@ -47,22 +47,6 @@ library(gapminder)
 ## A variety of data sets; we will use the plasma data
 library(HSAUR3) 
 ```
-
-# Experimental design
-
-1. Discuss with following in pairs
-    - What are some advantages and disadvantages of using a balanced experimental design? 
-        * __Advantages__: the test will have larger statistical power; _t_-test statistic is less susceptible to small departures from the assumption of equal variances (homoscedasticity)
-        * __Disadvantages__: forced removal of relevant data to acheive balance 
-
-    - Give an example of when a balanced design might not be possible.
-        * Missing a sampling from 1 or more participants in a longitudinal study; missing data in general; natural populations are not equal sizes
-        
-    - There are 3 undergraduates assisting you with your experiment that assess the addiction potential of Saturday morning cartoons in rats. You need to run the experiments every Saturday, but one of your undergraduate assistants can only help out 2 Saturdays a month, while the other two undergraduate assistants can be there every Saturday. Rat behaviour is sensitive to handler. What should you do? ([source](http://stattrek.com/experiments/experimental-design.aspx?Tutorial=AP))
-        * Randomize handlers (2) across all time points
-        
-2. *True or false.* A completely randomized design offers no control for lurking variables (a variable that is not included as an explanatory or response variable in the analysis).
-    - FALSE. Although it does not control perfectly for lurking variables, a randomized design offers some control for lurking variables.
 
 # 1-way ANOVA
 
