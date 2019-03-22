@@ -1,53 +1,55 @@
 ---
-title: "Timeline"
-output: html_document
+title: "Suggested timeline"
+output:
+  html_document: default
+  pdf_document: default
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
+subtitle: Intermediate R programming
 ---
-Planned (Actual)
 
-## Day 1
-* 5 (2) min: Gather
-* 10 (34) min: Setup
-* 10 (19) min: Vectors
-* 10 (5) min: Exercise
+* 10 min: Intro to workshop and data; Setup
+* 20 min: Vectors
+* 10 min: Exercise
 
-* 5 (19) min: Complex objects
-* 15 (16) min: Data objects
-* 10 (10) min: Exercise
-* 10 (15) min: List object
-* 10 (10) min: Exercise
+* 20 min: Complex objects
+* 15 min: Data objects
+* 10 min: Exercise
+
+* 15 min: List object
+* 10 min: Exercise
     
-## Day 2
-* 5 (2) min: Gather
-* 5 (1) min: S4
-* 10 (0) min: Exercise
-    - skipped
-* 10 (11) min: Function basics
-* 10 (5) min: Exercise
-* 15 (11) min: Arguments
-* 10 (17) min: Scoping
-* 10 (18) min: Exercise
+* __End day 1 for 3 x 2-hour workshop__
 
-* 5 (13) min: Step 1
-* 12 (9) min: Step 2
-* 5 (5) min: Step 3 & 4
-* 12 (11) min: Step 5
-* 15 (18) min: Exercise
+* 5 min: S4
+* 10 min: Exercise
 
-## Day 3
-* 5 () min: Gather
-* 5 () min: Recap function steps 1-5
-* 20 () min: Step 6.1
-* 15 () min: Step 6.2
-* 5 () min: Step 7
+* 10 min: Function basics
+* 10 min: Exercise
 
-* 15 () min: Exercise
-    - Will not be time to complete all. Challenges are for homework
-* 5 () min: Packages
-* 10 () min: Description, R, man
-* 10 () min: Namespace
-* 10 () min: Imports & Exports
-* 10 () min: Testing
+* 10 min: Arguments
+* 15 min: Scoping
+* 10 min: Exercise (as homework if needed)
 
-## Edits
-rlang 0.1.6 (tidyverse needed 0.2.0)
-lmerTest needed rlang 0.3.0
+* __End day 1 for 2 x 3-hour workshop__
+
+* 15 min: Step 1
+* 10 min: Step 2
+* 5 min: Step 3 & 4
+
+* __End day 2 for 3 x 2-hour workshop__
+
+* 5 min: Recap function steps 1-4
+* 10 min: Step 5
+* 15 min: Exercise
+
+* 15 min: Step 6.1
+* 15 min: Step 6.2
+* 5 min: Step 7
+* 15 min: Exercise
+
+* 5 min: Packages
+* 10 min: Description, R, man
+* 15 min: Namespace with Imports & Exports
+* 10 min: Testing
+
+* __End of workshop__

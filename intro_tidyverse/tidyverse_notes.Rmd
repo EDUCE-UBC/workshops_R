@@ -933,7 +933,7 @@ ggsave("saanich.pdf", p, width=10, height=6)
 
 ***
 
-End day 3
+End of workshop
 
 ***
 

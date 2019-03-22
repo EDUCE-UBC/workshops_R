@@ -334,12 +334,6 @@ Of note, most of these functions can also be done from the `packrat` menu that a
 
 While we're on the topic of versions, you also need to record the version of R as well as your current computing platform (operating system and hardware architecture) to ensure reproducibility. You can easily print all this information in R with `sessionInfo()`.
 
-***
-
-If you are attending a 3 x 2-hour workshop, this is the end of day 1
-
-***
-
 # Documents made reproducible
 ## What is a document really?
 There are two main aspects of creating a document: **content and appearance**. These two features are bundled together in a markup language, so-called because authors used to "mark up" physical documents with instructions on how to display the various parts *e.g.* title size, indentations, justification, etc.
@@ -371,6 +365,12 @@ In Rmd, you have the **header** and the **body**.
 
 - header: overall document settings in a language called YAML (one of the added features of `.Rmd` as compared to `.md`)
 - body: content and appearance instructions in markdown
+
+***
+
+If you are attending a 3 x 2-hour workshop, this is the end of day 1
+
+***
 
 ### YAML header
 Let's create a new Rmarkdown document (File > New File > R Markdown...). Leaving the defaults (document, html output), our `.Rmd` file is already populated with a minimal YAML header like below.
@@ -598,6 +598,12 @@ Now if you change the number of samples in the data frame with all your samples 
 
 1. Create a new `.Rmd` and replicate part of our Introduction to R workshop found in the `dynamic_R_challenge.html` document provided.
 
+***
+
+If you are attending a 2 x 3-hour workshop, this is the end of day 1
+
+***
+
 # Slides made reproducible
 
 Slides can also be created in `.md/.Rmd` either as static documents or with dynamic code. The formatting in the body is the same **except**
@@ -623,12 +629,6 @@ As the syntax of slides is the same as documents, we will not go into detail dur
 
 1. The next time you have to give lab meeting, present in a class, lead a discussion, etc., try making your slides in Rmd. Once you get some practice, it take no more time than PowerPoint!
 
-***
-
-If you are attending a 2 x 3-hour workshop, this is the end of day 1
-
-***
-
 # Rmd in your workflow
 
 To incorporate Rmd into your reproducible workflow, you can render an `.Rmd` document in your *Make* file with `rmarkdown::render("input_file.Rmd")`.
@@ -636,12 +636,6 @@ To incorporate Rmd into your reproducible workflow, you can render an `.Rmd` doc
 # Publish with Rpubs.com
 
 [Rpubs.com](http://rpubs.com/) is a free online service from RStudio that let's you put your Rmarkdown documents online with a push of the button. After you register online, you can simply click the "Publish" button (blue dot with 2 blue curves around it) in the upper right corner of the toolbar for your markdown document in RStudio. This sends the rendered html to the site. For some examples, see [here](http://rpubs.com/dillmcfarlan).
-
-***
-
-If you are attending a 3 x 2-hour workshop, this is the end of day 2
-
-***
 
 # Git
 ## What is version control?
@@ -787,6 +781,12 @@ nothing to commit, working tree clean
     ```
   - Using a combination of `git status, add, and commit`, determine if your version matches your repo and commit the new version *with a comment* as needed.
   - Note the messages Git outputs in the terminal as you complete each step. They are very informative and helpful!
+
+***
+
+If you are attending a 3 x 2-hour workshop, this is the end of day 2
+
+***
 
 ## Compare versions (`git status` and `diff`)
 Since we are working with a single, small file in a small repo, it is easy to remember what versions are where. However, as you make larger files and repos, sometimes you will not know this. So, Git has functions for comparing versions.
@@ -1080,6 +1080,12 @@ You will see that similar to the GitHub GUI you can see `diff` and `commit` chan
 
 ![](images/RStudio_Git.png){width=75%}
 \ 
+
+***
+
+End of workshop
+
+***
 
 # Additional resources
 #### Reproducible research

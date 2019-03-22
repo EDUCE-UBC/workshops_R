@@ -355,6 +355,12 @@ m1$coefficients
 3. Using a single line of code, pull out just the p-values from `m2`.
     - *Hint*: You will need to use both `$` and `[ ]`.
 
+***
+
+If you are attending a 3 x 2-hour workshop, this is the end of day 1
+
+***
+
 ## S4 objects
 So far, everything we've talked about has been S3 objects. However, there is another class of object in R - S4. It is up the the package developer to determine if a function outputs as an S3 or S4 object, so you may come across both classes during your data analysis.
 
@@ -391,12 +397,6 @@ attributes(VC)
 2. What class and mode is it?
 3. What elements does it contain?
 4. What are the dimensions of `factors` within this object?
-
-***
-
-If you are attending a 3 x 2-hour workshop, this is the end of day 1
-
-***
 
 # Functions
 In math, a function is a rule for providing an output given some input. So, if you give a function an input, you know it will always provide the same output. So if $f(3) = 2$, it will always be so, but it won't tell us anything about what $f(4)$ is.
@@ -748,6 +748,12 @@ lm.function <- function(data, cruise, x, y){
 }
 ```
 
+***
+
+If you are attending a 3 x 2-hour workshop, this is the end of day 2
+
+***
+
 ## Step 5: Loop through multiple y-variables
 A word of preface: For loops are not the most efficient or fastest method out there. Whenever possible, you should use `apply` functions instead of loops. However, for loops get the job done and are extremely useful if you want to run a simple function on a list of inputs.
 
@@ -824,12 +830,6 @@ print(pval)
 
 1. Apply the current `lm.function` to all the available geochemical variables in the Saanich data set. Which ones appear to be significantly correlated with depth?
 2. Copy the `lm.function` and alter it to print out the models' adjusted R-squared values instead of p-values. Be sure to run the function with inputs to make sure it works!
-
-***
-
-If you are attending a 3 x 2-hour workshop, this is the end of day 2
-
-***
 
 ## Step 6: Save results to a table
 Now that we can obtain linear model p-values across all our variables of interest, let's save them to a cleanly formatted table.
@@ -1330,7 +1330,7 @@ If you then wanted to [upload to CRAN](https://cran.r-project.org/submit.html) o
 
 ***
 
-End day 3
+End of workshop
 
 ***
 

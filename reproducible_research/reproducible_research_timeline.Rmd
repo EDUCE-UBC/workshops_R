@@ -1,54 +1,58 @@
 ---
-title: "Timeline"
-subtitle: "Reproducible research"
+title: "Suggested timeline"
+output:
+  html_document: default
+  pdf_document: default
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
-output: html_document
+subtitle: Reproducible research
 ---
-Planned (Actual)
 
-## Day 1
-* 5 (2) min: Gather and overview
-* 5 (11) min: Intro to reproducible research
-* 5 (12) min: R projects
-* 20 (38) min: R scripts
-    - Novice Unix issues
-    
-* 0 (16) min: Modularize
-* 0 (20) min: Make
-* 15 (20) min: Exercise
+* 5 min: Intro to workshop and data; Setup
+* 10 min: Intro to reproducible research
+* 10 min: R projects
+* 20 min: R scripts
 
-* 10 (9) min: packrat
-* 10 (5) min: Intro to Rmd
+* 15 min: Modularize
+* 20 min: Make
+* 15 min: Exercise
 
-## Day 2
-* 5 (5) min: Gather
-* 10 (13) min: YAML
-* 20 (14) min: Exercise
-* 10 (10) min: Markdown body
+* 10 min: packrat
+* 5 min: Intro to Rmd
+
+* __End day 1 for 3 x 2-hour workshop__
+
+* 15 min: YAML
+* 15 min: Exercise
+* 10 min: Markdown body
 * Homework
-* 10 (8) min: Dynamic documents
 
-* 20 (22) min: Exercise
-* 5 (4) min: Slides
-* Homework
-* 10 (3) min: Rmd workflow and Rpubs
-* 10 (5) min: Intro to version control and Git
-* 20 (15) min: Git on your computer
-* 15 (19) min: Exercise
+* 10 min: Dynamic documents
+* 20 min: Exercise (as homework if needed)
 
-## Day 3
-* 5 (6) min: Gather
-* 10 (35) min: Versions
-    - GitBash looks different from Mac, showing - and + lines not summarized
-* 5 (6) min: log and HEAD
-* 10 (13) min: Branches and merge
+* __End day 1 for 2 x 3-hour workshop__
 
-* 20 (22) min: Exercise
-* 5 (6) min: Git recap
-* 5 (5) min: Intro to GitHub
-* 15 (18) min: Make and populate a repo
-* 10 (4) min: GitHub with multiple users
-* 10 (12) min: Exercise
-* 10 (0) min: GitHub GUI
-* 10 (0) min: Git in RStudio
-* 10 (0) min: GitHub online
+* 5 min: Slides 
+* Homework exercise
+* 5 min: Rmd workflow and Rpubs
+
+* 5 min: Intro to version control and Git
+* 15 min: Git on your computer
+* 15 min: Exercise
+
+* __End day 2 for 3 x 2-hour workshop__
+
+* 30 min: Versions
+* 5 min: log and HEAD
+* 10 min: Branches and merge
+* 20 min: Exercise
+
+* 5 min: Git recap
+
+* 5  min: Intro to GitHub
+* 20 min: Make and populate a repo
+* 5 min: GitHub with multiple users
+* 10 min: Exercise
+
+* 5 min: Othe Git options (GUI and RStudio)
+
+* __End of workshop__

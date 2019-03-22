@@ -1,50 +1,55 @@
 ---
-title: "Timeline"
+title: "Suggested timeline"
+subtitle: "The R tidyverse"
+date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
-Approximate timeline for the **Introduction to the tidyverse** workshop series.
 
-## Day 1
 * 10 min: Intro to workshop and data; Setup
 * 30 min: Load data, types, structures, statements, operators
 * 15 min: Exercise
 
-* 5 min: Break
-
 * 5 min: Intro dplyr syntax
 * 10 min: Select and filter
 * 15 min: Exercise
+
 * 5 min: Rename, arrange, mutate
 * 15 min: Exercise
 
-## Day 2
-* 5 min: Recap day 1 and go over last exercise (if necessary)
+* __End day 1 for 3 x 2-hour workshop__
+
+* 5 min: Recap and go over last exercise (if necessary)
 * 10 min: Pipes
 * 20 min: Exercise
+
 * 5 min: Summarise
 * 15 min: Exercise
 
-* 5 min: Break
+* __End day 1 for 2 x 3-hour workshop__
 
 * 15 min: Gather and spread
+
 * 10 min: Intro to ggplot; piping from dplyr
 * 10 min: Geom_point
 * 15 min: Exercise
 
-## Day 3
-* 5 min: Recap day 2 and go over last exercise (if necessary)
+* __End day 2 for 3 x 2-hour workshop__
+
+* 5 min: Recap and go over last exercise (if necessary)
 * 10 min: Aesthetics in geom_point - color
 * 15 min: Aesthetics in geom_point - shapes and others
 * 15 min: Exercise
+
 * 10 min: Geom_line
-
-* 5 min: Break
-
 * 8 min: Geom_histogram
 * 10 min: Exercise
+
 * 2 min: Point out other geoms on cheatsheet
 * 10 min: Facet
 * 15 min: Exercise
+
 * 10 min: Fine tuning and final plot
+
+* __End of workshop__
