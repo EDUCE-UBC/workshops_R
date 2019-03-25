@@ -567,11 +567,7 @@ gapminder %>%
   labs(y="Life expectancy (yrs)")
 ```
 
-#### Exercise: Best fit lines
-![](images/RStudio_logo.png){width=0.4in} Exercise. At your table, discuss the following questions.
-
-1. Which line best describes the data?
-2. The red one is a horizontal line at the overall mean life expectancy. It seems a reasonable model, but what is missing?
+**So, which line best describes the data? To determine this, we must fit a linear model to the data.**
 
 ## Simple linear regression
 To obtain the slope and intercept of the green line, we can use the built-in R function `lm()`. This function works very similarly to the `aov` function we used earlier in that we must give it a model and data. The output of `lm()` is also messy but we want to use `summary` instead of `tidy` in order to see all the relevant results.

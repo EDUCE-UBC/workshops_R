@@ -23,29 +23,27 @@ subtitle: Statistical models in R
 
 * 5 min: gapminder data
 * 10 min: Linear models
-* 10 min: Exercise (best fit)
-
 * 10 min: Simple linear regression
 * 10 min: Residuals
 * 10 min: Exercise
 
-* __End day 1 for 2 x 3-hour workshop__
-
 * 10 min: Cautions!
+
+* __End day 1 for 2 x 3-hour workshop__
 
 * 15 min: Multiple linear regression
 * 10 min: Exercise (transformation)
 
 * 15 min: log and polynomial transformations
 * 10 min: Exercise (as homework if needed)
+* 10 min: Interactions and ANCOVA
 
 * __End day 2 for 3 x 2-hour workshop__
 
-* 10 min: Interactions and ANCOVA
 * 20 min: Linear mixed effects model
 * 10 min: Exercise
 
-* 10 min: General linear model (GLM)
+* 20 min: General linear model (GLM)
 * 15 min: Binomial GLM (homework exercise)
 
 * 10 min: Poisson GLM
