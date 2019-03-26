@@ -47,7 +47,6 @@ You will learn how to:
 We recommend this workshop be given across 6 hours in 2-3 sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
 
 ## Statistical models in R
-**Under development**
 
 In this workshop, we introduce various types of regression models and how they are implemented in R. We cover linear regression, ANOVA, ANCOVA and mixed effects models for continuous response data, logistic regression binary response data, and Poisson and Negative Binomial regression for count response data.
 
@@ -63,7 +62,7 @@ In R, you will learn how to:
 * define and manipulate model terms
 * use the lsmeans package to answer specific research questions
 
-We recommend this workshop be given across 6 hours as 3 x 2 hour sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
+We recommend this workshop be given across 6 hours in 2-3 sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
 
 
 ## Intermediate R programming
