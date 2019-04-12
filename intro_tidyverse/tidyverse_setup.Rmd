@@ -53,7 +53,7 @@ Please install the following packages and their dependencies for use in this wor
 
 ## Further resources
 
-The above is sufficient preparation for this workship but here are some links if you are interested in reading a bit further.
+The above is sufficient preparation for this workshop but here are some links if you are interested in reading a bit further.
 
 * How to Use RStudio:
     - <https://support.rstudio.com/hc/en-us/sections/200107586-Using-RStudio>
