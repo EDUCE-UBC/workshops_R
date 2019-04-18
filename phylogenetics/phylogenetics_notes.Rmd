@@ -3,6 +3,7 @@ title: "Phylogenetics and microbiomes in R"
 author: |
   | Florent Mazel, U. of British Columbia
   | Jon Sanders, Cornell University
+  | edited by Kim Dill-McFarland, U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
   html_document:
@@ -315,11 +316,12 @@ Here, we will use [FastTree](http://www.microbesonline.org/fasttree/) to build t
 
 The FastTree function requires:
 
-1. `gtr -cat 20`: the model for tree calculation
-    * Checkout the help page for other models
-2. `-constraints`: topological constraints (the fasta file we just made)
-3. `-nt`: a nucleotide alignment (the modified alignment we just made)
-4. `>`: a name for the output tree
+1. `-gtr`: the Generalised Time Reversible model for tree calculation
+2. `-cat 20`: approximation for the rate of evolution at each nucleotide
+    * Checkout the help page for more on available models
+3. `-constraints`: topological constraints (the fasta file we just made)
+4. `-nt`: a nucleotide alignment (the modified alignment we just made)
+5. `>`: a name for the output tree
 
 FastTree is a command line (or terminal) program. Thus, Mac and Linux users should open their default terminal programs and Windows users should open GitBash (see [setup instructions](setup/phylogenetics_setup.html) for details on terminals). 
 
@@ -389,6 +391,9 @@ download.file(
   "https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/master/phylogenetics/results/Saanich_FastTree_constrain",
   "results/Saanich_FastTree_constrain")
 ```
+
+#### Exercise: FastTree
+![](images/RStudio_logo.png){width=0.4in} Exercise: While the above rerunning, compare the two available nucleotide models in FastTree. Discuss the pros and cons of Jukes-Cantor (JT) versus Generalized Time-Reversible (GTR) with your table. You may find [this Wikipedia article](https://en.wikipedia.org/wiki/Models_of_DNA_evolution#Most_common_models_of_DNA_evolution) helpful.
 
 # Visualizing trees
 We will now move back into R to visualize our trees. First, load the trees we just constructed into R.
@@ -494,9 +499,13 @@ plot_tree(saanichC, color="domain") +
   theme(legend.position="bottom")
 ```
 
-We can then do the same for phylum instead of domain. 
+#### Exercise: Color taxa trees
+![](images/RStudio_logo.png){width=0.4in} Exercise: 
 
-```{r warning=FALSE, message=FALSE, fig.height=10}
+1. Modify the above trees to color by phylum, instead of domain. Your output should be similar to below.
+2. Compare these two trees. What do you observe? Which do you think better represents these data?
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.height=10}
 plot_tree(saanich, color="phylum") +
   # Make circular
   coord_polar(theta = "y") +
@@ -516,10 +525,8 @@ plot_tree(saanichC, color="phylum") +
   guides(col = guide_legend(ncol = 2))
 ```
 
-Compare the two trees. What do you observe? Which do you think better represents these data?
-
 # Re-root the tree
-We hope that you come to the same conclusion that the constrained tree is a better fit because known taxonomic groups (domains and phyla) cluster more together closely in this tree. We can further improve the constrained tree by adding a root.
+We hope that you've come to the same conclusion that the constrained tree is a better fit because known taxonomic groups (domains and phyla) cluster more together closely in this tree. We can further improve this constrained tree by adding a root.
 
 The phylogenetic tree root indicates the direction of evolution (from the root to the tip). For our tree, we will assume this to be on the branch separating Bacteria and Archaea. 
 
@@ -556,7 +563,7 @@ saanichCR <- phyloseq(OTU.physeq, tax.physeq,
                    metadata.physeq, treeCR.physeq) 
 ```
 
-Plotting this tree and comparing to the unrooted tree
+We can now plot this tree and compare to the unrooted tree. It's difficult to see at this resolution but the rooted tree is (and almost always is) a better fit for these data than the unrooted version. **Thus, we will use the constrained, rooted tree in all subsequent analyses.**
 
 ```{r warning=FALSE, message=FALSE, fig.height=10}
 plot_tree(saanichCR, color="phylum") +
@@ -568,8 +575,6 @@ plot_tree(saanichCR, color="phylum") +
   theme(legend.position="bottom") +
   guides(col = guide_legend(ncol = 2))
 ```
-
-**We will use the constrained, rooted tree in all subsequent analyses.**
 
 # Classic microbiome analyses
 ## Beta-diversity
@@ -725,6 +730,9 @@ All of the above plots are showing us a similar result. Dots at are closer toget
 
 In larger data sets, you will look for gradients or groupings by your variables of interest. But remember, these plots are coerced and simplified a lot. So, if you don't see a clear pattern by your variable(s) of interest, that does not mean there is no effect. To truly test for an effect, we must run a statistical test.
 
+#### Exercise: PCoA vs. nMDS
+![](images/RStudio_logo.png){width=0.4in} Exercise: Consider the two beta-diversity plotting methods above. What are the pros and cons of these methods? Which do you think best represents these data?
+
 ### Statistically testing beta-diversity
 Permutational analysis of variance (PERMANOVA) is most commonly used to statistically test beta-diversity values against relevant metadata. See slides 57-59 for details.
 
@@ -747,6 +755,13 @@ Or we can test against relevant geochemical variables like concentrations of oxy
 adonis(BC ~ O2_uM * NO3_uM * H2S_uM,
        data=data.frame(sample_data(saanichCR)))
 ```
+
+#### Exercise: Randomness and variable order
+![](images/RStudio_logo.png){width=0.4in} Exercise: 
+
+1. Rerun the the last PERMANOVA several times. Do the results change? Why might this be the case and what does this mean for borderline p-value (*e.g.* P near 0.05)?
+
+2. Next, alter the variable order in this PERMANOVA. Does this change the outcome? Why might this be the case?
 
 # Varying phylogenetic resolution
 While PERMANOVA can reveal a number of interesting results in microbiome research, it can miss complex effects and subtle variations. This is because different factors can effect the microbiome at different phylogenetic resolutions. See examples in slides 60-74.
@@ -909,6 +924,9 @@ ggplot(StatsRes,
 ```
 
 This shows us that while all variables behave roughly similar across scales for Jaccard, Bray-Curtis diversity correlates more with oxygen and depth for larger scales (*e.g.* further back in evolutionary history).
+
+#### Exercise: Interpreting phylogenetic scale
+![](images/RStudio_logo.png){width=0.4in} Exercise: Consider the above plot. What is the biological relevance to oxygen and depth behaving differently? How does this inform our questions about nutrient gradients in Saanich Inlet? 
 
 # Phylogenetic compositional factor analysis (PhyloFactor)
 Microbiome sequencing data have several ingrained and unavoidable challenges. We've addressed many of these issues (sequencing error, clustering, 'species' cutoffs) by using phylogenetic-based approaches. 
@@ -1269,6 +1287,9 @@ plot_grid(O2_tree_plot, O2_plots,
           labels = c("A","","E",""), ncol = 2, align = 'hv',
           rel_widths = c(1.5, 1))
 ```
+
+#### Exercise: Interpreting PhyloFactor
+![](images/RStudio_logo.png){width=0.4in} Exercise: Consider the results summarized in our last figure. What can you conclude? (*Hint*: Are you confident in the oxygen results given the distribution of data points along the fitted line?)
 
 # Other visualizations using PhyloFactor
 ## Phylogenetic heatmaps

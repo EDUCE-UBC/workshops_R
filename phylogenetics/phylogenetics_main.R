@@ -191,6 +191,11 @@ download.file(
 "results/Saanich_FastTree_constrain")
 
 ################################################################################
+# Exercise: FastTree
+################################################################################
+#hile the above rerunning, compare the two available nucleotide models in FastTree. Discuss the pros and cons of Jukes-Cantor (JT) versus Generalized Time-Reversible (GTR) with your table. You may find this Wikipedia article helpful (https://en.wikipedia.org/wiki/Models_of_DNA_evolution#Most_common_models_of_DNA_evolution).
+
+################################################################################
 # Visualizing trees
 ################################################################################
 # read.tree from the ape package
@@ -296,6 +301,13 @@ labs(title="Constrained tree") +
 theme(legend.position="bottom") +
 guides(col = guide_legend(ncol = 2))
 
+################################################################################
+# Exercise: Color taxa trees
+################################################################################
+
+# 1. Modify the above trees to color by phylum, instead of domain. Your output should be similar to below.
+# 2. Compare these two trees. What do you observe? Which do you think better represents these data?
+  
 ################################################################################
 # Re-root the tree
 ################################################################################
@@ -433,6 +445,11 @@ plot_ordination(saanichCR, wUF.nmds, color="sample")+
   labs(title="weighted UniFrac")
 
 ################################################################################
+# Exercise: PCoA vs. nMDS
+################################################################################
+# Consider the two beta-diversity plotting methods above. What are the pros and cons of these methods? Which do you think best represents these data?
+
+################################################################################
 # Statistically testing beta-diversity
 ################################################################################
 adonis(BC ~ Depth_m, data=data.frame(sample_data(saanichCR)))
@@ -443,6 +460,13 @@ adonis(wUF ~ Depth_m, data=data.frame(sample_data(saanichCR)))
 adonis(BC ~ O2_uM * NO3_uM * H2S_uM,
 data=data.frame(sample_data(saanichCR)))
 
+################################################################################
+# Exercise: Randomness and variable order
+################################################################################
+# 1. Rerun the the last PERMANOVA several times. Do the results change? Why might this be the case and what does this mean for borderline p-value (*e.g.* P near 0.05)?
+  
+# 2. Next, alter the variable order in this PERMANOVA. Does this change the outcome? Why might this be the case?
+  
 ################################################################################
 # Screening by phylogenetic scale
 ################################################################################
@@ -548,6 +572,11 @@ ggplot(StatsRes,
   facet_wrap(~metric) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
+################################################################################
+# Exercise: Interpreting phylogenetic scale
+################################################################################
+# Consider the above plot. What is the biological relevance to oxygen and depth behaving differently? How does this inform our questions about nutrient gradients in Saanich Inlet? 
+  
 ################################################################################
 # Phylogenetic compositional factor analysis (PhyloFactor)
 ################################################################################
@@ -756,6 +785,11 @@ plot_grid(O2_tree_plot, O2_plots,
 NO3_tree_plot, NO3_plots,
 labels = c("A","","E",""), ncol = 2, align = 'hv',
 rel_widths = c(1.5, 1))
+
+################################################################################
+# Exercise: Interpreting PhyloFactor
+################################################################################
+# Consider the results summarized in our last figure. What can you conclude? (*Hint*: Are you confident in the oxygen results given the distribution of data points along the fitted line?)
 
 ################################################################################
 # Phylogenetic heatmaps
