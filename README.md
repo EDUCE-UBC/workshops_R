@@ -77,3 +77,16 @@ You will learn how to:
 * Write and publish an R package
 
 We recommend this workshop be given across 6 hours in 2-3 sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series.
+
+## Phylogenetics and microbiomes in R
+
+In this workshop series, we tackle some of the reigning questions in the field of microbial ecology through phylogenetic analyses. We will provide theoretical background and practical examples of such analysis using R.  
+
+You will learn how to:
+
+* build a phylogenetic tree with FastTree
+* compare microbial community compositions using phylogenetics and beta-diversity
+* statistically test beta-diversity for associations with metadata
+* visualize phylogenetic trees and beta-diversity of microbial communities
+
+We recommend this workshop be given across 6 hours in 2-3 sessions. Participants with little to no prior experience should consider taking or reviewing our "Introduction to R" workshop prior to this series. It is also beneficial to have experience with the R tidyverse and Unix command line.
