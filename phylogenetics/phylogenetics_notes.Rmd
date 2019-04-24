@@ -197,10 +197,9 @@ Here, we download the script from the [GitHub](https://github.com/EDUCE-UBC/work
 
 ```{r, message=FALSE}
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/master/phylogenetics/scripts/BDTT_functions.R",
+  "https://raw.githubusercontent.com/FloMazel/BDTT/master/BDTT_functions.R",
   "scripts/BDTT_functions.R"
 )
-
 source("scripts/BDTT_functions.R")
 ```
 
@@ -774,7 +773,7 @@ In our case, phylogenetic scale is a measure of time, as in evolutionary time. W
 Here, we use a custom function `getHnodes` to extract the scale (*e.g.* the scale of divergence times in substitutions/site) for all the nodes (*e.g.* branch splits) in our tree.
 
 ```{r}
-Hnodes <- getHnodes(treeC.root)
+Hnodes <- get_all_node_depths(treeC.root)
 ```
 
 Plotting the values, we see that most of the scales are from 0 - 0.1 substitutions per site.
@@ -805,20 +804,30 @@ OTU.mat <- OTU %>%
   as.matrix()
 ```
 
-and then run the analysis for Jaccard using our custom functions. This can take several minutes to complete.
+and then run the analysis for multiple beta diversity indices using our custom functions. This can take several minutes to complete.
 
 ```{r eval=FALSE}
-multi.Jac <- BDTT(similarity_slices = slices,
-                 tree = treeC.root, sampleOTUs = OTU.mat,
-                 metric = "jac")
+multi.Beta<- BDTT(similarity_slices = slices,
+tree = treeC.root, sampleOTUs = OTU.mat)
 ```
 
-Next, run the same analysis for Bray-Curtis.
+Check the multi.Beta code
 
 ```{r eval=FALSE}
-multi.BC <- BDTT(similarity_slices = slices,
-                 tree = treeC.root, sampleOTUs = OTU.mat,
-                 metric = "bc")
+class(multi.Beta)
+# It is an array object i.e. a matrix with more than 2 dimensions: 
+dim(multi.Beta)
+# There are 4 dimensions
+dimnames(multi.Beta)
+# That corresponds to slices, betadiversity metric, samples and samples
+```
+
+and extract some betadiversity metrics
+
+```{r eval=FALSE}
+multi.Jac=multi.Beta[,"Jac",,]
+multi.BC=multi.Beta[,"Bray",,]
+#we extract two diversity metrics (Bray_curtis and Jaccard)
 ```
 
 Since these functions take awhile to run, we will save the outputs for later use
@@ -911,7 +920,7 @@ for (i in as.character(slices)){
 
 *You will see the warning 'Set of permutations < 'minperm'. Generating entire set' because the dataset is small. Please ignore.*
 
-We can then plot the fit profiles using R^2^ along our phylogenetic time scale.
+We can then plot the fit profiles using R^2 along our phylogenetic time scale.
 
 ```{r, message=FALSE}
 ggplot(StatsRes,
