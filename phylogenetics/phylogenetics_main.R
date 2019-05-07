@@ -8,12 +8,12 @@ library(tidyverse)
 library(seqinr)
 
 # PHYLOGENETICS
+# Phylogenetic factorization
+library(phylofactor)
 # Phylogenetic analyses of microbiomes
 library(phyloseq)
 # Community ecology analyses
 library(vegan)
-# Phylogenetic factorization
-library(phylofactor)
 # Working with trees
 library(ape)
 # Additional ggplot functions for tree visualization
@@ -28,8 +28,8 @@ library(cowplot)
 library(abind)
 # Working with matrices (part of BDTT functions)
 library(Matrix)
-# Beta-diversity turnover and nestedness
-library(betapart)
+# To manipulate large phylogenies (part of BDTT functions)
+library(castor)
 
 ################################################################################
 # Downloading data
@@ -88,10 +88,9 @@ names(alignment)=taxonomy$OTU
 # Importing custom R functions
 ################################################################################
 download.file(
-"https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/master/phylogenetics/scripts/BDTT_functions.R",
-"scripts/BDTT_functions.R"
+  "https://raw.githubusercontent.com/FloMazel/BDTT/master/BDTT_functions.R",
+  "scripts/BDTT_functions.R"
 )
-
 source("scripts/BDTT_functions.R")
 
 ################################################################################
@@ -193,7 +192,7 @@ download.file(
 ################################################################################
 # Exercise: FastTree
 ################################################################################
-#hile the above rerunning, compare the two available nucleotide models in FastTree. Discuss the pros and cons of Jukes-Cantor (JT) versus Generalized Time-Reversible (GTR) with your table. You may find this Wikipedia article helpful (https://en.wikipedia.org/wiki/Models_of_DNA_evolution#Most_common_models_of_DNA_evolution).
+#While the above rerunning, compare the two available nucleotide models in FastTree. Discuss the pros and cons of Jukes-Cantor (JT) versus Generalized Time-Reversible (GTR) with your table. You may find this Wikipedia article helpful (https://en.wikipedia.org/wiki/Models_of_DNA_evolution#Most_common_models_of_DNA_evolution).
 
 ################################################################################
 # Visualizing trees
@@ -470,8 +469,8 @@ data=data.frame(sample_data(saanichCR)))
 ################################################################################
 # Screening by phylogenetic scale
 ################################################################################
-Hnodes <- getHnodes(treeC.root)
-
+Hnodes <- get_all_node_depths(treeC.root)
+  
 hist(Hnodes, n=150)
 hist(Hnodes, n=150, xlim=c(0,.5))
 
@@ -488,14 +487,19 @@ t() %>%
 as.matrix()
 
 #run the analysis for Jaccard using our custom functions
-multi.Jac <- BDTT(similarity_slices = slices,
-tree = treeC.root, sampleOTUs = OTU.mat,
-metric = "jac")
+multi.Beta<- BDTT(similarity_slices = slices,
+tree = treeC.root, sampleOTUs = OTU.mat)
 
-#run the same analysis for Bray-Curtis.
-multi.BC <- BDTT(similarity_slices = slices,
-tree = treeC.root, sampleOTUs = OTU.mat,
-metric = "bc")
+class(multi.Beta)
+# It is an array object i.e. a matrix with more than 2 dimensions: 
+dim(multi.Beta)
+# There are 4 dimensions
+dimnames(multi.Beta)
+# That corresponds to slices, betadiversity metric, samples and samples
+
+multi.Jac=multi.Beta[,"Jac",,]
+multi.BC=multi.Beta[,"Bray",,]
+#we extract two diversity metrics (Bray_curtis and Jaccard)
 
 #Save results
 saveRDS(multi.Jac, "results/multi_Jac.RDS")  
@@ -563,7 +567,7 @@ for (i in as.character(slices)){
   }
 }
 
-# plot the fit profiles using R^2^ along our phylogenetic time scale.
+# plot the fit profiles using R^2 along our phylogenetic time scale.
 ggplot(StatsRes,
        aes(y=R2, x=similarity_slices, color=predictors,
            group=predictors)) +
@@ -576,7 +580,8 @@ ggplot(StatsRes,
 # Exercise: Interpreting phylogenetic scale
 ################################################################################
 # Consider the above plot. What is the biological relevance to oxygen and depth behaving differently? How does this inform our questions about nutrient gradients in Saanich Inlet? 
-  
+#Plot the F_value inseatd of R^2 -- how R^2 anbd F_value differs? why is that? 
+
 ################################################################################
 # Phylogenetic compositional factor analysis (PhyloFactor)
 ################################################################################
