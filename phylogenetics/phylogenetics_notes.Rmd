@@ -6,13 +6,13 @@ author: |
   | edited by Kim Dill-McFarland, U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: yes
+    latex_engine: xelatex
   html_document:
     toc: yes
     toc_float:
       collapsed: no
-  pdf_document:
-    toc: yes
-    latex_engine: xelatex
 urlcolor: blue
 editor_options: 
   chunk_output_type: console
