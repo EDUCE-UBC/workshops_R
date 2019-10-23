@@ -6,12 +6,12 @@ author: |
   | U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     toc: yes
     toc_float:
       collapsed: no
+  pdf_document:
+    toc: yes
 editor_options:
   chunk_output_type: console
 ---
@@ -23,6 +23,8 @@ In this workshop, we introduce you to R and RStudio at the beginner level. This 
 
 ## How we are going to do it? 
 
+Please use the monitor provided! 
+
 - *Content* : A mix of theory and practice (hopefully more practice)
 - *Theory* : please don't hesitate to ask questions!
 - *Practice* :use the RED tape to indicate you have troubles coding; use GREEN tape to indicate you are all good 
@@ -33,17 +35,19 @@ In this workshop, we introduce you to R and RStudio at the beginner level. This 
 ### Theory : what do we want from R? 
 
 - Input to output 
-- Using a common language between user and computer 
+- Using a common language between user and computer : the concept of language syntax and parsing , delimiter are spaces 
 
-![](Pictures_Doc_PROF/Step1.jpg)
+![](images/Step1.jpg)
 
 
 ### Theory : Why is this important? Why not using excel instead? 
 
-![](Pictures_Doc_PROF/Step2.jpg)
+![](images/Step2.jpg)
 
 
 ### Practice: R as a calculator
+
+Question: How do you so some basic calculaitons in R?  
 
 1. Open R
 2. Read the information 
@@ -67,6 +71,12 @@ x
 ## Do calculations with it
 x+2
 
+# What happenned if you forget to :, waiting for more inputs, WARNINGs AND ERRORs  
+
+#2+
+
+#my object <- 4
+my_object <- 4
 
 ```
 
@@ -82,7 +92,7 @@ x+2
 
 A friendly interface betwene you and the R console. 
 
-![](Pictures_Doc_PROF/Step3.jpg)
+![](images/Step3.jpg)
 
 We will do all of our work in [RStudio](https://www.rstudio.com/). RStudio is an integrated development and analysis environment for R that brings a number of conveniences over using R in a terminal or other editing environments.
 
@@ -91,7 +101,7 @@ We will do all of our work in [RStudio](https://www.rstudio.com/). RStudio is an
 
 When you start RStudio, you will see something like the following window appear:
 
-![](Pictures_Doc_PROF/rstudio.png)
+![](images/rstudio.png)
 
 
 Notice that the window is divided into three "panes":
@@ -122,7 +132,7 @@ To change the look of RStudio, you can go to Tools -> Global Options -> Appearan
 ### Theory
 
 
-![](Pictures_Doc_PROF/Step3.jpg)
+![](images/Step3.jpg)
 
 
 - When you create a project, RStudio creates an `.Rproj` file that links all of your files and outputs to the project directory. 
@@ -137,7 +147,7 @@ To change the look of RStudio, you can go to Tools -> Global Options -> Appearan
 ### Practice : Create a Project
 Let's create a project to work in for this workshop. Start by click the "Project" button in the upper right or going to the "File" menu. Select "New Project" and the following will appear.
 
-![](Pictures_Doc_PROF/new.project1.png){width=50%}
+![](images/new.project1.png){width=50%}
 / 
 
 You can either create a project in an existing directory or make a new directory on your computer - just be sure you know where it is.
@@ -154,7 +164,7 @@ During the workshop, we will build an R script together, which will be posted as
 
 ### Theory 
 
-![](Pictures_Doc_PROF/Step4.jpg)
+![](images/Step4.jpg)
 
 
 - *Principle*: R script contain the code that loads your raw data, cleans it, performs the analyses, and creates and saves visualizations. You SAVE it
@@ -165,6 +175,8 @@ During the workshop, we will build an R script together, which will be posted as
 
 -*Use* - Generally, if you are testing an operation (*e.g.* what would my data look like if I applied a log-transformation to it?), 
 you should do it in the console (left pane of RStudio). If you are committing a step to your analysis (*e.g.* I want to apply a log-transformation to my data and then conduct the rest of my analyses on the log-transformed data), you should add it to your R script so that it is saved for future use. 
+
+-*Execute a line - tips * - Put the cursor on the line and click "Run" or press command+return
 
 ### Practice
 
@@ -214,6 +226,11 @@ Function(argument1=..., argument2=..., ...)
 # this is a simple funciotn that require only one argument 
 log(3)
 log(5)
+
+# Some errors
+#Log(3)
+#log("re")
+
 ```
 
 ### Example 2: the most helpful of all : 'help' function 
@@ -223,6 +240,10 @@ You can read up about the different arguments of a specific function by typing `
 ?log
 help(log)
 help(help)
+
+# What happenned if you forget to : 
+#help(plot
+
 ```
 
 The `help(Function)` is probably the most usefull fontion in R! When you use a function, you should systematically check its help page first
@@ -312,26 +333,12 @@ x <- c(TRUE,FALSE,TRUE)
 
 Exercice: Construct a vector containing the number 3,5,7,8 and compute the mean of the set (tip= check how to use the function 'mean')
 
-#### Accessing vector elements 
-
-Since vectors are 1D arrays of a defined length, their individual values can be retrieved using vector indices. R uses 1-based indexing, meaning the first value in an R vector corresponds to the index 1. Each subsequent element increases the index by 1. For example, we can extract the value of the 5th element of the Oxygen vector using the square bracket operator `[]` like so.
-
-```{r}
-# Access some element of the vector
-x[2]
-x[3]
-
-# Compute the length of the vector 
-length(x)
-```
-
-
 
 #### Data frame : 2D table 
 
 One of R's most essential data structures is the data frame, which is simply a table of `m` columns by `n` rows of data. We will read the data shown in Figure 1 into R using the `read.table` function. 
 
-![Figure 1. Introduction to R data frame](Pictures_Doc_PROF/DataFrame.png)
+![Figure 1. Introduction to R data frame](images/DataFrame.png)
 / 
 
 
@@ -389,9 +396,67 @@ write.table(dat,"data.csv", sep=",",row.names=FALSE)
 You can check that a new object appeared in your project folder. 
 
 
-## Access some element of a dataframe
+## R packages: example of data visualization with quickplot
 
-### Examples 
+### Theory 
+
+![](images/Step4.jpg)
+
+
+- *Principle*: R packages are units of shareable code, containing functions that facilitate and enhance analyses. 
+
+- *Installation*:  Let's install `ggplot2`, a very popular data visualization package in R that we will use later in the workshop. Packages are typically installed from [CRAN](https://www.r-project.org/) (The Comprehensive R Archive Network), which is a database containing R itself as well as many R packages. Any package can be installed from CRAN using the `install.packages` function. You can input this into your console (as opposed to `live_notes.R`) since once a package is installed on your computer, you won't need to reinstall it again.
+
+### Practice
+
+```{r eval=FALSE}
+help(quickplot)
+install.packages("ggplot2")
+```
+
+After installing a package, and *everytime* you open a new RStudio session, the packages you want to use need to be loaded into the R workspace with the `library` function. This tells R to access the package's functions and prevents RStudio from lags that would occur if it automatically loaded every downloaded package everytime you opened it.
+
+Since this is something you would need to repeat in future, it should go in your `live_notes.R` script.
+
+```{r}
+# Data visualization
+#help(quickplot)
+library(ggplot2)
+#help(quickplot)
+```
+
+
+
+There are many data visualization options in R. The most popular plotting package is `ggplot2`, which is capable of creating publication quality figures.
+
+Let's create a simple depth profile (scatterplot) of the Oxygen concentrations with colors indicating the Season that the sample was collected. We will use the `quickplot` function that we loaded earlier when we installed `ggplot2`.
+
+```{r}
+quickplot(data=dat,
+     x=O2_uM, 
+     y=Depth_m, 
+     colour=Season, 
+     main="Saanich Inlet: Seasonal oxygen depth profile")
+```
+
+
+## Access some element of vectors and dataframe
+
+#### Accessing vector elements 
+
+Since vectors are 1D arrays of a defined length, their individual values can be retrieved using vector indices. R uses 1-based indexing, meaning the first value in an R vector corresponds to the index 1. Each subsequent element increases the index by 1. For example, we can extract the value of the 5th element of the Oxygen vector using the square bracket operator `[]` like so.
+
+```{r}
+# Access some element of the vector
+x[2]
+x[3]
+
+# Compute the length of the vector 
+length(x)
+```
+
+
+### Accessing dataframe elements
 
 Acess a given elemnt of a data_frame
 
@@ -417,7 +482,6 @@ dat[,"O2_uM"]
 ## Subsetting data (rows) from a dataframe: 2 step procedure with a logical vector 
 
 
-
 ### Examples 
 
 The square bracket operator is most often used with logical vectors (TRUE/FALSE) to subset data. For example, we can subset our data frame to all observations (rows) with an Oxygen concentration of 0. 
@@ -437,45 +501,7 @@ Subsetting is extremely useful when working with large data. You can learn more 
 
 Subset the data to observations where depth equals 100 m. *Hint*: Use a logical vector. 
 
-## R packages: example of data visualization with quickplot
 
-### Theory 
-
-![](Pictures_Doc_PROF/Step4.jpg)
-
-
-- *Principle*: R packages are units of shareable code, containing functions that facilitate and enhance analyses. 
-
-- *Installation*:  Let's install `ggplot2`, a very popular data visualization package in R that we will use later in the workshop. Packages are typically installed from [CRAN](https://www.r-project.org/) (The Comprehensive R Archive Network), which is a database containing R itself as well as many R packages. Any package can be installed from CRAN using the `install.packages` function. You can input this into your console (as opposed to `live_notes.R`) since once a package is installed on your computer, you won't need to reinstall it again.
-
-### Practice
-
-```{r eval=FALSE}
-install.packages("ggplot2")
-```
-
-After installing a package, and *everytime* you open a new RStudio session, the packages you want to use need to be loaded into the R workspace with the `library` function. This tells R to access the package's functions and prevents RStudio from lags that would occur if it automatically loaded every downloaded package everytime you opened it.
-
-Since this is something you would need to repeat in future, it should go in your `live_notes.R` script.
-
-```{r}
-# Data visualization
-library(ggplot2)
-```
-
-
-
-There are many data visualization options in R. The most popular plotting package is `ggplot2`, which is capable of creating publication quality figures.
-
-Let's create a simple depth profile (scatterplot) of the Oxygen concentrations with colors indicating the Season that the sample was collected. We will use the `quickplot` function that we loaded earlier when we installed `ggplot2`.
-
-```{r}
-quickplot(data=dat,
-     x=O2_uM, 
-     y=Depth_m, 
-     colour=Season, 
-     main="Saanich Inlet: Seasonal oxygen depth profile")
-```
 
 # Additional Exercises
 To practice skills covered in this workshop and prepare for your future R endeavors, please complete the following exercises. Happy coding!
