@@ -6,12 +6,12 @@ author: |
   | U. of British Columbia
 date: "version `r format(Sys.time(), '%B %d, %Y')`"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     toc: yes
     toc_float:
       collapsed: no
-  pdf_document:
-    toc: yes
 editor_options:
   chunk_output_type: console
 ---
@@ -25,7 +25,7 @@ In this workshop, we introduce you to R and RStudio at the beginner level. This 
 
 Please use the monitor provided! 
 
-- *Content* : A mix of theory and practice (hopefully more practice)
+- *Content* : A mix of theory and practice
 - *Theory* : please don't hesitate to ask questions!
 - *Practice* :use the RED tape to indicate you have troubles coding; use GREEN tape to indicate you are all good 
 - *Follow up*: you can ssk more questions at fmazel@zoology.ubc.ca
@@ -34,8 +34,8 @@ Please use the monitor provided!
 
 ### Theory : what do we want from R? 
 
-- Input to output 
-- Using a common language between user and computer : the concept of language syntax and parsing , delimiter are spaces 
+- Principle: Input to Output 
+- How does it work? The user interfaces with the machine using a programming language. This common language has particular rules (called syntax).
 
 ![](images/Step1.jpg)
 
@@ -51,37 +51,48 @@ Question: How do you so some basic calculaitons in R?
 
 1. Open R
 2. Read the information 
-3. R as a calulator
-
+3. The R command prompt and the ">" symbol 
+4. R as a calculator and basic syntax 
 
 
 ```{r}
+
+
+# The "enter" button execute the code 
 
 # Using R to do basic calculations
 1+4
 2*28 # Multiplication
 5^3 # Exponents
+10^1000 # let's hit the limit! 
+1/0 
+
+# What happen if the code is incomplete? 
+#2+
+# The "+" sign idicates the computer is wating for more 
+
+# What happen if the code does not make sense? 
+#1+)
+# The error message in RED: the code did NOT execute but the computer try to explain why 
 
 # Assigning variables
-## Create a new variable called 'x' and assign the number 5 to it
+## Create a new variable called 'x' and assign the number 5 to it, the signe "<-"
 x <- 5
 x
-# The digit 1 within brackets indicates that the display starts at the first element of x.
+
+# The variable 'x' is now store in your R session 
+ls()
 
 ## Do calculations with it
 x+2
 
-# What happenned if you forget to :, waiting for more inputs, WARNINGs AND ERRORs  
-
-#2+
-
 #my object <- 4
 my_object <- 4
-
+ls()
 ```
 
 
-4. A few tips for the console
+5. A few tips for the console
 
 - use up and down arrow keys to go back to previously entered commands, which can then be edited and re-run
 - TAB for completing the name before the cursor; see more in [online docs](http://www.rstudio.com/ide/docs/using/keyboard_shortcuts).
@@ -229,7 +240,7 @@ log(5)
 
 # Some errors
 #Log(3)
-#log("re")
+#log(+)
 
 ```
 
@@ -331,7 +342,7 @@ x <- c(TRUE,FALSE,TRUE)
 
 ```
 
-Exercice: Construct a vector containing the number 3,5,7,8 and compute the mean of the set (tip= check how to use the function 'mean')
+Exercice: Construct a vector containing the number 3,5,7,8 and compute the mean of the set (tip: check how to use the function 'mean')
 
 
 #### Data frame : 2D table 
@@ -479,20 +490,26 @@ dat[,"O2_uM"]
   - what is the class of the variable "Depth", "Season"? 
   
 
-## Subsetting data (rows) from a dataframe: 2 step procedure with a logical vector 
+## Subsetting data (rows) from a dataframe: procedure with the subset function
 
 
 ### Examples 
 
-The square bracket operator is most often used with logical vectors (TRUE/FALSE) to subset data. For example, we can subset our data frame to all observations (rows) with an Oxygen concentration of 0. 
+Using the `subset` function, we can subset our data frame to all observations (rows) with an Oxygen concentration of 0. 
 
 ```{r}
-# Create logical vector for which oxygen values are 0
-logical.vector <- dat$O2_uM == 0
-#View vector
-logical.vector
-#Apply vector to data frame to select only observations where the logical vector is TRUE (i.e. the oxygen value is 0)
-dat[logical.vector, ]
+
+# we will use the subset function 
+help(subset)
+?subset
+
+reduced_data=subset(dat,O2_uM > 0)
+quickplot(data=reduced_data,
+     x=O2_uM, 
+     y=Depth_m, 
+     colour=Season, 
+     main="Saanich Inlet: Seasonal oxygen depth profile")
+
 ```
 
 Subsetting is extremely useful when working with large data. You can learn more complex subsets in our [Tidyverse](https://github.com/EDUCE-UBC/workshops/tree/master/intro_tidyverse) workshop using the `tidyverse` packages, which are a popular and widely used suite of R package for working with and visualizing data. 
