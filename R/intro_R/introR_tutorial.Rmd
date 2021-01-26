@@ -298,7 +298,7 @@ Whereas a vector is a one-dimensional structure, *data frames* are two-dimension
 
 If you have some data from an experiment or study, you will typically save it as a table in a format such as `.csv`, `.txt`, or `.xlsx`. When you load those files into R, you will create a data frame object. At the end of this tutorial (section *Using R in your own computer*) you will learn how to load a data file stored in your computer into R.
 
-Instead of loading data from your computer, you can also use an online data set: we will use [this one](https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv), which is a `.csv` file hosted on our [GitHub](https://github.com/EDUCE-UBC/workshops_access). Click on the link and examine the format of the data. Notice that the first row consists of column names, that each column corresponds to a data variable, and that each row corresponds to one observation.
+Instead of loading data from your computer, you can also use an online data set: we will use [this one](https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv), which is a `.csv` file hosted on our [GitHub](https://github.com/EDUCE-UBC/workshops_access). Click on the link and examine the format of the data. Notice that the first row consists of column names, that each column corresponds to a data variable, and that each row corresponds to one observation.
 
 These data contain information on oxygen concentrations sampled at [Saanich Inlet, British Columbia](https://en.wikipedia.org/wiki/Saanich_Inlet) at several depths and during various seasons. It contains:
 
@@ -314,12 +314,12 @@ You can import `.csv` data files into R using `read.csv()`. Since our file is ho
 In the code box below, import the data file using `read.csv()` and assign it to the variable `dat`. 
 
 ```{r read_data, exercise=TRUE}
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv"
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv"
 dat <- 
 ```
 
 ```{r read_data-solution}
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv"
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv"
 dat <- read.csv(link)
 ```
 
@@ -344,7 +344,7 @@ In the box below, we start by loading our data (like we did in the *Structures* 
 
 ```{r quickplot, exercise=TRUE}
 # Link to data in csv format
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv" 
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv" 
 
 # Read csv file
 dat <- <function_to_read_data>(link) 
@@ -359,7 +359,7 @@ quickplot(data = dat,
 
 ```{r quickplot-solution}
 # Link to data in csv format
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv" 
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv" 
 
 # Read csv file
 dat <- read.csv(link) 
@@ -445,7 +445,7 @@ Since vectors are 1D objects, their elements can be accessed using a single inde
 
 ```{r index_df, exercise=TRUE}
 # Link to data in csv format
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv" 
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv" 
 dat <- read.csv(link) # Read csv file
 
 dat[4, 3] # 4th row, 3rd column
@@ -465,7 +465,7 @@ Run the code chunk below and examine the output. Note that the output (which is 
 
 ```{r column_name, exercise=TRUE}
 # Link to data in csv format
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv" 
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv" 
 dat <- read.csv(link) # Read csv file
 
 dat$O2_uM # third column is called Depth_m
@@ -489,7 +489,7 @@ In the *Quick plots* section, we plotted our data's oxygen concentration as a fu
 
 ```{r plot_subset, exercise=TRUE}
 # Link to data in csv format
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv" 
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv" 
 dat <- read.csv(link) # Read csv file
 
 reduced_data <- <function_to_subset_data>
@@ -503,7 +503,7 @@ quickplot(data = <name_of_data_frame>,
 
 ```{r plot_subset-solution}
 # Link to data in csv format
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv" 
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv" 
 dat <- read.csv(link) # Read csv file
 
 reduced_data <- subset(dat, O2_uM > 0)
@@ -515,7 +515,7 @@ quickplot(data = reduced_data,
           main = "Saanich Inlet: Seasonal oxygen depth profile")
 ```
 
-Subsetting is extremely useful when working with large data. You can learn more complex subsets in our [Tidyverse](https://github.com/EDUCE-UBC/workshops_access/tree/master/intro_tidyverse) workshop using the tidyverse packages, which are a popular and widely used suite of R package for working with and visualizing data. 
+Subsetting is extremely useful when working with large data. You can learn more complex subsets in our [Tidyverse](https://github.com/EDUCE-UBC/workshops_access/tree/main/intro_tidyverse) workshop using the tidyverse packages, which are a popular and widely used suite of R package for working with and visualizing data. 
 
 ## Using R in your own computer
 So far, we learned the basics of writing in R by using interactive code boxes. But in your daily life, you will run R from your own computer. In this section, you will learn more about the RStudio environment, how to create files and scripts, load data files that are saved in your computer, and install packages.
@@ -693,7 +693,7 @@ In the section *Quick plots*, you learned how to load a `.csv` data file from a 
 
 ```{r echo = TRUE, eval = FALSE}
 # Link to data in csv format
-path <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv" 
+path <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv" 
 
 # Read csv file
 dat <- read.csv(path) 
@@ -713,7 +713,7 @@ fluidRow(
 ```
 
 ```{r context = "server"}
-dataset <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv") 
+dataset <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv") 
 
 # Download button shiny app server
 output$downloadData <- downloadHandler(
@@ -823,7 +823,7 @@ Then, load this file as a data frame and:
 library(ggplot2)
 
 # Link to data in csv format
-link <- "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/master/intro_R_2hr/data.csv" 
+link <- "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv" 
 dat <- read.csv(link) # Read csv file
 
 quickplot(data = dat,

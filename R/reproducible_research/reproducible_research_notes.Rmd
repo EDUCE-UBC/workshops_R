@@ -25,7 +25,7 @@ You will learn how to:
 * Use Git version control
 * Integrate version control with GitHub for both personal and group projects
 
-This is an intermediate workshop series that assumes prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr)). 
+This is an intermediate workshop series that assumes prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_R_2hr)). 
 
 Please call a TA if you have any problems with executing the code or if you need any help with the exercises. 
 
@@ -103,7 +103,7 @@ Create a new R script under File > New File > R script and input the following c
 library(tidyverse)
 
 # load data from our GitHub
-dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv")
 
 # create plot of oxygen by depth
 O2_plot <- quickplot(data=dat,
@@ -157,7 +157,7 @@ And the individual step scripts could be
 1. `load.R`
     ```{r eval=FALSE}
 # load data
-dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv")
     
 write.csv(dat, "data.csv")
     ```
@@ -512,7 +512,7 @@ Use `$` to denote formulas. Inline formulas are surrounded by single `$` while n
 For more math symbols, see [here](http://csrgxtu.github.io/2015/03/20/Writing-Mathematic-Fomulars-in-Markdown/).
 
 ## Static documents 
-All that we've gone over thus far contributes to Rmd static documents, or those that don't change every time you render them. For example, [our workshops README](https://github.com/EDUCE-UBC/workshops/blob/master/README.md) is in md and is simply a collection of text and `.png` images. There is no real "code" so-to-speak.
+All that we've gone over thus far contributes to Rmd static documents, or those that don't change every time you render them. For example, [our workshops README](https://github.com/EDUCE-UBC/workshops/blob/main/README.md) is in md and is simply a collection of text and `.png` images. There is no real "code" so-to-speak.
 
 It may seem silly to write static documents in markdown if you're already familiar with programs like MS Word. However, as you will see when we get to Git, there are some distinct advantages to markdown when it comes to version control. More on this later!
 
@@ -547,7 +547,7 @@ For example, we can read in the data and packages for this workshop in our Rmark
     library(tidyverse)
 
     # load data
-    dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
+    dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv")
     ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -557,7 +557,7 @@ For example, we can read in the data and packages for this workshop in our Rmark
 library(tidyverse)
 
 # load data
-dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv")
 ```
 
 Chunks have lots of [customizable options](https://yihui.name/knitr/options/) that impact how their output looks in the rendered document like whether or not to show the underlying R code or warnings or messages, figure size, etc.
@@ -703,7 +703,7 @@ git status
 ```
 
 ```
-On branch master
+On branch main
 
 No commits yet
 
@@ -730,7 +730,7 @@ git add .
 Now we see with `git status` that our README is tracked but not committed.
 
 ```
-On branch master
+On branch main
 
 No commits yet
 
@@ -757,7 +757,7 @@ git commit -m "Initialize README"
 ```
  
 ```
-[master (root-commit) 151a8dc] Initilaize README
+[main (root-commit) 151a8dc] Initilaize README
  1 file changed, 1 insertion(+)
  create mode 100644 README.md
 ```
@@ -767,7 +767,7 @@ You receive a summary of how many files were changed and what those changes wher
 Now with `git status`, we see that our local directory, index, and repo are all identical.
 
 ```
-On branch master
+On branch main
 nothing to commit, working tree clean
 ```
 
@@ -840,7 +840,7 @@ git log
 ```
 
 ```
-commit 0eafc7f9ac7b1f9adb239e730aead874a7888854 (HEAD -> master)
+commit 0eafc7f9ac7b1f9adb239e730aead874a7888854 (HEAD -> main)
 Author: Kim Dill-McFarland <kdillmcfarland@gmail.com>
 Date:   Tue Jun 26 14:46:42 2018 -0700
 
@@ -884,9 +884,9 @@ index 0000000..862c717
 ![](images/Git_branch.png)
 \ 
 
-One of the best ways to avoid the need to undo anything in Git is to use branches. These are copies of your repo that you can work on independently of the "master" without impacting the master but still version control changes as you go. You can then choose to merge the branch with the master if you want to keep those changes or abandon the branch and go back the to the master if you do not want to keep those changes.
+One of the best ways to avoid the need to undo anything in Git is to use branches. These are copies of your repo that you can work on independently of the "main" without impacting the main but still version control changes as you go. You can then choose to merge the branch with the main if you want to keep those changes or abandon the branch and go back the to the main if you do not want to keep those changes.
 
-You may have noticed that many of our previous Git outputs start with `On branch master`. This is because by default, we were working on the master branch of the project (the only branch up to this point).
+You may have noticed that many of our previous Git outputs start with `On branch main`. This is because by default, we were working on the main branch of the project (the only branch up to this point).
 
 Branches are particularly useful to:
 
@@ -898,7 +898,7 @@ Branches are particularly useful to:
 To start a new branch, first make sure that everything is up-to-date with `git status`. Then, `checkout` or create and move into a new branch using the branch `-b` parameter.
 
 ```
-git checkout -b new_branch master
+git checkout -b new_branch main
 ```
 
 With `git status`, we see that we are in the new branch.
@@ -908,12 +908,12 @@ On branch new_branch
 nothing to commit, working tree clean
 ```
 
-Now we can make changes in this branch without impacting the master branch. Go ahead and edit `README.md` and pick a new favorite color. Then `add and commit` this change in your new_branch.
+Now we can make changes in this branch without impacting the main branch. Go ahead and edit `README.md` and pick a new favorite color. Then `add and commit` this change in your new_branch.
 
 The two branches no longer match so we must merge them and decide which version(s) to keep. To do so, we must
 
-1. Move back into the master branch `git checkout master`
-2. Merge the branches `git merge new_branch` which overwrites the older master branch with our new changes in the new_branch
+1. Move back into the main branch `git checkout main`
+2. Merge the branches `git merge new_branch` which overwrites the older main branch with our new changes in the new_branch
 
 ## Merge conflicts (`git merge`)
 
@@ -924,13 +924,13 @@ You resolve a conflicts by merging, opening the file(s) with conflict(s), editin
 #### Exercise: branches and conflicts
 ![](images/RStudio_logo.png){width=0.4in} Exercise. 
 
-1. Create a new_branch2 (since new_branch was already merged into master).
+1. Create a new_branch2 (since new_branch was already merged into main).
 2. Edit `README.md` in new_branch2 by adding your middle name. Add and commit to this branch.
-3. Edit `README.md` in master by removing your last name. Add and commit to this branch.
-4. Merge master and new_branch2.
+3. Edit `README.md` in main by removing your last name. Add and commit to this branch.
+4. Merge main and new_branch2.
 5. Open `README.md` and look for markers `<<<<<<`, `=======`, and `>>>>>>` to denote conflicts.
 6. Edit to your name of choice, making sure to remove the markers.
-7. Add and commit to master.
+7. Add and commit to main.
 
 Conflict solved!
 
@@ -942,7 +942,7 @@ Thus far, we have covered the main Git terms and functions that you will need to
 - **Repository**: the contents (directory/folder) of a project including all history and versions for all files in that project
 - **Commit**: a snapshot of the state of the repository at a given point in time including the author, time, and a comment
 - **Staging/Index**: files marked for inclusion in the next commit as whatever version that they were *at the time they were staged*, not necessarily the most up-to-date version on your computer
-- **Branch**: a named sequence of commits kept separate from the original "master" sequence
+- **Branch**: a named sequence of commits kept separate from the original "main" sequence
 - **Merge**: including changes from one branch into another
 - **Conflict**: parallel changes to the same section(s) of a file that can't be automatically merged
 
@@ -956,7 +956,7 @@ Thus far, we have covered the main Git terms and functions that you will need to
 * `show`: show a detail account of a previous commit
 * `checkout`: create and move between branches or the local, index, and repo
     - Not shown here but `checkout HEAD` can be used to move to a past commit and re-instate file versions from that commit
-* `merge`: combine changes from a branch into the master repo (may result in conflicts)
+* `merge`: combine changes from a branch into the main repo (may result in conflicts)
 
 To checkout more functionalities in Git, see a [list of all Git commands](https://git-scm.com/docs).
 
@@ -1000,10 +1000,10 @@ git remote add origin https://remote_repository_URL
 ```
 
 ### Update an online repo (`git push`)
-If no errors occur, you can now upload your local repo to GitHub with `push`. The first time you push, you need to specify to GitHub that you are pushing from the master repo.
+If no errors occur, you can now upload your local repo to GitHub with `push`. The first time you push, you need to specify to GitHub that you are pushing from the main repo.
 
 ```
-git push -u origin master
+git push -u origin main
 ```
 
 All subsequent push commands for this repo can simply be

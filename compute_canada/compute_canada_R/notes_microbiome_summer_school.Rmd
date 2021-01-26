@@ -28,9 +28,9 @@ As well as how to begin to explore microbiome data in RStudio on your personal m
 
 Data used in this workshop are from an on-going time series in [Sannich Inlet](http://www.oceannetworks.ca/introduction-saanich-inlet), British Columbia, Canada. If you would like a brief introduction to the system, please read [Hallam SJ *et al*. 2017. Sci Data 4: 170158](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5663219/) "Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone". You can also check out this [short video](https://drive.google.com/file/d/1s6V263-Vj2KQ6rExOBaYn-UDOERyQVGZ/view?usp=sharing) showing how the sampling was done!
 
-More information on the sequencing data can be found in [Hawley *et al*. 2017. Sci Data 4: 170160 ](https://www.nature.com/articles/sdata2017160) and details on sequence processing for this workshop are given in the [mothur pipeline](https://github.com/EDUCE-UBC/workshops/blob/master/microbiome_summer_school/data/mothur_pipeline.html) in the workshop materials. Details on the geochemical data are also available in [Torres-Beltrán *et al*. 2017. Sci Data 4: 170159](https://www.nature.com/articles/sdata2017159).
+More information on the sequencing data can be found in [Hawley *et al*. 2017. Sci Data 4: 170160 ](https://www.nature.com/articles/sdata2017160) and details on sequence processing for this workshop are given in the [mothur pipeline](https://github.com/EDUCE-UBC/workshops/blob/main/microbiome_summer_school/data/mothur_pipeline.html) in the workshop materials. Details on the geochemical data are also available in [Torres-Beltrán *et al*. 2017. Sci Data 4: 170159](https://www.nature.com/articles/sdata2017159).
 
-All data and materials for this workshop are available at https://github.com/EDUCE-UBC/workshops/tree/master/microbiome_summer_school.
+All data and materials for this workshop are available at https://github.com/EDUCE-UBC/workshops/tree/main/microbiome_summer_school.
 
 # R on a cluster
 ## Set-up
@@ -311,7 +311,7 @@ library(phyloseq)
 ```
 
 ## Data
-In order to facilitate our later use of `phyloseq`, we need the following data from the workshop [repo](https://github.com/EDUCE-UBC/workshops/tree/master/microbiome_summer_school).
+In order to facilitate our later use of `phyloseq`, we need the following data from the workshop [repo](https://github.com/EDUCE-UBC/workshops/tree/main/microbiome_summer_school).
 
 * OTU table (`.shared` from [mothur](https://www.mothur.org/wiki/Main_Page))
 * Taxonomy (`.taxonomy` from [mothur](https://www.mothur.org/wiki/Main_Page))

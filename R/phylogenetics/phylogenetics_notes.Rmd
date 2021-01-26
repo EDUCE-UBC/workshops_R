@@ -29,7 +29,7 @@ You will learn how to:
 * statistically test beta-diversity for associations with metadata
 * visualize phylogenetic trees and beta-diversity of microbial communities
 
-This workshop assumes some prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr)). It is also beneficial to have experience with the R tidyverse, such as that in our [workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_tidyverse), and to have a basic working knowledge of Unix command line.
+This workshop assumes some prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_R_2hr)). It is also beneficial to have experience with the R tidyverse, such as that in our [workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_tidyverse), and to have a basic working knowledge of Unix command line.
 
 All code presented in this workshop is contained in the ["phylogenetics.R"](phylogenetics_main.R) R script file. You can follow along with the workshop by selecting the relevant line(s) of code and pressing ctrl+enter on Windows, cmd+enter on MacOS, or using the "Run" button in the upper right of your script window to execute it. There are also dedicated spaces in the R script for you to work on the given exercises which are indicated in the markdown with the RStudio logo ![](images/RStudio_logo.png){width=0.4in}.
 
@@ -81,7 +81,7 @@ During spring and summer months, elevated primary production (like photosynthesi
 
 The seasonal cycle of stratification and deep water renewal enables spatial and temporal profiling across a wide range of water column energy states and nutrients, thus making Saanich Inlet a model ecosystem for studying microbial community responses to ocean deoxygenation. Ocean deoxygenation is a widespread phenomenon currently increasing due to climate change. 
 
-While Saanich Inlet samples have been collected approximately monthly from 2006 to 2014, this workshop will focus on the microbial communities and associated geochemical data from a single time point (Cruise 72, August 2012) to keep the data size manageable. You can find details on the sequence data processing [here](https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/notes/mothur_pipeline.pdf) and information on the geochemical data processing in our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_tidyverse).
+While Saanich Inlet samples have been collected approximately monthly from 2006 to 2014, this workshop will focus on the microbial communities and associated geochemical data from a single time point (Cruise 72, August 2012) to keep the data size manageable. You can find details on the sequence data processing [here](https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/notes/mothur_pipeline.pdf) and information on the geochemical data processing in our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_tidyverse).
 
 For a brief introduction to the data used in this workshop series, see [Hallam SJ *et al*. 2017. Sci Data 4: 170158](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5663219/) "Monitoring microbial responses to ocean deoxygenation in a model oxygen minimum zone". More detailed information on the environmental context and time series data can be found in [Torres-Beltrán M *et al*. 2017. Sci Data 4: 170159.](https://www.nature.com/articles/sdata2017159) "A compendium of geochemical information from the Saanich Inlet water column".
 
@@ -132,28 +132,28 @@ library(betapart)
 ```
 
 ## Downloading data
-The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshop_data) and since you're working in a Project, saves it in the Project directory under the `data` directory on your computer.
+The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshops_access) and since you're working in a Project, saves it in the Project directory under the `data` directory on your computer.
 
 ```{r eval=FALSE}
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich.taxonomy",
+  "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/Saanich.taxonomy",
   "data/Saanich.taxonomy")
 
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_OTU.shared",
+  "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/Saanich_OTU.shared",
   "data/Saanich_OTU.shared")
 
 write.csv(
-  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data_clean.csv"),
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intermediate_ws.csv"),
   "data/Saanich_Data_clean.csv", row.names=FALSE)
 
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_OTU_rep.alignment",
+  "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/main/data/Saanich_OTU_rep.alignment",
   "data/Saanich.OTU.rep.alignment")
 ```
 
 ## Loading and cleaning data 
-Now that the data are downloaded on your computer, you must load them into the current R project. We also will perform a little data cleaning and formatting on these data using functions in the tidyverse. If you are unfamiliar with these packages, please see our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_tidyverse).
+Now that the data are downloaded on your computer, you must load them into the current R project. We also will perform a little data cleaning and formatting on these data using functions in the tidyverse. If you are unfamiliar with these packages, please see our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_tidyverse).
 
 ```{r}
 # Taxonomic identity of each sequence
@@ -193,7 +193,7 @@ We have written some custom R functions for use in this workshop. It is good
 practice to define these functions in a separate file and then to import them
 into your scripts, so that you don't duplicate the code.
 
-Here, we download the script from the [GitHub](https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/scripts/BDTT_functions.R) and then load it into R with `source()`.
+Here, we download the script from the [GitHub](https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/scripts/BDTT_functions.R) and then load it into R with `source()`.
 
 ```{r, message=FALSE}
 download.file(
@@ -212,7 +212,7 @@ Now we can begin our analyses! The first step toward phylogenetic-based analyses
 See further details in slides 33-43.
 
 ## Alignment
-Sequence alignment is simply the comparison of sequences to line up (align) places where they have the same nucleotide(s) (*e.g.* ATCG). There are a number of alignment methods available in a number of softwares like [mothur](https://www.mothur.org) or [QIIME2](https://qiime2.org). Since alignment is often computationally and time intensive, we have already completed this step for the workshop data and the results are contained in the `.alignment` data file. You can learn more about this data processing in the [mothur pipeline](https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/notes/mothur_pipeline.pdf).
+Sequence alignment is simply the comparison of sequences to line up (align) places where they have the same nucleotide(s) (*e.g.* ATCG). There are a number of alignment methods available in a number of softwares like [mothur](https://www.mothur.org) or [QIIME2](https://qiime2.org). Since alignment is often computationally and time intensive, we have already completed this step for the workshop data and the results are contained in the `.alignment` data file. You can learn more about this data processing in the [mothur pipeline](https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/notes/mothur_pipeline.pdf).
 
 ## Tree building
 Once you have an alignment, you use these data to build a tree. There are many algorithms for tree building like parsimony or maximum likelihood (slides 36-39). For most, the basic method is to 1) define tree parameters, 2) build many trees, 3) compare these trees and select the 'best' based on the defined parameters and/or statistical tests.
@@ -383,11 +383,11 @@ If you are having difficulty with FastTree, you can download the tree with the f
 
 ```{r eval=FALSE}
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/master/phylogenetics/results/Saanich_FastTree",
+  "https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/main/phylogenetics/results/Saanich_FastTree",
   "results/Saanich_FastTree")
 
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/master/phylogenetics/results/Saanich_FastTree_constrain",
+  "https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/main/phylogenetics/results/Saanich_FastTree_constrain",
   "results/Saanich_FastTree_constrain")
 ```
 
@@ -841,7 +841,7 @@ Or you can download and load the results here.
 
 ```{r}
 download.file(
-  "https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/results/multi_Jac.RDS?raw=true",
+  "https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/results/multi_Jac.RDS?raw=true",
   "results/multi_Jac.RDS")
 
 multi.Jac <- readRDS("results/multi_Jac.RDS")
@@ -849,7 +849,7 @@ multi.Jac <- readRDS("results/multi_Jac.RDS")
 ###
 
 download.file(
-  "https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/results/multi_BC.RDS?raw=true",
+  "https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/results/multi_BC.RDS?raw=true",
   "results/multi_BC.RDS")
 
 multi.BC <- readRDS("results/multi_BC.RDS")
@@ -1085,7 +1085,7 @@ pf_depth_F <- PhyloFactor(OTU.mat.sub, treeC.root,
 
 ```{r echo=FALSE, message=FALSE}
 download.file(
-  "https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/results/pf_depth_F.RDS?raw=true",
+  "https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/results/pf_depth_F.RDS?raw=true",
   "results/pf_depth_F.RDS")
 
 pf_depth_F <- readRDS("results/pf_depth_F.RDS")
@@ -1144,7 +1144,7 @@ pf_depth_var <- PhyloFactor(OTU.mat.sub, treeC.root,
 
 ```{r echo=FALSE, message=FALSE}
 download.file(
-  "https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/results/pf_depth_var.RDS?raw=true",
+  "https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/results/pf_depth_var.RDS?raw=true",
   "results/pf_depth_var.RDS")
 
 pf_depth_var <- readRDS("results/pf_depth_var.RDS")
@@ -1197,7 +1197,7 @@ pf_NO3_var <- PhyloFactor(OTU.mat.sub, treeC.root,
 
 ```{r echo=FALSE, message=FALSE}
 download.file(
-  "https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/results/pf_O2_var.RDS?raw=true",
+  "https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/results/pf_O2_var.RDS?raw=true",
   "results/pf_O2_var.RDS")
 
 pf_O2_var <- readRDS("results/pf_O2_var.RDS")
@@ -1205,7 +1205,7 @@ pf_O2_var <- readRDS("results/pf_O2_var.RDS")
 ###
 
 download.file(
-  "https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/results/pf_NO3_var.RDS?raw=true",
+  "https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/results/pf_NO3_var.RDS?raw=true",
   "results/pf_NO3_var.RDS")
 
 pf_NO3_var <- readRDS("results/pf_NO3_var.RDS")

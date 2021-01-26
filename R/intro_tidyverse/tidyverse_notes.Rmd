@@ -30,7 +30,7 @@ You will learn how to:
 * modify the various features of a graphic, and
 * save your graphic in various formats
 
-This comprehensive introduction to the tidyverse workshop series is ideal for beginners but assumes some prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr)).
+This comprehensive introduction to the tidyverse workshop series is ideal for beginners but assumes some prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_R_2hr)).
 
 All code presented in this workshop is contained in the ["tidyverse_main.R"](tidyverse_main.R) R script file. R script files are the primary way in which R facilitates reproducible research. You can follow along with the workshop by selecting the relevant line(s) of code and pressing ctrl+enter on Windows, cmd+enter on MacOS, or using the "Run" button in the upper right of your script window to execute it. There are also dedicated spaces in the R script for you to work on the given exercises which are indicated in the markdown with the RStudio logo ![](images/RStudio_logo.png){width=0.4in}.
 
@@ -112,11 +112,11 @@ library(cowplot)
 ```
 
 ## Downloading data
-The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshop_data) and since you're working in a Project, saves it in the Project directory under the `data` directory on your computer.
+The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshops_access) and since you're working in a Project, saves it in the Project directory under the `data` directory on your computer.
 
 ```{r}
 write.csv(
-  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data.csv"),
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_tidyverse_ws.csv"),
   "data/Saanich_Data.csv", row.names=FALSE)
 ```
 

@@ -163,7 +163,7 @@ Our hypothesis for this experiment are as follows:
 **Null Hypothesis, $H_{0}$**: Sexual activity has no effect on the population mean longevity of male fruit flies.  
 **Alternative Hypothesis, $H_{A}$**: Sexual activity has an effect on population mean longevity of male fruit flies.
 
-Let's now load the fruit fly data from the `faraway` package, and create our categorical groups from the numerical variables. *If you are unfamiliar with the functions below, checkout our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_tidyverse).*
+Let's now load the fruit fly data from the `faraway` package, and create our categorical groups from the numerical variables. *If you are unfamiliar with the functions below, checkout our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_tidyverse).*
 
 ```{r load FF data}
 # Read in data from faraway package

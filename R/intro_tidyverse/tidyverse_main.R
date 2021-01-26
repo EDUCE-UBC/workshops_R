@@ -9,7 +9,7 @@ library(cowplot)
 # download data
 ################################################################################
 write.csv(
-  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data.csv"),
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_tidyverse_ws.csv"),
   "data/Saanich_Data.csv", row.names=FALSE)
 
 ################################################################################
@@ -73,7 +73,7 @@ depth <- raw_data$Depth[1:16]
 
 # 2.
 
-# 3. 
+# 3.
 
 
 ### End exercise
@@ -88,13 +88,13 @@ rm(depth, oxygen)
 dat <- raw_data
 
 # select the variables we will need for this workshop
-dat <- select(dat, 
-              Cruise, Date, Depth, 
-              Temperature, Salinity, Density, 
+dat <- select(dat,
+              Cruise, Date, Depth,
+              Temperature, Salinity, Density,
               WS_O2, WS_NO3, WS_H2S)
 
 # or equivalently, select all variables starting with "WS_"
-dat <- select(raw_data, 
+dat <- select(raw_data,
               Cruise, Date, Depth,
               Temperature, Salinity, Density,
               starts_with("WS_"))
@@ -102,7 +102,7 @@ dat <- select(raw_data,
 # filter out data prior to February 2008 when a different instrument was used
 dat <- filter(dat, Date >= "2008-02-01")
 
-# filter is a very powerful function! For example, filter to retain data 
+# filter is a very powerful function! For example, filter to retain data
 # collected in June, where Depth is one of 0.1 or 0.2, and nitrate is nonmissing
 filter(dat, months(Date) == "June" & Depth %in% c(0.1, 0.2) & !is.na(WS_NO3))
 
@@ -114,7 +114,7 @@ pdat <- raw_data
 
 # 1.
 
-# 2. 
+# 2.
 
 ### End exercise
 
@@ -136,9 +136,9 @@ dat <- mutate(dat, Depth=Depth*1000)
 # 5. Run the provided ggplot() code to create a scatterplot of Oxygen vs Depth
 pdat <- dat
 
-# 1. 
+# 1.
 
-# 2. 
+# 2.
 
 # 3.
 
@@ -147,10 +147,10 @@ pdat <- dat
 
 ggplot(pdat, aes(x=Oxygen, y=Depth)) +
   geom_point(size=1) +
-  geom_smooth(method="loess", se=FALSE) + 
+  geom_smooth(method="loess", se=FALSE) +
   scale_y_reverse(limits=c(200, 0)) +
   labs(x=expression(O[2]*" "*(mu*g/L)),
-       y="Depth (m)", 
+       y="Depth (m)",
        title="Oxygen decreases with depth and is less variable at lower depths")
 ### End exercise
 
@@ -160,10 +160,10 @@ rm(pdat)
 ################################################################################
 # cleaning the geochemical data with pipes
 ################################################################################
-dat <- 
+dat <-
   raw_data %>%
-  select(Cruise, Date, Depth, 
-         Temperature, Salinity, Density, 
+  select(Cruise, Date, Depth,
+         Temperature, Salinity, Density,
          WS_O2, WS_NO3, WS_H2S) %>%
   filter(Date >= "2008-02-01") %>%
   rename(O2=WS_O2, NO3=WS_NO3, H2S=WS_H2S) %>%
@@ -234,21 +234,21 @@ dat %>%
 dat %>%
   filter(!is.na(H2S)) %>%
   arrange(H2S) %>%  # arrange the rows by order of ascending H2S value
-  
+
   ggplot(aes(x=O2, y=NO3, colour=H2S)) +
-  geom_point(size=2.5) 
+  geom_point(size=2.5)
 
 # shape aesthetic: Depth vs Oxygen and Hydrogen Sulfide for Cruise 72
 dat %>%
   select(Cruise, Depth, O2, H2S) %>%
   filter(Cruise==72) %>%
   gather(key="Chemical", value="Concentration", -Cruise, -Depth) %>%
-  
+
   ggplot(aes(x=Concentration, y=Depth, shape=Chemical)) +
-  geom_point() + 
+  geom_point() +
   scale_y_reverse(limits=c(200, 0))
 
-### Exercise: 
+### Exercise:
 # 1. It may be difficult to differentiate between the different shapes in the
 #    previous plot so modify the following code to add colours to the shapes as well:
 
@@ -256,9 +256,9 @@ dat %>%
   select(Cruise, Depth, O2, H2S) %>%
   filter(Cruise==72) %>%
   gather(key="Chemical", value="Concentration", -Cruise, -Depth) %>%
-  
+
   ggplot(aes(x=Concentration, y=Depth, shape=Chemical)) +
-  geom_point() + 
+  geom_point() +
   scale_y_reverse(limits=c(200, 0))
 ### End exercise
 
@@ -267,9 +267,9 @@ dat %>%
   select(Date, Depth, O2) %>%
   filter(Depth == 200 & !is.na(O2)) %>%
   gather(key="Chemical", value="O2 Concentration", -Date, -Depth) %>%
-  
+
   ggplot(aes(x=Date, y=`O2 Concentration`)) +
-  geom_point() + 
+  geom_point() +
   geom_line()
 
 # geom_line: Time series of O2 and H2S at depth 200
@@ -278,22 +278,22 @@ dat %>%
   filter(Depth == 200 & !is.na(O2) & !is.na(H2S)) %>%
   mutate(H2S=-H2S) %>%
   gather(key="Chemical", value="Concentration", -Date, -Depth) %>%
-  
+
   ggplot(aes(x=Date, y=Concentration, colour=Chemical)) +
-  geom_point() + 
+  geom_point() +
   geom_line()
 
 # geom_histogram: Histogram to examine the distribution of Oxygen at depths < 100
 dat %>%
   filter(Depth < 100) %>%
-  
+
   ggplot(aes(x=O2)) +
   geom_histogram()
 
 # geom_histogram: Histogram to examine the distribution of Oxygen at depths >= 100
 dat %>%
   filter(Depth >= 100) %>%
-  
+
   ggplot(aes(x=O2)) +
   geom_histogram()
 
@@ -305,30 +305,30 @@ dat %>%
 
 ### End exercise
 
-# geom_boxplot: Boxplot to investigate the distribution of 
+# geom_boxplot: Boxplot to investigate the distribution of
 # chemical concentrations in July at Depths >= 150
 dat %>%
   select(-Temperature, -Salinity, -Density) %>%
-  filter(months(Date) == "July" & 
+  filter(months(Date) == "July" &
            Depth >= 150) %>%
   gather(key="Chemical", value="Concentration", -Cruise, -Date, -Depth, factor_key=TRUE) %>%
-  
+
   ggplot(aes(x=Chemical, y=Concentration)) +
   geom_boxplot()
 
 # facet_wrap: Plot Depth versus Value for all six variables
-dat %>% 
+dat %>%
   gather(key="Key", value="Value", -Cruise, -Date, -Depth, factor_key=TRUE) %>%
-  
+
   ggplot(aes(x=Value, y=Depth)) +
   geom_point(size=1) +
   scale_y_reverse(limits=c(200, 0)) +
   facet_wrap(~Key, ncol=2, dir="v", scales="free_x")
 
 # labs: changing the labels of your ggplot
-dat %>% 
+dat %>%
   gather(key="Key", value="Value", -Cruise, -Date, -Depth, factor_key=TRUE) %>%
-  
+
   ggplot(aes(x=Value, y=Depth)) +
   geom_point(size=1) +
   scale_y_reverse(limits=c(200, 0)) +
@@ -342,28 +342,28 @@ dat %>%
 # 2. Plot Oxygen vs Nitrate faceted by Depth without providing arguments for
 #    dir or scales
 
-# dat %>% 
+# dat %>%
 
-### End exercise. 
+### End exercise.
 
 ################################################################################
 # fine tuning your ggplots
 ################################################################################
 # create a clean black and white theme
-my_theme <- 
+my_theme <-
   theme_bw() +
   theme(panel.grid.major=element_blank(),
         panel.grid.minor=element_blank())
 
 # add the theme to the facetted plot and remove the x-axis label
-p1 <- 
-  dat %>% 
+p1 <-
+  dat %>%
   gather(key="Key", value="Value", -Cruise, -Date, -Depth, factor_key=TRUE) %>%
-  
+
   ggplot(aes(x=Value, y=Depth)) +
   geom_point(size=1) +
   scale_y_reverse(limits=c(200, 0)) +
-  facet_wrap(~Key, ncol=2, dir="v", scales="free_x") + 
+  facet_wrap(~Key, ncol=2, dir="v", scales="free_x") +
   my_theme +
   labs(x="",
        y="Depth (m)")
@@ -371,11 +371,11 @@ p1 <-
 p1
 
 # add the theme to the scatterplot of O2 vs NO3 vs H2S
-p2 <- 
+p2 <-
   dat %>%
   filter(!is.na(H2S)) %>%
-  arrange(H2S) %>% 
-  
+  arrange(H2S) %>%
+
   ggplot(aes(x=O2, y=NO3, colour=H2S)) +
   geom_point(size=2) +
   my_theme +

@@ -35,46 +35,46 @@ library(castor)
 # Downloading data
 ################################################################################
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich.taxonomy",
+  "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/Saanich.taxonomy",
   "data/Saanich.taxonomy")
 
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_OTU.shared",
+  "https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/Saanich_OTU.shared",
   "data/Saanich_OTU.shared")
 
 write.csv(
-  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data_clean.csv"),
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intermediate_ws.csv"),
   "data/Saanich_Data_clean.csv", row.names=FALSE)
 
 download.file(
-  "https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_OTU_rep.alignment",
+  "https://raw.githubusercontent.com/EDUCE-UBC/workshops_access/main/data/Saanich_OTU_rep.alignment",
   "data/Saanich.OTU.rep.alignment")
 
 ################################################################################
-# Loading and cleaning data 
+# Loading and cleaning data
 ################################################################################
 # Taxonomic identity of each sequence
-taxonomy <- read_tsv("data/Saanich.taxonomy") %>% 
+taxonomy <- read_tsv("data/Saanich.taxonomy") %>%
   # Separate taxa names into columns
   separate(Taxonomy,
            into=c("domain","phylum","class","order","family","genus","species"),
-           sep=";") %>% 
+           sep=";") %>%
   # Remove unused columns
   select(-Size)
 
 # Counts of sequences in each sample
-OTU <- read_tsv("data/Saanich_OTU.shared") %>% 
+OTU <- read_tsv("data/Saanich_OTU.shared") %>%
   # Rename sample variable
-  mutate(sample=Group) %>% 
+  mutate(sample=Group) %>%
   # Remove unused columns
   select(-label, -numOtus, -Group)
 
 # Geochemical data
-metadata <- read_csv("data/Saanich_Data_clean.csv") %>% 
+metadata <- read_csv("data/Saanich_Data_clean.csv") %>%
   # Filter to only Cruise 72
-  filter(Cruise == 72) %>% 
+  filter(Cruise == 72) %>%
   # Create sample names similar to OTU table
-  mutate(sample=ifelse(Depth_m <100, 
+  mutate(sample=ifelse(Depth_m <100,
                        paste("Saanich_0", Depth_m, sep=""),
                        paste("Saanich_", Depth_m, sep="")))
 
@@ -101,14 +101,14 @@ source("scripts/BDTT_functions.R")
 # Tree constraints
 ################################################################################
 # Define contraints
-tax.constrain <- taxonomy %>% 
+tax.constrain <- taxonomy %>%
 # Remove unclassified domains
 filter(domain != "unknown")
 
 align.constrain <- alignment[tax.constrain$OTU]
 
 # set the domain constraints as 1 for Bacteria and 0 for Archaea in the taxonomy table.
-tax.constrain <- tax.constrain %>% 
+tax.constrain <- tax.constrain %>%
 # Create constraint variable
 mutate(Bacteria = ifelse(domain == "Bacteria", 1, 0))
 
@@ -117,7 +117,7 @@ mutate(Bacteria = ifelse(domain == "Bacteria", 1, 0))
 phyla.list <- taxonomy %>%
 select(phylum) %>%
 # Remove unclassified phyla
-filter(!grepl("unclassified", phylum)) 
+filter(!grepl("unclassified", phylum))
 # Keep only unique phyla in a list
 phyla.list <- unique(phyla.list$phylum)
 
@@ -129,7 +129,7 @@ tax.constrain[[as.character(i)]][!tax.constrain$phylum==i]=0
 }
 
 # Keep only the 0/1 constraint columns
-tax.constrain2 <- tax.constrain %>% 
+tax.constrain2 <- tax.constrain %>%
 select(-(OTU:species))
 
 # View result
@@ -147,7 +147,7 @@ sequences[[i]]=tax.constrain2[i,]
 # save as a fasta.
 # Print these 0/1 lists as the "sequence" for each OTU in fasta format
 write.fasta(sequences, names=tax.constrain$OTU,
-file.out="data/Saanich_tax_constrain.fasta", 
+file.out="data/Saanich_tax_constrain.fasta",
 open = "w", nbchar = 60, as.string = FALSE)
 
 
@@ -180,13 +180,13 @@ mkdir -p results/
 -nt data/Saanich_OTU_rep_mod.alignment \
 > results/Saanich_FastTree
 
-# Download results if needed 
+# Download results if needed
 download.file(
-"https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/master/phylogenetics/results/Saanich_FastTree",
+"https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/main/phylogenetics/results/Saanich_FastTree",
 "results/Saanich_FastTree")
 
 download.file(
-"https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/master/phylogenetics/results/Saanich_FastTree_constrain",
+"https://raw.githubusercontent.com/EDUCE-UBC/workshops_R/main/phylogenetics/results/Saanich_FastTree_constrain",
 "results/Saanich_FastTree_constrain")
 
 ################################################################################
@@ -205,29 +205,29 @@ treeC <- read.tree('results/Saanich_FastTree_constrain')
 # phyloseq formatting
 ################################################################################
 # OTU table
-OTU.physeq = OTU %>% 
+OTU.physeq = OTU %>%
 # set sample name as row names
-column_to_rownames(var = "sample") %>% 
+column_to_rownames(var = "sample") %>%
 # Format to matrix
-as.matrix() %>% 
+as.matrix() %>%
 # Format to phyloseq OTU table
 otu_table(taxa_are_rows=FALSE)
 
 # Taxonomy
-tax.physeq = taxonomy %>% 
+tax.physeq = taxonomy %>%
 # set OTU # as row names
-column_to_rownames(var = "OTU") %>% 
+column_to_rownames(var = "OTU") %>%
 # Convert to matrix
-as.matrix() %>% 
+as.matrix() %>%
 # Convert to phyloseq tax table
 tax_table()
 
 # Metadata
-metadata.physeq = metadata %>% 
+metadata.physeq = metadata %>%
 # Copy sample column
-mutate(sample2 = sample) %>% 
+mutate(sample2 = sample) %>%
 # set sample names as row names
-column_to_rownames(var = "sample2") %>% 
+column_to_rownames(var = "sample2") %>%
 # Convert to phyloseq sample data
 sample_data()
 
@@ -236,11 +236,11 @@ tree.physeq=phy_tree(tree)
 treeC.physeq=phy_tree(treeC)
 
 # assemble them into phyloseq objects
-saanich = phyloseq(OTU.physeq, tax.physeq, 
-metadata.physeq, tree.physeq) 
+saanich = phyloseq(OTU.physeq, tax.physeq,
+metadata.physeq, tree.physeq)
 
-saanichC = phyloseq(OTU.physeq, tax.physeq, 
-metadata.physeq, treeC.physeq) 
+saanichC = phyloseq(OTU.physeq, tax.physeq,
+metadata.physeq, treeC.physeq)
 
 # See objects
 saanich
@@ -306,14 +306,14 @@ guides(col = guide_legend(ncol = 2))
 
 # 1. Modify the above trees to color by phylum, instead of domain. Your output should be similar to below.
 # 2. Compare these two trees. What do you observe? Which do you think better represents these data?
-  
+
 ################################################################################
 # Re-root the tree
 ################################################################################
 # List all OTUs that are Archaea
-archaea.list <- taxonomy %>% 
-  filter(domain=="Archaea") %>% 
-  select(OTU) %>% 
+archaea.list <- taxonomy %>%
+  filter(domain=="Archaea") %>%
+  select(OTU) %>%
   as.list()
 
 MRCAnode <- getMRCA(phy = treeC, tip = archaea.list$OTU)
@@ -327,8 +327,8 @@ write.tree(treeC.root, 'results/Saanich_FastTree_constrain_root')
 #in a new phyloseq object.
 treeCR.physeq <- phy_tree(treeC.root)
 
-saanichCR <- phyloseq(OTU.physeq, tax.physeq, 
-                      metadata.physeq, treeCR.physeq) 
+saanichCR <- phyloseq(OTU.physeq, tax.physeq,
+                      metadata.physeq, treeCR.physeq)
 
 #Plotting this tree and comparing to the unrooted tree
 plot_tree(saanichCR, color="phylum") +
@@ -463,26 +463,26 @@ data=data.frame(sample_data(saanichCR)))
 # Exercise: Randomness and variable order
 ################################################################################
 # 1. Rerun the the last PERMANOVA several times. Do the results change? Why might this be the case and what does this mean for borderline p-value (*e.g.* P near 0.05)?
-  
+
 # 2. Next, alter the variable order in this PERMANOVA. Does this change the outcome? Why might this be the case?
-  
+
 ################################################################################
 # Screening by phylogenetic scale
 ################################################################################
 Hnodes <- get_all_node_depths(treeC.root)
-  
+
 hist(Hnodes, n=150)
 hist(Hnodes, n=150, xlim=c(0,.5))
 
 #Create incremental list of values from 0 to 0.3, going up by 0.025 each time
-slices <- c(seq(from=0, to=0.3, by=0.025)) 
+slices <- c(seq(from=0, to=0.3, by=0.025))
 
 #transpose our OTU table as a matrix.
-OTU.mat <- OTU %>% 
+OTU.mat <- OTU %>%
 # set sample name as row names
-column_to_rownames(var = "sample") %>% 
+column_to_rownames(var = "sample") %>%
 # Transpose
-t() %>% 
+t() %>%
 #Format to matrix
 as.matrix()
 
@@ -491,7 +491,7 @@ multi.Beta<- BDTT(similarity_slices = slices,
 tree = treeC.root, sampleOTUs = OTU.mat)
 
 class(multi.Beta)
-# It is an array object i.e. a matrix with more than 2 dimensions: 
+# It is an array object i.e. a matrix with more than 2 dimensions:
 dim(multi.Beta)
 # There are 4 dimensions
 dimnames(multi.Beta)
@@ -502,12 +502,12 @@ multi.BC=multi.Beta[,"Bray",,]
 #we extract two diversity metrics (Bray_curtis and Jaccard)
 
 #Save results
-saveRDS(multi.Jac, "results/multi_Jac.RDS")  
-saveRDS(multi.BC, "results/multi_BC.RDS")  
+saveRDS(multi.Jac, "results/multi_Jac.RDS")
+saveRDS(multi.BC, "results/multi_BC.RDS")
 
 #Or you can download and load the results here.
 download.file(
-"https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/results/multi_Jac.RDS?raw=true",
+"https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/results/multi_Jac.RDS?raw=true",
 "results/multi_Jac.RDS")
 
 multi.Jac <- readRDS("results/multi_Jac.RDS")
@@ -515,7 +515,7 @@ multi.Jac <- readRDS("results/multi_Jac.RDS")
 ###
 
 download.file(
-"https://github.com/EDUCE-UBC/workshops_R/blob/master/phylogenetics/results/multi_BC.RDS?raw=true",
+"https://github.com/EDUCE-UBC/workshops_R/blob/main/phylogenetics/results/multi_BC.RDS?raw=true",
 "results/multi_BC.RDS")
 
 multi.BC <- readRDS("results/multi_BC.RDS")
@@ -542,7 +542,7 @@ StatsRes[["F.Model"]] = StatsRes[["R2"]] = StatsRes[["Pr(>F)"]]=NA
 #View first few rows of data frame
 head(StatsRes)
 
-#"fill" it with our results from PERMANOVA of all models constructed in a loop. 
+#"fill" it with our results from PERMANOVA of all models constructed in a loop.
 # For each slice
 for (i in as.character(slices)){
   # For each variable of interest
@@ -552,10 +552,10 @@ for (i in as.character(slices)){
       formula = multi.Jac[i,,] ~
         data.frame(sample_data(saanichCR))[,j])$aov.tab[1,c(4,5,6)])
     # Add results to table
-    StatsRes[(StatsRes$metric=="Jac") & 
-               (StatsRes$predictors==j) & 
+    StatsRes[(StatsRes$metric=="Jac") &
+               (StatsRes$predictors==j) &
                (StatsRes$similarity_slices==i), 4:6] = res
-    
+
     # Calculate PERMANOVA for Bray-Curtis
     res <- unlist(adonis(
       formula = multi.BC[i,,] ~
@@ -579,8 +579,8 @@ ggplot(StatsRes,
 ################################################################################
 # Exercise: Interpreting phylogenetic scale
 ################################################################################
-# Consider the above plot. What is the biological relevance to oxygen and depth behaving differently? How does this inform our questions about nutrient gradients in Saanich Inlet? 
-#Plot the F_value inseatd of R^2 -- how R^2 anbd F_value differs? why is that? 
+# Consider the above plot. What is the biological relevance to oxygen and depth behaving differently? How does this inform our questions about nutrient gradients in Saanich Inlet?
+#Plot the F_value inseatd of R^2 -- how R^2 anbd F_value differs? why is that?
 
 ################################################################################
 # Phylogenetic compositional factor analysis (PhyloFactor)
@@ -590,19 +590,19 @@ ggplot(StatsRes,
 ################################################################################
 OTU.mat.sub <- OTU.mat[row.names(OTU.mat) %in% treeC.root$tip.label,]
 
-taxonomy.sub <- taxonomy %>% 
+taxonomy.sub <- taxonomy %>%
 filter(OTU %in% treeC.root$tip.label)
 
-metadata.sub <- metadata %>% 
+metadata.sub <- metadata %>%
 filter(sample %in% colnames(OTU.mat))
 
-taxonomy.raw <- read_tsv("data/Saanich.taxonomy") %>% 
+taxonomy.raw <- read_tsv("data/Saanich.taxonomy") %>%
 # subset to only tips in the tree
-filter(OTU %in% treeC.root$tip.label) %>% 
+filter(OTU %in% treeC.root$tip.label) %>%
 #rename OTU column
-mutate(OTU_ID = OTU) %>% 
+mutate(OTU_ID = OTU) %>%
 # Add rownames
-column_to_rownames(var = "OTU") %>% 
+column_to_rownames(var = "OTU") %>%
 # Remove unused columns and reorder
 select(OTU_ID, Taxonomy)
 
@@ -655,10 +655,10 @@ cellDiam.tree$legend
 ################################################################################
 # PhyloFactor ranked by effect size
 ################################################################################
-pf_depth_F <- PhyloFactor(OTU.mat.sub, treeC.root, 
-                          X = metadata.sub, 
-                          frmla = Data ~ Depth_m, 
-                          nfactors = 5, ncores=2, 
+pf_depth_F <- PhyloFactor(OTU.mat.sub, treeC.root,
+                          X = metadata.sub,
+                          frmla = Data ~ Depth_m,
+                          nfactors = 5, ncores=2,
                           stop.early = TRUE, choice='F')
 
 pf_depth_F
@@ -666,17 +666,17 @@ pf_depth_F
 #Explore results
 pf.taxa(pf_depth_F, taxonomy.raw, factor=1)$group1
 
-ggplot(summary(pf_depth_F, factor=1)$data, 
-       aes(x = X.Depth_m, y = Data)) + 
-  geom_point(size=4) + 
+ggplot(summary(pf_depth_F, factor=1)$data,
+       aes(x = X.Depth_m, y = Data)) +
+  geom_point(size=4) +
   geom_smooth(method='lm') +
   labs(title="Factor 1")
 
 pf.taxa(pf_depth_F, taxonomy.raw, factor=2)$group1
 
 ggplot(summary(pf_depth_F, factor=2)$data,
-       aes(x = X.Depth_m, y = Data)) + 
-  geom_point(size=4) + 
+       aes(x = X.Depth_m, y = Data)) +
+  geom_point(size=4) +
   geom_smooth(method='lm') +
   labs(title="Factor 2")
 
@@ -686,32 +686,32 @@ ggplot(summary(pf_depth_F, factor=2)$data,
 pf_depth_var <- PhyloFactor(OTU.mat.sub, treeC.root,
                             X = metadata.sub,
                             frmla = Data ~ Depth_m,
-                            nfactors = 5, ncores=2, 
+                            nfactors = 5, ncores=2,
                             stop.early = TRUE, choice='var')
 
 pf_depth_var
 
 pf.taxa(pf_depth_var, taxonomy.raw, factor=2)$group1
 
-ggplot(summary(pf_depth_var, factor=2)$data, 
-       aes(x = X.Depth_m, y = Data)) + 
-  geom_point(size=4) + 
+ggplot(summary(pf_depth_var, factor=2)$data,
+       aes(x = X.Depth_m, y = Data)) +
+  geom_point(size=4) +
   geom_smooth(method='lm') +
   labs(title="Factor 2")
 
 ################################################################################
 # PhyloFactor across multiple variables
 ################################################################################
-pf_O2_var <- PhyloFactor(OTU.mat.sub, treeC.root, 
-X = metadata.sub, 
-frmla = Data ~ O2_uM, 
-nfactors = 3, ncores=2, 
+pf_O2_var <- PhyloFactor(OTU.mat.sub, treeC.root,
+X = metadata.sub,
+frmla = Data ~ O2_uM,
+nfactors = 3, ncores=2,
 choice='var')
 
-pf_NO3_var <- PhyloFactor(OTU.mat.sub, treeC.root, 
-X = metadata.sub, 
-frmla = Data ~ NO3_uM, 
-nfactors = 3, ncores=2, 
+pf_NO3_var <- PhyloFactor(OTU.mat.sub, treeC.root,
+X = metadata.sub,
+frmla = Data ~ NO3_uM,
+nfactors = 3, ncores=2,
 choice='var')
 
 ##For oxygen:
@@ -722,28 +722,28 @@ O2_tree_plot <- O2_tree$ggplot +
 labs(title="Oxygen")
 
 # Plot each of top 3 factors
-O2_plot1 <- ggplot(summary(pf_O2_var, factor=1)$data, 
+O2_plot1 <- ggplot(summary(pf_O2_var, factor=1)$data,
 aes(x = X.O2_uM, y = Data)) +
 # Add linear best fit
 geom_smooth(method='lm', color = O2_tree$legend$colors[1],
 se=FALSE) +
 # Add data points
-geom_point(size=4, color = O2_tree$legend$colors[1]) + 
+geom_point(size=4, color = O2_tree$legend$colors[1]) +
 # Modify text labels
 labs(title = "Factor 1", x="", y="ILR abundance")
 
-O2_plot2 <- ggplot(summary(pf_O2_var, factor=2)$data, 
+O2_plot2 <- ggplot(summary(pf_O2_var, factor=2)$data,
 aes(x = X.O2_uM, y = Data)) +
 geom_smooth(method='lm', color = O2_tree$legend$colors[2],
 se=FALSE) +
-geom_point(size=4, color = O2_tree$legend$colors[2]) + 
+geom_point(size=4, color = O2_tree$legend$colors[2]) +
 labs(title = "Factor 2", x="", y="ILR abundance")
 
-O2_plot3 <- ggplot(summary(pf_O2_var, factor=3)$data, 
+O2_plot3 <- ggplot(summary(pf_O2_var, factor=3)$data,
 aes(x = X.O2_uM, y = Data)) +
 geom_smooth(method='lm', color = O2_tree$legend$colors[3],
 se=FALSE) +
-geom_point(size=4, color = O2_tree$legend$colors[3]) + 
+geom_point(size=4, color = O2_tree$legend$colors[3]) +
 labs(title = "Factor 3", x="Oxygen (uM)", y="ILR abundance")
 
 # Combine 3 factors into 1 plot
@@ -759,25 +759,25 @@ NO3_tree_plot <- NO3_tree$ggplot +
 labs(title="Nitrate")
 
 # Plot each of top 3 factors
-NO3_plot1 <- ggplot(summary(pf_NO3_var, factor=1)$data, 
+NO3_plot1 <- ggplot(summary(pf_NO3_var, factor=1)$data,
 aes(x = X.NO3_uM, y = Data)) +
 geom_smooth(method='lm', color = NO3_tree$legend$colors[1],
 se=FALSE) +
-geom_point(size=4, color = NO3_tree$legend$colors[1]) + 
+geom_point(size=4, color = NO3_tree$legend$colors[1]) +
 labs(title = "Factor 1", x="", y="ILR abundance")
 
-NO3_plot2 <- ggplot(summary(pf_NO3_var, factor=2)$data, 
+NO3_plot2 <- ggplot(summary(pf_NO3_var, factor=2)$data,
 aes(x = X.NO3_uM, y = Data)) +
 geom_smooth(method='lm', color = NO3_tree$legend$colors[2],
 se=FALSE) +
-geom_point(size=4, color = NO3_tree$legend$colors[2]) + 
+geom_point(size=4, color = NO3_tree$legend$colors[2]) +
 labs(title = "Factor 2", x="", y="ILR abundance")
 
-NO3_plot3 <- ggplot(summary(pf_NO3_var, factor=3)$data, 
+NO3_plot3 <- ggplot(summary(pf_NO3_var, factor=3)$data,
 aes(x = X.NO3_uM, y = Data)) +
 geom_smooth(method='lm', color = NO3_tree$legend$colors[3],
 se=FALSE) +
-geom_point(size=4, color = NO3_tree$legend$colors[3]) + 
+geom_point(size=4, color = NO3_tree$legend$colors[3]) +
 labs(title = "Factor 3", x="Nitrate (uM)", y="ILR abundance")
 
 # Combine 3 factors into 1 plot
@@ -800,14 +800,14 @@ rel_widths = c(1.5, 1))
 # Phylogenetic heatmaps
 ################################################################################
 # Actual data
-pf.heatmap(pf_O2_var, factors=1:3, 
+pf.heatmap(pf_O2_var, factors=1:3,
 column.order = order(metadata.sub$O2_uM),
 low='purple', high='yellow')
 
 # Predictions
 preds <- predict(pf_O2_var)
 
-pf.heatmap(pf_O2_var, factors=1:3, 
+pf.heatmap(pf_O2_var, factors=1:3,
 Data=preds,
 column.order = order(metadata.sub$O2_uM),
 low='purple', high='yellow')

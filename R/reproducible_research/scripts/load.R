@@ -1,4 +1,4 @@
 # load data
-dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/data.csv")
+dat <- read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intro_ws.csv")
 
 write.csv(dat, "data.csv")

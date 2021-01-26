@@ -11,7 +11,7 @@ library(roxygen2)
 # See The R tidyverse workshop for details
 ################################################################################
 write.csv(
-  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data_clean.csv"),
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intermediate_ws.csv"),
   "data/Saanich_Data_clean.csv", row.names=FALSE)
 
 dat <- read_csv(file="data/Saanich_Data_clean.csv",
@@ -69,13 +69,13 @@ attributes(class)
 
 # Graphics
 ## Save a graphic to an object
-p1 <- dat %>% 
+p1 <- dat %>%
   ggplot(aes(x=O2_uM, y=Depth_m)) +
   geom_point() +
-  geom_smooth(method="lm") + 
+  geom_smooth(method="lm") +
   scale_y_reverse(limits=c(200, 0)) +
   labs(x=expression(O[2]*" "*(mu*g/mL)),
-       y="Depth (m)", 
+       y="Depth (m)",
        title="Oxygen decreases with depth and is less variable at lower depths")
 
 p1
@@ -119,7 +119,7 @@ methods(class="data.frame")
 # 1. Obtain a summary table of `dat`. What are its class and attributes?
 # 2. Read in the raw data table `Saanich_Data.csv` using the base R function `read.table`. What are this object's class and attributes? Are they any different from the object create when we used `read_csv` to read in the same data?
 
-# 1. 
+# 1.
 
 # 2.
 
@@ -151,11 +151,11 @@ m1$coefficients
 # 3. Using a single line of code, pull out just the p-values from `m2`.
 #     - *Hint*: You will need to use both `$` and `[ ]`.
 
-# 1. 
+# 1.
 
-# 2. 
+# 2.
 
-# 3. 
+# 3.
 
 ### End exercise.
 
@@ -186,8 +186,8 @@ attributes(VC)
 # 2. What class and mode is it?
 # 3. What elements does it contain?
 # 4. What are the dimensions of `factors` within this object?
-  
-# 1. 
+
+# 1.
 
 # 2.
 
@@ -201,13 +201,13 @@ attributes(VC)
 # Generic functions
 ################################################################################
 # the function class
-class(function(){}) 
+class(function(){})
 
 # A generic function
-f <- function(x) 
-{ 
-  return(x*x)  
-} 
+f <- function(x)
+{
+  return(x*x)
+}
 
 # Running a generic function
 f(5)
@@ -224,7 +224,7 @@ f
 
 # 2.
 
-# 3. 
+# 3.
 
 ### End exercise.
 
@@ -251,16 +251,16 @@ f(2, 1)
 ################################################################################
 # Example function
 f <- function(x, ...)
-{ 
-  y = cos(x) 
+{
+  y = cos(x)
   plot(x, y, ...)
 }
 
 # Only using required inputs
 f(1:1000/50)
 # Adding additional inputs through ...
-f(1:1000/50, type='l') 
-f(1:1000/50, type='l', col="purple") 
+f(1:1000/50, type='l')
+f(1:1000/50, type='l', col="purple")
 
 ################################################################################
 # Scoping
@@ -269,8 +269,8 @@ f(1:1000/50, type='l', col="purple")
 z <- 1 # Define z globally
 
 f <- function(x) # no local definition of z is given
-{ 
-  return(x + z) 
+{
+  return(x + z)
 }
 
 f(x=2) # Failing to find z in the function or inputs, R looks for it globally and finds z = 1 to result in 2 + 1 = 3
@@ -278,10 +278,10 @@ f(x=2) # Failing to find z in the function or inputs, R looks for it globally an
 # you can override globally defined variables within your function
 z <- 1 # Define z globally
 
-f <- function(x) 
-{ 
-  z = 2 # local definition of z overrides global definition 
-  return(x + z) 
+f <- function(x)
+{
+  z = 2 # local definition of z overrides global definition
+  return(x + z)
 }
 
 f(x=2) # R finds the function's definition of z=2 first and thus gives 2 + 2 = 4
@@ -289,9 +289,9 @@ f(x=2) # R finds the function's definition of z=2 first and thus gives 2 + 2 = 4
 # if your function calls for an input that is defined globally, it will fail.
 z <- 1
 
-f <- function(x, z) # function calls for inputs for both x and z 
-{ 
-  return(x + z) 
+f <- function(x, z) # function calls for inputs for both x and z
+{
+  return(x + z)
 }
 
 f(x=2) # Function expects inputs for x and z but not finding z, fails
@@ -306,7 +306,7 @@ f = function(x)
   return(x + y)
 }
 
-f(3) 
+f(3)
 
 ### Exercise. For the following, try to determine what the function will return *without running the code* then check yourself by running it.
 
@@ -319,21 +319,21 @@ rm(f)
 # 2. What happens when we run `f()`? Why?
 f <- function()
 {
-  return(2*x) 
+  return(2*x)
 }
 
-f() 
+f()
 
 # 3. What will `f()` return? Why?
-x <- 1 
+x <- 1
 
 f <- function()
 {
-  x = 2 
-  return(2*x) 
+  x = 2
+  return(2*x)
 }
 
-f() 
+f()
 
 
 # 4. What does the final `y` call return?
@@ -341,7 +341,7 @@ y <- 1
 
 f <- function(x)
 {
-  y = x+2 
+  y = x+2
   return(x*y)
 }
 
@@ -351,11 +351,11 @@ y
 
 # 1. NA
 
-# 2. 
+# 2.
 
 # 3.
 
-# 4. 
+# 4.
 
 ### End exercise
 
@@ -382,13 +382,13 @@ print(pval)
 # Minimum inputs of data and y variable
 lm.function <- function(data, y){ ###
   dat.subset <- data %>% filter(Cruise == 72)
-  
+
   model <- lm(dat.subset[[y]] ~ dat.subset$Depth_m) ###
-  
+
   sum <- summary(model)
-  
+
   pval <- sum$coefficients[,"Pr(>|t|)"]
-  
+
   print(pval)
 } ###
 
@@ -398,13 +398,13 @@ lm.function(data=dat, y="O2_uM")
 # All possible inputs of data, cruise #, x and Y variables
 lm.function <- function(data, cruise, x, y){ ###
   dat.subset <- data %>% filter(Cruise == cruise)
-  
+
   model <- lm(dat.subset[[y]] ~ dat.subset[[x]]) ###
-  
+
   sum <- summary(model)
-  
+
   pval <- sum$coefficients[,"Pr(>|t|)"]
-  
+
   print(pval)
 }
 
@@ -417,15 +417,15 @@ lm.function(data=dat, cruise=72, x="Depth_m", y="O2_uM")
 ################################################################################
 lm.function <- function(data, cruise, x, y){
   require(tidyverse) ###
-  
+
   dat.subset <- data %>% filter(Cruise == cruise)
-  
+
   model <- lm(dat.subset[[y]] ~ dat.subset[[x]])
-  
+
   sum <- summary(model)
-  
+
   pval <- sum$coefficients[,"Pr(>|t|)"]
-  
+
   print(pval)
 }
 
@@ -439,17 +439,17 @@ lm.function(data=dat, cruise=72, x="Depth_m", y="O2_uM")
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages ###
   require(tidyverse)
-  
+
   # Subset the data to the cruise of interest ###
   dat.subset <- data %>% filter(Cruise == cruise)
-  
+
   # Fit a linear model ###
   model <- lm(dat.subset[[y]] ~ dat.subset[[x]])
   # Summarize the model ###
   sum <- summary(model)
   # Extract p-values from the summary ###
   pval <- sum$coefficients[,"Pr(>|t|)"]
-  
+
   # Print p-values to the console ###
   print(pval)
 }
@@ -481,18 +481,18 @@ for (date in 2015:2020){
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
-  
+
   for(y.variable in y){ # Loop through all variables provided in y  ###
-    # Fit a linear model 
+    # Fit a linear model
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]]) ###
     # Summarize the model
     sum <- summary(model)
     # Extract p-values from the summary
     pval <- sum$coefficients[,"Pr(>|t|)"]
-    
+
     # Print p-values to the console
     print(pval)
   }
@@ -538,18 +538,18 @@ length(pval)
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
-  
+
   for(y.variable in y){ # Loop through all variables provided in y
-    # Fit a linear model 
+    # Fit a linear model
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
     # Extract p-values from the summary
     pval <- sum$coefficients[,"Pr(>|t|)"] ###
-    
+
   }
   # Save results to the global environment
   pval <<- pval ###
@@ -573,7 +573,7 @@ pval = list() ###
 dat.subset <- data %>% filter(Cruise == cruise)
 
 for(y.variable in y){ # Loop through all variables provided in y
-# Fit a linear model 
+# Fit a linear model
 model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
 # Summarize the model
 sum <- summary(model)
@@ -599,25 +599,25 @@ pval
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  
+
   # Create an empty list to hold results
   pval = list()
-  
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
-  
+
   for(y.variable in y){ # Loop through all variables provided in y
-    # Fit a linear model 
+    # Fit a linear model
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
     # Extract p-values from the summary. Save into the pval list based on the y.variable name
     pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"]
-    
+
   }
   # Bind all results into 1 single object
   pval <- do.call(rbind,pval) ### No longer saved to global environment
-  
+
   # Rename columns
   pval <<- pval %>% ###
     rename_at(vars(colnames(pval)), ~c("Intercept.p", "Depth.p")) ###
@@ -631,25 +631,25 @@ lm.function(data=dat, cruise=72, x="Depth_m", y=c("O2_uM", "NO3_uM"))
 lm.function <- function(data, cruise, x, y){
   # Load necessary packages
   require(tidyverse)
-  
+
   # Create an empty list to hold results
   pval = list()
-  
+
   # Subset the data to the cruise of interest
   dat.subset <- data %>% filter(Cruise == cruise)
-  
+
   for(y.variable in y){ # Loop through all variables provided in y
-    # Fit a linear model 
+    # Fit a linear model
     model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
     # Summarize the model
     sum <- summary(model)
     # Extract p-values from the summary. Save into the pval list based on the y.variable name
     pval[[y.variable]] <- sum$coefficients[,"Pr(>|t|)"]
-    
+
   }
   # Bind all results into 1 single object
   pval <- as.data.frame(do.call(rbind,pval)) ###
-  
+
   # Rename columns
   pval <<- pval %>%
     rename_at(vars(colnames(pval)), ~c("Intercept.p", "Depth.p"))
@@ -677,7 +677,7 @@ pval = list()
 dat.subset <- data %>% filter(Cruise == cruise)
 
 for(y.variable in y){ # Loop through all variables provided in y
-# Fit a linear model 
+# Fit a linear model
 model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
 # Summarize the model
 sum <- summary(model)
@@ -748,7 +748,7 @@ pval = list()
 dat.subset <- data %>% filter(Cruise == cruise)
 
 for(y.variable in y){ # Loop through all variables provided in y
-# Fit a linear model 
+# Fit a linear model
 model <- lm(dat.subset[[y.variable]] ~ dat.subset[[x]])
 # Summarize the model
 sum <- summary(model)
@@ -788,7 +788,7 @@ source("lm.function.R")
 
 ### CHALLENGE exercise.
 #You may not have time in this workshop to complete these challenging exercises. However, we encourage you to complete them on your own to test your knowledge of functions and improve your coding skills!
-  
+
 # 1. How would you alter `lm.function` to accept sub-setting to multiple cruise #s? Hint: Think about using `%in%` when filtering the data.
 # 2. How would you alter `lm.function` to output FDR corrected p-values?
 

@@ -30,7 +30,7 @@ You will learn how to:
 * structure a package and package libraries, and
 * create your own package and distribute it to other R users.
 
-This is an intermediate workshop series that assumes prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr)). 
+This is an intermediate workshop series that assumes prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_R_2hr)). 
 
 All code presented in this workshop is contained in the ["intermedR_main.R"](intermedR_main.R) R script file. R script files are the primary way in which R facilitates reproducible research. You can follow along with the workshop by selecting the relevant line(s) of code and pressing ctrl+enter on Windows, cmd+enter on MacOS, or using the "Run" button in the upper right of your script window to execute it. There are also dedicated spaces in the R script for you to work on the given exercises which are indicated in the markdown with the RStudio logo ![](images/RStudio_logo.png){width=0.4in}.
 
@@ -112,11 +112,11 @@ library(roxygen2)
 ```
 
 ## Downloading data
-The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshop_data) and since you're working in a Project, saves it in the Project directory under the `data` directory on your computer.
+The following command downloads the data from our [GitHub](https://github.com/EDUCE-UBC/workshops_access) and since you're working in a Project, saves it in the Project directory under the `data` directory on your computer.
 
 ```{r}
 write.csv(
-  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/workshop_data/master/Saanich_Data_clean.csv"),
+  read.csv("https://raw.githubusercontent.com/EDUCE-UBC/educer/main/data-raw/data_intermediate_ws.csv"),
   "data/Saanich_Data_clean.csv", row.names=FALSE)
 ```
 
@@ -129,7 +129,7 @@ dat <- read_csv(file="data/Saanich_Data_clean.csv",
                      na=c("", "NA", "NAN", "ND"))
 ```
 
-*If you would like to learn more about how these data were cleaned and manipulated, please see our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_tidyverse).*
+*If you would like to learn more about how these data were cleaned and manipulated, please see our [R tidyverse workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_tidyverse).*
 
 # Objects, classes, and attributes
 Practically speaking, everything you encounter in R is an object.

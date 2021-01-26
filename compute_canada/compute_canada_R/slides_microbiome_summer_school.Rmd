@@ -15,7 +15,7 @@ output: ioslides_presentation
 
 * Microbiome data visualization in RStudio using [phyloseq](https://www.bioconductor.org/packages/release/bioc/html/phyloseq.html)
 
-* All data and materials are available at https://github.com/EDUCE-UBC/workshops/tree/master/microbiome_summer_school
+* All data and materials are available at https://github.com/EDUCE-UBC/workshops/tree/main/microbiome_summer_school
 
 ## Why R/RStudio?
 

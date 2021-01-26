@@ -37,7 +37,7 @@ You will learn:
 4. Genomic functional annotation and pathway analysis with <i>pathview</i>
 5. Mapping metatranscriptomic count data and coverage to circular genome maps with <i>circlize</i>
 
-This workshop assumes some prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/master/intro_R_2hr)). All code presented in this workshop is contained in the "metagenomics.R" R script file. 
+This workshop assumes some prior experience with R (such as that in our [Introduction to R workshop](https://github.com/EDUCE-UBC/workshops_R/tree/main/intro_R_2hr)). All code presented in this workshop is contained in the "metagenomics.R" R script file. 
 
 You can follow along with the workshop by selecting the relevant line(s) of code and pressing ctrl+enter on Windows, cmd+enter on MacOS, or using the "Run" button in the upper right of your script window to execute it.
 
